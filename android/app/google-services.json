@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "865864307125",
+    "project_id": "noted-api"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:865864307125:android:b0747912408228ba",
+        "android_client_info": {
+          "package_name": "study.noted.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "865864307125-705avttl46imochgr82m8v00dev4f1j9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "study.noted.app",
+            "certificate_hash": "4E02E6268AAF6F3659390AAFC506F0F07FA11CDE"
+          }
+        },
+        {
+          "client_id": "865864307125-gob0frva3ifb10ahm39nrj4e1hi74jeq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv2i2VcKvLLkftMdakuoARSbXn5-uxmCU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
