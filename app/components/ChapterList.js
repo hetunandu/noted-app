@@ -52,7 +52,7 @@ class ChapterList extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 50,
+        marginTop: 60,
     },
     chapterListItem: {
         backgroundColor: 'white',

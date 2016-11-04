@@ -55,7 +55,7 @@ class Subjects extends Component{
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 50,
+        marginTop: 60,
     },
     subjectListItem: {
         backgroundColor: 'white',

@@ -4,7 +4,7 @@ import { Provider, connect } from 'react-redux';
 import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import reducer from './reducers';
-import { AppRegistry } from 'react-native';
+import { AppRegistry, StatusBar, View } from 'react-native';
 import {
     Router,
     Scene,
@@ -37,10 +37,12 @@ const store = configureStore({});
 
 const navBarStyles = {
     backgroundColor: '#333', 
-    borderBottomColor: '#333' 
+    borderBottomColor: '#333',
+    height: 65
 }
 
 const navBarTitleStyles = {
+  fontSize: 25,
   fontWeight: '600',
   color: 'white'
 
@@ -51,7 +53,7 @@ const scenes = Actions.create(
     <Scene key="root"
       navigationBarStyle={navBarStyles} 
       titleStyle={navBarTitleStyles}
-      leftButtonIconStyle={{tintColor: 'white'}}
+      leftButtonIconStyle={{tintColor: 'white', height: 25}}
     >
         <Scene 
           key="login"
@@ -86,9 +88,9 @@ const containerStyles = {
 }
 // Base App compoent with the provider
 const Noted = () => (
-  <Provider store={store}>
-      <ReduxRouter scenes={scenes} style={{backgroundColor: '#50537f'}}  sceneStyle={containerStyles}/>
-  </Provider> 
+    <Provider store={store}>
+        <ReduxRouter scenes={scenes} style={{backgroundColor: '#50537f'}}  sceneStyle={containerStyles}/>
+    </Provider>
 );
 
 export default Noted

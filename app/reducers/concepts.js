@@ -24,5 +24,12 @@ export const concepts = createReducer({
             isFetching: false,
             errorMessage: action.error
         })
-    }   
+    },
+    [types.CONCEPT_ACTION](state, action){
+        return Object.assign({}, state, {
+            data: state.data.filter( (concept) => {
+                return concept.key != action.concept_key
+            })
+        })
+    }
 });

@@ -33,3 +33,11 @@ export function fetchConceptsFromChapter(chapter_key){
         })
     }
 }
+
+export function markConceptAction(concept_action, concept_key){
+    return{
+        type: types.CONCEPT_ACTION,
+        concept_action,
+        concept_key
+    }
+}
