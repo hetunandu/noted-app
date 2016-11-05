@@ -3,7 +3,7 @@ import {
     StyleSheet,
     Text,
     View,
-    ActivityIndicator
+    Alert
 } from 'react-native';
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 import {connect} from 'react-redux';
@@ -23,12 +23,12 @@ class Login extends Component {
                         this.props.login(user.idToken)
                     }
                 }).done();
+                this.props.checkToken();
             });
         })
         .catch((err) => {
             console.log("Play services error", err.code, err.message);
         })
-        this.props.checkToken()
     }
 
     componentDidUpdate(){
@@ -73,11 +73,10 @@ class Login extends Component {
     _signIn(){
         GoogleSignin.signIn()
             .then((user) => {
-                console.log(user);
                 this.props.login(user.idToken)
             })
             .catch((err) => {
-                console.log('WRONG SIGNIN', err);
+                Alert.alert('Sign in Error', JSON.stringify(err))
             })
             .done();
     }
