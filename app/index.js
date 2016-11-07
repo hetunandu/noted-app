@@ -38,11 +38,12 @@ const store = configureStore({});
 const navBarStyles = {
     backgroundColor: '#333', 
     borderBottomColor: '#333',
-    height: 65
+    height: 65,
+    elevation: 3
 }
 
 const navBarTitleStyles = {
-  fontSize: 25,
+  fontSize: 23,
   fontWeight: '600',
   color: 'white'
 
