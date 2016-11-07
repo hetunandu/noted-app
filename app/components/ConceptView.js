@@ -3,7 +3,8 @@ import {
     Text,
     View,
     StyleSheet,
-    TouchableHighlight
+    TouchableHighlight,
+    StatusBar
 } from 'react-native';
 import {connect} from 'react-redux';
 import ConceptCard from './ConceptCard';
@@ -22,6 +23,10 @@ class ConceptView extends React.Component {
     render(){
         return (
             <View style={{flex: 1}}>
+                <StatusBar
+                    hidden={true}
+                    animated={true}
+                />
                 <View style={styles.conceptCardContainer}>
                     {
                         this.props.concepts.isFetching ? (

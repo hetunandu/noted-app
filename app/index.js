@@ -4,7 +4,7 @@ import { Provider, connect } from 'react-redux';
 import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import reducer from './reducers';
-import { AppRegistry, StatusBar, View } from 'react-native';
+import { AppRegistry, StatusBar } from 'react-native';
 import {
     Router,
     Scene,
@@ -91,10 +91,20 @@ const containerStyles = {
     backgroundColor: '#50537f',
 }
 // Base App compoent with the provider
-const Noted = () => (
-    <Provider store={store}>
-        <ReduxRouter scenes={scenes} style={{backgroundColor: '#50537f'}}  sceneStyle={containerStyles}/>
-    </Provider>
-);
+
+class Noted extends Component{
+
+  componentDidMount(){
+    StatusBar.setBackgroundColor("#222", true)
+  }
+  
+  render(){
+    return (
+      <Provider store={store}>
+        <ReduxRouter scenes={scenes} style={{backgroundColor: '#50537f'}}  sceneStyle={containerStyles}/>      
+      </Provider>
+    )
+  }
+}
 
 export default Noted
