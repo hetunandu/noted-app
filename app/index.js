@@ -39,13 +39,14 @@ const navBarStyles = {
     backgroundColor: '#333', 
     borderBottomColor: '#333',
     height: 65,
-    elevation: 3
+    elevation: 5
 }
 
 const navBarTitleStyles = {
-  fontSize: 23,
+  fontSize: 25,
   fontWeight: '600',
-  color: 'white'
+  color: 'white',
+  alignSelf: 'center'
 
 }
 
@@ -54,7 +55,9 @@ const scenes = Actions.create(
     <Scene key="root"
       navigationBarStyle={navBarStyles} 
       titleStyle={navBarTitleStyles}
-      leftButtonIconStyle={{tintColor: 'white', height: 25}}
+      backButtonImage={require('./back-arrow.png')}
+      leftButtonIconStyle={{height: 36, width: 36}}
+      leftButtonStyle={{top: 0, height: 65, width: 65, alignItems: 'center'}}
     >
         <Scene 
           key="login"
