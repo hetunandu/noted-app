@@ -5,6 +5,7 @@ import {
     StyleSheet,
     TouchableHighlight
 } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import {connect} from 'react-redux';
 import {fetchChapterList} from '../actions/chapters';
 import { Actions } from 'react-native-router-flux';
@@ -29,9 +30,12 @@ class ChapterList extends React.Component {
                     underlayColor="#333"
                     onPress={this.handleChapterPressed.bind(this, chapter)}
                 >
-                    <Text style={styles.chapterListItemText}>
-                        {chapter.name}
-                    </Text>
+                    <View style={styles.chapterListItemContainer}>
+                        <Text style={styles.chapterListItemText}>
+                            {chapter.name}
+                        </Text>
+                        <Icon name="chevron-right" size={50} color="#333" />
+                    </View>
                 </TouchableHighlight>
             );
         }); 
@@ -57,13 +61,17 @@ const styles = StyleSheet.create({
     chapterListItem: {
         backgroundColor: 'white',
         flex: 1,
-        marginBottom: 10,
-        justifyContent: 'center',
-        padding: 15,
-        alignItems: 'stretch'
+        borderBottomColor: '#333',
+        borderBottomWidth: 1
+    },
+    chapterListItemContainer: {
+        flexDirection: 'row',
+        padding: 5,
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
     chapterListItemText: {
-        fontSize: 25
+        fontSize: 23
     }
 })
 
