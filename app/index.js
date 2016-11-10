@@ -37,7 +37,7 @@ const store = configureStore({});
 
 const navBarStyles = {
     backgroundColor: '#333', 
-    borderBottomColor: '#333',
+    borderBottomColor: '#444',
     height: 65,
     elevation: 5
 }
@@ -46,8 +46,9 @@ const navBarTitleStyles = {
   fontSize: 25,
   fontWeight: '600',
   color: 'white',
-  alignSelf: 'center'
-
+  textAlign: 'left',
+  marginLeft: 50,
+  alignSelf: 'flex-start'
 }
 
 // Routes 
@@ -57,7 +58,7 @@ const scenes = Actions.create(
       titleStyle={navBarTitleStyles}
       backButtonImage={require('./back-arrow.png')}
       leftButtonIconStyle={{height: 36, width: 36}}
-      leftButtonStyle={{top: 0, height: 65, width: 65, alignItems: 'center'}}
+      leftButtonStyle={{top: 0, height: 65, width: 40, alignItems: 'center', justifyContent: 'center'}}
     >
         <Scene 
           key="login"
