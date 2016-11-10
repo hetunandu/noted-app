@@ -7,30 +7,28 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {connect} from 'react-redux';
-import {fetchChapterList} from '../actions/chapters';
+import {fetchConceptsFromChapter} from '../actions/concepts';
 import { Actions } from 'react-native-router-flux';
 
 
 class ChapterList extends React.Component {
 
-    componentDidMount(){
-        this.props.fetchChapterList(this.props.subject.key)
-    }
-
     handleChapterPressed(chapter){
         Actions.conceptView({chapter})
+        // Fetch the concepts
+        this.props.fetchConceptsFromChapter(chapter.key)
     }
 
     _renderChapterList(){
         return this.props.chapters.data.map( chapter => {
             return(
                 <TouchableHighlight 
-                    style={styles.chapterListItem} 
+                    style={styles.chapterListItemContainer} 
                     key={chapter.key}
                     underlayColor="#333"
                     onPress={this.handleChapterPressed.bind(this, chapter)}
                 >
-                    <View style={styles.chapterListItemContainer}>
+                    <View style={styles.chapterListItem}>
                         <Text style={styles.chapterListItemText}>
                             {chapter.name}
                         </Text>
@@ -58,13 +56,13 @@ const styles = StyleSheet.create({
     container: {
         marginTop: 60,
     },
-    chapterListItem: {
+    chapterListItemContainer: {
         backgroundColor: 'white',
         flex: 1,
         borderBottomColor: '#333',
         borderBottomWidth: 1
     },
-    chapterListItemContainer: {
+    chapterListItem: {
         flexDirection: 'row',
         padding: 5,
         justifyContent: 'space-between',
@@ -80,7 +78,7 @@ const mapStateToProps = ({chapters}) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchChapterList: (subject_key) => {dispatch(fetchChapterList(subject_key))}
+    fetchConceptsFromChapter: chapter_key => {dispatch(fetchConceptsFromChapter(chapter_key))}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChapterList)

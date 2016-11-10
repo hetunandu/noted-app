@@ -8,13 +8,9 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import ConceptCard from './ConceptCard';
-import {fetchConceptsFromChapter, markConceptAction} from '../actions/concepts';
+import {markConceptAction} from '../actions/concepts';
 
 class ConceptView extends React.Component {
-    componentDidMount(){
-        // Fetch the concepts
-        this.props.fetchConceptsFromChapter(this.props.chapter.key)
-    }
 
     handleNextPressed(){
         this.props.markConceptAction('next', this.props.concepts.data[0].key)
@@ -82,7 +78,6 @@ const mapStateToProps = ({concepts}) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchConceptsFromChapter: chapter_key => {dispatch(fetchConceptsFromChapter(chapter_key))},
     markConceptAction: (action, concept_key) => {dispatch(markConceptAction(action, concept_key))}
 })
 

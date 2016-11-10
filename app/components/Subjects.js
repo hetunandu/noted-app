@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Actions } from 'react-native-router-flux';
 import {connect} from 'react-redux';
 import {fetchSubjectList} from '../actions/subjects';
+import {fetchChapterList} from '../actions/chapters';
 
 class Subjects extends Component{
 
@@ -17,11 +18,9 @@ class Subjects extends Component{
         this.props.fetchSubjectList()
     }
 
-    goToSubject(subject){
-        Actions.chapterList({
-            title: subject.name,
-            subject
-        })
+    handleSubjectPressed(subject){
+        Actions.chapterList({title: subject.name})
+        this.props.fetchChapterList(subject.key)
     }
 
     renderSubjectList(){
@@ -29,7 +28,9 @@ class Subjects extends Component{
             return(
                 <TouchableHighlight 
                     key={subject.key}
-                    onPress={this.goToSubject.bind(this, subject)}
+                    onPress={this.handleSubjectPressed.bind(this, subject)}
+                    style={styles.subjectListItemContainer}
+                    underlayColor="#333"
                 >
                     <View style={styles.subjectListItem} >
                         <Text style={styles.subjectListItemText}>
@@ -60,16 +61,19 @@ const styles = StyleSheet.create({
     container: {
         marginTop: 60,
     },
+    subjectListItemContainer: {
+        backgroundColor: 'white',
+        marginBottom: 10,
+        elevation: 2,
+        borderRadius: 2
+    },
     subjectListItem: {
         backgroundColor: 'white',
         flex: 1,
         flexDirection: 'row',
-        marginBottom: 10,
         justifyContent: 'space-between',
         padding: 15,
         alignItems: 'center',
-        elevation: 2,
-        borderRadius: 2
     },
     subjectListItemText: {
         fontSize: 30
@@ -82,7 +86,8 @@ const mapStateToProps = ({subjects}) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchSubjectList: () => {dispatch(fetchSubjectList())}
+    fetchSubjectList: () => {dispatch(fetchSubjectList())},
+    fetchChapterList: (subject_key) => {dispatch(fetchChapterList(subject_key))}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Subjects)

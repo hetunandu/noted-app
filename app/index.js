@@ -68,7 +68,7 @@ const scenes = Actions.create(
         />
         <Scene
           key="subjects"
-          title="Select a Subject"
+          title="Subjects"
           component={Subjects}
         />
         <Scene

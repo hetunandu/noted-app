@@ -7,6 +7,9 @@ import {
     ScrollView
 } from 'react-native';
 
+import { Animatable } from 'react-native-animatable';
+
+
 class ConceptCard extends Component {
 
     _renderExplanation(){
@@ -50,7 +53,7 @@ class ConceptCard extends Component {
 
     render(){
         return(
-            <View style={styles.card}>
+            <View style={styles.card} animation="fadeOutUp">
                 <ScrollView scrollEnabled={true}>
                     {
                         this._renderExplanation()
