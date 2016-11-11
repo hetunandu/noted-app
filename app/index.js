@@ -4,7 +4,7 @@ import { Provider, connect } from 'react-redux';
 import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import reducer from './reducers';
-import { AppRegistry, StatusBar } from 'react-native';
+import { AppRegistry, StatusBar, UIManager } from 'react-native';
 import {
     Router,
     Scene,
@@ -16,6 +16,10 @@ import Login from './components/Login';
 import Subjects from './components/Subjects';
 import ChapterList from './components/ChapterList';
 import ConceptView from './components/ConceptView';
+
+// Activating Layout Animation Support
+
+UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
 // Make a logging middlware
 const loggerMiddleware = createLogger({predicate: (getState, action) => __DEV__});

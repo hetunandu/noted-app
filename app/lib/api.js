@@ -6,7 +6,7 @@ class Api{
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'dataType': 'json',
-            'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0NzgxNjcyNjksImV4cCI6MTQ3ODc3MjA2OSwia2V5IjoiYWd0emZtNXZkR1ZrTFdGd2FYSVJDeElFVlhObGNoaUFnSUNBaFltQkNndyJ9.4Df9cXATECjgfAr6MrfV9nGtyNebGmXdMsDB1HjfZqI'
+            'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0Nzg4NDkwMzMsImV4cCI6MTQ3OTQ1MzgzMywia2V5IjoiYWd0emZtNXZkR1ZrTFdGd2FYSVJDeElFVlhObGNoaUFnSUNBaFltQkNndyJ9.IHmVTF-a4pPBH3dYw1OSwJx_vyOOPZ5yrQkbFNsc1R8'
         }
         
         // AsyncStorage.getItem('login_token')

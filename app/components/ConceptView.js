@@ -4,7 +4,8 @@ import {
     View,
     StyleSheet,
     TouchableHighlight,
-    StatusBar
+    StatusBar,
+    LayoutAnimation
 } from 'react-native';
 import {connect} from 'react-redux';
 import ConceptCard from './ConceptCard';
@@ -13,10 +14,29 @@ import {markConceptAction} from '../actions/concepts';
 class ConceptView extends React.Component {
 
     handleNextPressed(){
+        LayoutAnimation.configureNext({
+            duration: 600,
+            create: {
+                type: LayoutAnimation.Types.easeInEaseOut,
+                property: LayoutAnimation.Properties.scaleXY,
+                delay: 400
+            },
+            // update: {
+            //     type: LayoutAnimation.Types.spring,
+            //     springDamping: 0.7
+            // },
+            delete: {
+                type: LayoutAnimation.Types.linear,
+                property: LayoutAnimation.Properties.opacity, 
+            }
+        });
         this.props.markConceptAction('next', this.props.concepts.data[0].key)
     }
 
     render(){
+
+        const currentConcept = this.props.concepts.data[0]
+
         return (
             <View style={{flex: 1}}>
                 <StatusBar
@@ -30,10 +50,10 @@ class ConceptView extends React.Component {
                         ) 
                         : 
                         (
-                            this.props.concepts.data.length > 0 ? 
+                            currentConcept ? 
                             (<ConceptCard 
-                                key={this.props.concepts.data[0].key} 
-                                concept={this.props.concepts.data[0]}
+                                key={currentConcept.key} 
+                                concept={currentConcept}
                             />)
                             :
                             (
@@ -43,7 +63,7 @@ class ConceptView extends React.Component {
                     }
                 </View>
                 {
-                    this.props.concepts.data.length > 0 &&
+                    currentConcept &&
                     <TouchableHighlight style={styles.nextBtn} onPress={this.handleNextPressed.bind(this)}>
                         <Text style={{color: 'white', fontSize: 20}}>Next</Text>
                     </TouchableHighlight>

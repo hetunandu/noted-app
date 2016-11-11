@@ -21,6 +21,7 @@ class Subjects extends Component{
     handleSubjectPressed(subject){
         Actions.chapterList({title: subject.name})
         this.props.fetchChapterList(subject.key)
+        
     }
 
     renderSubjectList(){
