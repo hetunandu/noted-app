@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
     },
     subjectListItem: {
         backgroundColor: 'white',
-        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 15,
