@@ -1,38 +1,20 @@
 import * as types from './types';
-import Api from '../lib/api';
+import {CALL_API} from '../lib/api';
 
-function conceptListRequest(){
+export function fetchConceptsFromChapter(chapter_key) {
     return {
-        type: types.CONCEPT_LIST_REQUEST
-    }
-}
-function conceptListSuccess(concepts){
-    return {
-        type: types.CONCEPT_LIST_SUCCESS,
-        concepts
-    }
-}
-function conceptListFailed(error){
-    return{
-        type: types.CONCEPT_LIST_FAILURE,
-        error
+        [CALL_API]: {
+            endpoint: `chapters/${chapter_key}`,
+            authenticated: true,
+            types: [
+                types.CONCEPT_LIST_REQUEST,
+                types.CONCEPT_LIST_SUCCESS,
+                types.CONCEPT_LIST_FAILURE
+            ]
+        }
     }
 }
 
-export function fetchConceptsFromChapter(chapter_key){
-    return (dispatch, getState) => {
-        dispatch(conceptListRequest())
-        Api.get(`/chapters/${chapter_key}`).then(resp => {
-            if(resp.success){
-                dispatch(conceptListSuccess(resp.message.chapter.concepts))
-            }else{
-                dispatch(conceptListFailed(resp.error))
-            }
-        }).catch( (err) => {
-            dispatch(conceptListFailed(err.error))
-        })
-    }
-}
 
 export function markConceptAction(concept_action, concept_key){
     return{

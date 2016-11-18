@@ -3,7 +3,7 @@ import * as types from '../actions/types'
 
 export const user = createReducer({
     isFetching: false,
-    errorMessage: '',    
+    errorMessage: '',
     isAuthenticated: false,
 }, {
     [types.SET_AUTH](state, action){

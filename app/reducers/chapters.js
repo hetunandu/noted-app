@@ -16,7 +16,7 @@ export const chapters = createReducer({
     [types.CHAPTER_LIST_SUCCESS](state, action){
         return Object.assign({}, state, {
             isFetching: false,
-            data: action.chapters
+            data: action.data.chapters
         })
     },
     [types.CHAPTER_LIST_FAILURE](state, action){

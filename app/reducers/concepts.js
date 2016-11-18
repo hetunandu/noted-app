@@ -16,7 +16,7 @@ export const concepts = createReducer({
     [types.CONCEPT_LIST_SUCCESS](state, action){
         return Object.assign({}, state, {
             isFetching: false,
-            data: action.concepts
+            data: action.data.chapter.concepts
         })
     },
     [types.CONCEPT_LIST_FAILURE](state, action){

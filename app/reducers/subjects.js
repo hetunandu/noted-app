@@ -15,7 +15,7 @@ export const subjects = createReducer({
     [types.SUBJECT_LIST_SUCCESS](state, action){
         return Object.assign({}, state, {
             isFetching: false,
-            data: action.subjects
+            data: action.data.subjects
         })
     },
     [types.SUBJECT_LIST_FAILURE](state, action){

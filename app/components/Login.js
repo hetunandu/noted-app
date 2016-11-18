@@ -3,32 +3,19 @@ import {
     StyleSheet,
     Text,
     View,
-    Alert
+    Alert,
+    ActivityIndicator
 } from 'react-native';
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 import {connect} from 'react-redux';
-import {login, checkToken} from '../actions/auth';
+import {login, checkToken, googleAuthInit} from '../actions/auth';
 import { Actions } from 'react-native-router-flux';
 
 class Login extends Component {
 
     componentDidMount(){
-        GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
-            GoogleSignin.configure({
-                webClientId: '865864307125-gob0frva3ifb10ahm39nrj4e1hi74jeq.apps.googleusercontent.com'
-            })
-            .then(() => {
-                GoogleSignin.currentUserAsync().then((user) => {
-                    if(user){
-                        this.props.login(user.idToken)
-                    }
-                }).done();
-                this.props.checkToken();
-            });
-        })
-        .catch((err) => {
-            console.log("Play services error", err.code, err.message);
-        })
+        this.props.googleAuthInit()
+        this.props.checkToken()
     }
 
     componentDidUpdate(){
@@ -55,12 +42,25 @@ class Login extends Component {
                             <Text style={styles.welcome}>
                                 Welcome to Noted!
                             </Text>
-                            <GoogleSigninButton
-                                style={{width: 312, height: 48}}
-                                size={GoogleSigninButton.Size.Wide}
-                                color={GoogleSigninButton.Color.Light}
-                                onPress={this._signIn.bind(this)}
-                            />
+                            {
+                                this.props.user.isFectching ? (
+                                    <ActivityIndicator
+                                        animating={this.props.user.isFectching}
+                                        color="white"
+                                        size="large"
+                                    />
+                                    
+                                ) : (
+                                    <GoogleSigninButton
+                                        style={{width: 312, height: 48}}
+                                        size={GoogleSigninButton.Size.Wide}
+                                        color={GoogleSigninButton.Color.Light}
+                                        onPress={this._signIn.bind(this)}
+                                    />
+
+                                )
+                            }
+                            <Text>{this.props.user.errorMessage}</Text>
                         </View>
                     )
                 }
@@ -100,8 +100,9 @@ const mapStateToProps = ({user}) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    login: (token) => {dispatch(login({"id_token": token}))},
-    checkToken: () => {dispatch(checkToken())}
+    login: (token) => {dispatch(login({id_token: token}))},
+    checkToken: () => {dispatch(checkToken())},
+    googleAuthInit: () => {dispatch(googleAuthInit())}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

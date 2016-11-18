@@ -4,13 +4,43 @@ import {
     Text,
     StyleSheet,
     Image,
-    ScrollView
+    ScrollView,
+    Animated
 } from 'react-native';
-
-import { Animatable } from 'react-native-animatable';
 
 
 class ConceptCard extends Component {
+
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+            translateX: new Animated.Value(-300),
+            translateY: new Animated.Value(0)
+        };
+    }
+
+
+    componentDidMount() {
+
+        Animated.spring(
+          this.state.translateX,
+          {
+            toValue: 0,
+            friction: 6
+          }
+        ).start();
+    }
+
+    componentDidUpdate(){
+        Animated.spring(
+          this.state.translateY,
+          {
+            toValue: -600,
+            friction: 6
+          }
+        ).start();    
+    }
 
     _renderExplanation(){
         return this.props.concept.explanation.map( (node, i) => {
@@ -53,13 +83,23 @@ class ConceptCard extends Component {
 
     render(){
         return(
-            <View style={styles.card} animation="fadeOutUp">
+            <Animated.View 
+                style={[
+                    styles.card,
+                    {
+                        transform: [
+                            {translateX: this.state.translateX},
+                            {translateY: this.state.translateY}
+                        ]
+                    }
+                ]}
+            >
                 <ScrollView scrollEnabled={true}>
                     {
                         this._renderExplanation()
                     }
                 </ScrollView>
-            </View>
+            </Animated.View>
         )
     }
 }

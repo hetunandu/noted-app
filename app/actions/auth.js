@@ -1,6 +1,7 @@
 import * as types from './types';
 import Api from '../lib/api';
-import {AsyncStorage} from 'react-native';
+import {AsyncStorage, ToastAndroid} from 'react-native';
+import {GoogleSignin} from 'react-native-google-signin';
 
 
 function setAuth(isAuthenticated){
@@ -9,7 +10,6 @@ function setAuth(isAuthenticated){
         isAuthenticated
     }
 }
-
 
 function loginRequest(){
     return {
@@ -31,41 +31,49 @@ function loginFailed(error){
 
 export function checkToken(){
     return (dispatch, getState) => {
-        try{
-            AsyncStorage.getItem('login_token')
-                .then((token) => {
-                    if(token){
-                        dispatch(setAuth(true))
-                    }else{
-                        dispatch(setAuth(false))
-                    }
-                })
-                .done();
-        }catch (err){
-           dispatch(setAuth(false))
-        }
+        AsyncStorage.getItem('login_token')
+            .then((token) => {
+                if(token){
+                    dispatch(setAuth(true))
+                }else{
+                    dispatch(setAuth(false))
+                }
+            })
+            .done();
     }
 }
 
-export function login(token){
-    return (dispatch, getState) => {
+export function login(token) {
+
+    let config = {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type':'application/json'
+        },
+        body: JSON.stringify(token)
+    };
+
+    return dispatch => {
+        // We dispatch requestLogin to kickoff the call to the API
         dispatch(loginRequest())
-        Api.post('/users/social', token).then(resp => {
-            if(resp.success){
-                try {
-                    AsyncStorage.setItem('login_token', resp.message.token)
-                    dispatch(loginSuccess(resp.message.user))
-                } catch (error) {
-                    console.error(error)
+
+        return fetch(`https://noted-api.appspot.com/users/social`, config)
+            .then(res => res.json())
+            .then(json => {
+                if(json.success === false){
+                    dispatch(loginFailed(json.error))
+                }else{
+                    // If login was successful, set the token in local storage
+                    AsyncStorage.setItem('login_token', json.message.token);
+                    // Dispatch the success action
+                    dispatch(loginSuccess(json.message.user))
                 }
-            }else{
-                dispatch(loginFailed(resp.error))
-            }
-        }).catch( (err) => {
-            dispatch(loginFailed(err.error))
-        })
+            })
+            .catch(err => console.log(err))
     }
 }
+
 
 export function logout(){
     return (dispatch, getState) => {
@@ -78,5 +86,27 @@ export function logout(){
         }catch (err){
            dispatch(setAuth(true))
         }
+    }
+}
+
+export function googleAuthInit(){
+    return (dispatch, getState) => {
+        GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
+            GoogleSignin.configure({
+                webClientId: '865864307125-gob0frva3ifb10ahm39nrj4e1hi74jeq.apps.googleusercontent.com'
+            })
+            .then(() => {
+                GoogleSignin.currentUserAsync().then((user) => {
+                    if(user){
+                        dispatch(login({id_token: user.idToken}))
+                    }else{
+                        dispatch(setAuth(false))
+                    }
+                }).done();
+            });
+        })
+        .catch((err) => {
+            ToastAndroid.show(`Play services error: ${err.code} ${err.message}`, ToastAndroid.SHORT)
+        })
     }
 }

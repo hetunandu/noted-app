@@ -11,6 +11,7 @@ import {
     Actions,
     ActionConst
 } from 'react-native-router-flux';
+import api from './lib/api';
 
 import Login from './components/Login';
 import Subjects from './components/Subjects';
@@ -29,7 +30,8 @@ function configureStore(initialState){
   const enhancer = compose(
     applyMiddleware(
       thunkMiddleware,
-      loggerMiddleware
+      api,
+      loggerMiddleware,
     )
   );
   // Return the create store function
