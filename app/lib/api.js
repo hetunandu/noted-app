@@ -16,7 +16,7 @@ async function getToken() {
 // The function that will set the appropriate config and call the API
 function callApi(endpoint, authenticated, method, body) {
 
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0NzkwNTI2NDYsImV4cCI6MTQ3OTY1NzQ0Niwia2V5IjoiYWd0emZtNXZkR1ZrTFdGd2FYSVJDeElFVlhObGNoaUFnSUNBaFltQkNndyJ9.alb-cVwOGBxbCuJVXVYSitZ-HNA3P-smyJXm5384xLU"
+    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0Nzk3MTc1OTgsImV4cCI6MTQ4MDMyMjM5OCwia2V5IjoiYWd0emZtNXZkR1ZrTFdGd2FYSVJDeElFVlhObGNoaUFnSUNBaFltQkNndyJ9.BjH1Yx3FFqx9BpjCHYVjiI53kmfi45z83NPIULr4sjA"
 
     // set an empty config object
     let config = {}

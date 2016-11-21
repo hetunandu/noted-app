@@ -32,7 +32,7 @@ class ConceptCard extends Component {
         ).start();
     }
 
-    componentDidUpdate(){
+    componentWillUpdate(){
         Animated.spring(
           this.state.translateY,
           {
@@ -48,7 +48,7 @@ class ConceptCard extends Component {
                 case 'title':
                     return <Text key={i} style={styles.title}>{node.data}</Text>
                 case 'text':
-                    return <Text key={i} style={styles.text}>{node.data}</Text>
+                    return <Text key={i} style={styles.text}> {node.data} </Text>
                 case 'image':
                     return (
                                 <Image
@@ -68,12 +68,43 @@ class ConceptCard extends Component {
                             )
                 case 'pointers':
                     return node.data.map((point, j) => {
-                            return (<Text 
+                            return (
+                                <View>
+                                    <Text 
                                         key={`point_${j}`}
                                         style={styles.pointer}
                                     >
                                         {j + 1}. {point.title}
-                                    </Text>)
+                                    </Text>
+                                    <View style={styles.pointNodes}>
+                                    {
+                                        point.nodes.map((node, k) => {
+                                            switch(node.type){
+                                                case 'text':
+                                                    return (
+                                                        <Text 
+                                                            key={k} 
+                                                            style={styles.text}
+                                                        > 
+                                                            {node.data} 
+                                                        </Text>
+                                                    )
+                                                case 'image':
+                                                    return (
+                                                        <Image
+                                                            style={styles.image}
+                                                            key={k}
+                                                            source={{uri: `${node.data}`}}
+                                                        />
+                                                    )
+                                                default: 
+                                            }
+                                        })
+                                    }
+                                    </View>
+
+                                </View>
+                            )
                         })
                 default:
                     return <Text key={i}>{node.type}</Text>
@@ -94,7 +125,7 @@ class ConceptCard extends Component {
                     }
                 ]}
             >
-                <ScrollView scrollEnabled={true}>
+                <ScrollView scrollEnabled={true} style={{flex: 1}}>
                     {
                         this._renderExplanation()
                     }
@@ -119,24 +150,27 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 30,
         color: '#000',
-        fontWeight: '400'
+        fontWeight: "100"
     },
     text: {
         fontSize: 18,
-        marginBottom: 5
     },
     quote: {
+        paddingLeft: 20,
         fontSize: 20,
-        textAlign: 'center',
-        color: '#50537f',
+        borderLeftWidth: 5,
+        borderLeftColor: "#50537f",
         fontStyle: 'italic'
     },
     pointer: {
-        fontSize: 23
+        fontSize: 18,
+        fontWeight: "600"
     },
     image: {
-        flex: 1,
-        minHeight: 200,
+        minHeight: 200
+    },
+    pointNodes: {
+        paddingLeft: 20
     }
 })
 
