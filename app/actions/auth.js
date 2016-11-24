@@ -95,15 +95,6 @@ export function googleAuthInit(){
             GoogleSignin.configure({
                 webClientId: '865864307125-gob0frva3ifb10ahm39nrj4e1hi74jeq.apps.googleusercontent.com'
             })
-            .then(() => {
-                GoogleSignin.currentUserAsync().then((user) => {
-                    if(user){
-                        dispatch(login({id_token: user.idToken}))
-                    }else{
-                        dispatch(setAuth(false))
-                    }
-                }).done();
-            });
         })
         .catch((err) => {
             ToastAndroid.show(`Play services error: ${err.code} ${err.message}`, ToastAndroid.SHORT)

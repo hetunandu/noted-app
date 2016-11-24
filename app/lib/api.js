@@ -3,20 +3,11 @@ export const BASE_URL = 'https://noted-api.appspot.com/';
 import Symbol from 'es6-symbol';
 import {AsyncStorage} from 'react-native'
 
-async function getToken() {
-    try {
-        return token = await AsyncStorage.getItem("login_token");
-
-    } catch (error) {
-        console.log('AsyncStorage error: ' + error.message);
-        return null
-    }
-}
 
 // The function that will set the appropriate config and call the API
-function callApi(endpoint, authenticated, method, body) {
+async function callApi(endpoint, authenticated, method, body) {
 
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0Nzk3MTc1OTgsImV4cCI6MTQ4MDMyMjM5OCwia2V5IjoiYWd0emZtNXZkR1ZrTFdGd2FYSVJDeElFVlhObGNoaUFnSUNBaFltQkNndyJ9.BjH1Yx3FFqx9BpjCHYVjiI53kmfi45z83NPIULr4sjA"
+    var token = await AsyncStorage.getItem("login_token")
 
     // set an empty config object
     let config = {}
