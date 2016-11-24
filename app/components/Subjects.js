@@ -9,8 +9,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Actions } from 'react-native-router-flux';
 import {connect} from 'react-redux';
-import {fetchSubjectList} from '../actions/subjects';
-import {fetchChapterList} from '../actions/chapters';
+import {fetchSubjectList, fetchSubjectDetail} from '../actions/subjects';
 
 class Subjects extends Component{
 
@@ -19,9 +18,8 @@ class Subjects extends Component{
     }
 
     handleSubjectPressed(subject){
-        Actions.chapterList({title: subject.name})
-        this.props.fetchChapterList(subject.key)
-        
+        Actions.subjectView({title: subject.name, subject})
+        this.props.fetchSubjectDetail(subject.key)
     }
 
     renderSubjectList(){
@@ -73,6 +71,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 15,
+        borderRadius: 2,
         alignItems: 'center',
     },
     subjectListItemText: {
@@ -87,7 +86,7 @@ const mapStateToProps = ({subjects}) => ({
 
 const mapDispatchToProps = dispatch => ({
     fetchSubjectList: () => {dispatch(fetchSubjectList())},
-    fetchChapterList: (subject_key) => {dispatch(fetchChapterList(subject_key))}
+    fetchSubjectDetail: (subject_key) => {dispatch(fetchSubjectDetail(subject_key))}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Subjects)

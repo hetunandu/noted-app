@@ -15,12 +15,15 @@ import api from './lib/api';
 
 import Login from './components/Login';
 import Subjects from './components/Subjects';
+import SubjectView from './components/SubjectView';
+import MakePlan from './components/MakePlan';
 import ChapterList from './components/ChapterList';
 import ConceptView from './components/ConceptView';
 
 // Activating Layout Animation Support
 
-UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+UIManager.setLayoutAnimationEnabledExperimental && 
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 
 // Make a logging middlware
 const loggerMiddleware = createLogger({predicate: (getState, action) => __DEV__});
@@ -64,7 +67,13 @@ const scenes = Actions.create(
       titleStyle={navBarTitleStyles}
       backButtonImage={require('./back-arrow.png')}
       leftButtonIconStyle={{height: 36, width: 36}}
-      leftButtonStyle={{top: 0, height: 65, width: 40, alignItems: 'center', justifyContent: 'center'}}
+      leftButtonStyle={{
+        top: 0,
+        height: 65,
+        width: 40,
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
     >
         <Scene 
           key="login"
@@ -77,6 +86,15 @@ const scenes = Actions.create(
           key="subjects"
           title="Subjects"
           component={Subjects}
+        />
+        <Scene
+          key="subjectView"
+          component={SubjectView}
+        />
+        <Scene
+          key="makePlan"
+          title="Plan revision"
+          component={MakePlan}
         />
         <Scene
           key="chapterList"
@@ -108,7 +126,11 @@ class Noted extends Component{
   render(){
     return (
       <Provider store={store}>
-        <ReduxRouter scenes={scenes} style={{backgroundColor: '#50537f'}}  sceneStyle={containerStyles}/>      
+        <ReduxRouter 
+          scenes={scenes} 
+          style={{backgroundColor: '#50537f'}}  
+          sceneStyle={containerStyles}
+        />      
       </Provider>
     )
   }
