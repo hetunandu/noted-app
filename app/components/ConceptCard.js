@@ -52,7 +52,8 @@ class ConceptCard extends Component {
                 case 'image':
                     return (
                                 <Image
-                                    style={{width: 200, height: 300}}
+                                    style={{minHeight: 300, backgroundColor: "#f2f2f2"}}
+                                    resizeMode="contain"
                                     key={i}
                                     source={{uri: `${node.data}`}}
                                 />
