@@ -7,6 +7,7 @@ import {
     StatusBar,
     LayoutAnimation
 } from 'react-native';
+import Loading from './Loading';
 import {connect} from 'react-redux';
 import ConceptCard from './ConceptCard';
 import {markConceptAction} from '../actions/concepts';
@@ -30,7 +31,7 @@ class ConceptView extends React.Component {
                 <View style={styles.conceptCardContainer}>
                     {
                         this.props.concepts.isFetching ? (
-                            <Text>Loading...</Text>
+                            <Loading />
                         ) 
                         : 
                         (

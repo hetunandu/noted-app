@@ -14,6 +14,7 @@ import {
 import api from './lib/api';
 
 import Login from './components/Login';
+import LoginDetails from './components/LoginDetails';
 import Subjects from './components/Subjects';
 import SubjectView from './components/SubjectView';
 import MakePlan from './components/MakePlan';
@@ -80,6 +81,12 @@ const scenes = Actions.create(
           title="Login"
           component={Login} 
           initial={true}
+          type={ActionConst.REPLACE}
+        />
+        <Scene 
+          key="loginDetails"
+          title="Finish Login"
+          component={LoginDetails}
           type={ActionConst.REPLACE}
         />
         <Scene

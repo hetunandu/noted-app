@@ -9,7 +9,6 @@ async function callApi(endpoint, authenticated, method, body) {
 
     var token = await AsyncStorage.getItem("login_token")
 
-    // set an empty config object
     let config = {}
 
     // If call needs to be authenticated, attach token to the headers
@@ -30,6 +29,8 @@ async function callApi(endpoint, authenticated, method, body) {
         config.body = JSON.stringify(body)
         config.headers['Content-type'] = 'application/json'
     }
+
+    config.headers['User-Agent'] = "AndroidApp"
 
     // Fetch the api
     return fetch(BASE_URL + endpoint, config)

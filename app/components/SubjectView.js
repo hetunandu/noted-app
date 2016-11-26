@@ -6,6 +6,7 @@ import {
 	TouchableHighlight,
 	StyleSheet
 } from 'react-native';
+import Loading from './Loading';
 import { Actions } from 'react-native-router-flux';
 import {connect} from 'react-redux'
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -26,7 +27,7 @@ class SubjectView extends React.Component {
 
         return (
         	<View style={styles.container}>
-        		{  isFetching && <Text>Loading...</Text> }
+        		{  isFetching && <Loading /> }
         		{ plan ? (
         			
         			<Text>Display plan details here</Text>

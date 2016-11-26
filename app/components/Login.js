@@ -7,6 +7,7 @@ import {
     ActivityIndicator
 } from 'react-native';
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
+import Loading from './Loading';
 import {connect} from 'react-redux';
 import {login, checkToken, googleAuthInit} from '../actions/auth';
 import { Actions } from 'react-native-router-flux';
@@ -20,7 +21,11 @@ class Login extends Component {
 
     componentDidUpdate(){
         if(this.props.user.isAuthenticated){
-            Actions.subjects({type: 'reset'});
+            if(this.props.user.data.course){
+                Actions.subjects({type: 'reset'});
+            }else{
+                Actions.loginDetails()
+            }
         }
     }
 
@@ -43,14 +48,7 @@ class Login extends Component {
                                 Welcome to Noted!
                             </Text>
                             {
-                                this.props.user.isFectching ? (
-                                    <ActivityIndicator
-                                        animating={this.props.user.isFectching}
-                                        color="white"
-                                        size="large"
-                                    />
-                                    
-                                ) : (
+                                this.props.user.isFectching ? <Loading /> : (
                                     <GoogleSigninButton
                                         style={{width: 312, height: 48}}
                                         size={GoogleSigninButton.Size.Wide}

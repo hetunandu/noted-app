@@ -3,14 +3,6 @@ import Api from '../lib/api';
 import {AsyncStorage, ToastAndroid} from 'react-native';
 import {GoogleSignin} from 'react-native-google-signin';
 
-
-function setAuth(isAuthenticated){
-    return {
-        type: types.SET_AUTH,
-        isAuthenticated
-    }
-}
-
 function loginRequest(){
     return {
         type: types.LOGIN_REQUEST
@@ -34,9 +26,28 @@ export function checkToken(){
         AsyncStorage.getItem('login_token')
             .then((token) => {
                 if(token){
-                    dispatch(setAuth(true))
+                    let config = {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type':'application/json',
+                            'Authorization': token,
+                            'User-Agent': "AndroidApp"
+                        }
+                    };
+                    dispatch(loginRequest())
+                    return fetch(`https://noted-api.appspot.com/users/details`, config)
+                        .then(res => res.json())
+                        .then(json => {
+                            if(json.success === false){
+                                dispatch(loginFailed(json.error))
+                            }else{
+                                // Dispatch the success action
+                                dispatch(loginSuccess(json.message.user))
+                            }
+                        })
+                        .catch(err => dispatch(loginFailed(err)))
                 }else{
-                    dispatch(setAuth(false))
+                    console.log("No token found")
                 }
             })
             .done();
@@ -48,8 +59,9 @@ export function login(token) {
     let config = {
         method: 'POST',
         headers: {
-            Accept: 'application/json',
-            'Content-Type':'application/json'
+            'Accept': 'application/json',
+            'Content-Type':'application/json',
+            'User-Agent': "AndroidApp"
         },
         body: JSON.stringify(token)
     };
@@ -71,21 +83,6 @@ export function login(token) {
                 }
             })
             .catch(err => console.log(err))
-    }
-}
-
-
-export function logout(){
-    return (dispatch, getState) => {
-        try{
-            AsyncStorage.removeItem('login_token')
-                .then((token) => {
-                    dispatch(setAuth(false))
-                })
-                .done();
-        }catch (err){
-           dispatch(setAuth(true))
-        }
     }
 }
 

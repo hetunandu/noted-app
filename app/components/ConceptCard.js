@@ -15,7 +15,7 @@ class ConceptCard extends Component {
         super(props);
     
         this.state = {
-            translateX: new Animated.Value(-300),
+            translateX: new Animated.Value(-600),
             translateY: new Animated.Value(0)
         };
     }
@@ -27,7 +27,7 @@ class ConceptCard extends Component {
           this.state.translateX,
           {
             toValue: 0,
-            friction: 6
+            friction: 7
           }
         ).start();
     }
@@ -37,7 +37,7 @@ class ConceptCard extends Component {
           this.state.translateY,
           {
             toValue: -600,
-            friction: 6
+            friction: 7
           }
         ).start();    
     }
@@ -52,7 +52,7 @@ class ConceptCard extends Component {
                 case 'image':
                     return (
                                 <Image
-                                    style={styles.image}
+                                    style={{width: 200, height: 300}}
                                     key={i}
                                     source={{uri: `${node.data}`}}
                                 />
@@ -165,9 +165,6 @@ const styles = StyleSheet.create({
     pointer: {
         fontSize: 18,
         fontWeight: "600"
-    },
-    image: {
-        minHeight: 200
     },
     pointNodes: {
         paddingLeft: 20

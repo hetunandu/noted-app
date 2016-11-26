@@ -6,6 +6,7 @@ import {
     ListView,
     TouchableHighlight
 } from 'react-native';
+import Loading from './Loading';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Actions } from 'react-native-router-flux';
 import {connect} from 'react-redux';
@@ -45,9 +46,10 @@ class Subjects extends Component{
     render(){
         return (
             <View style={styles.container}>
+               
                 {
                     this.props.subjects.isFetching ? (
-                        <Text>Loading...</Text>
+                        <Loading />
                     ) : this.renderSubjectList() 
                 }
                 

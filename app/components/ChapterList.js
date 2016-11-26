@@ -5,6 +5,7 @@ import {
 	StyleSheet,
 	TouchableHighlight
 } from 'react-native';
+import Loading from './Loading';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {connect} from 'react-redux';
 import {fetchConceptsFromChapter} from '../actions/concepts';
@@ -50,7 +51,7 @@ class ChapterList extends Component {
 		  <View style={styles.container}>
 			{
 			  this.props.chapters.isFetching ? (
-				<Text>Loading...</Text>
+			  	<Loading />
 			  ) : this._renderChapterList()
 			}
 		  </View>
