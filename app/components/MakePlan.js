@@ -7,7 +7,7 @@ import {
 	StyleSheet,
 	TouchableHighlight
 } from 'react-native';
-
+import CheckBox from 'react-native-check-box'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
@@ -18,7 +18,8 @@ class MakePlan extends React.Component {
 	
 	  this.state = {
 	  	date: new Date(),
-	  	chapters: []
+	  	chapters: [],
+	  	fullPortion: false
 	  };
 	}
 
@@ -60,6 +61,12 @@ class MakePlan extends React.Component {
     					<Text style={{fontSize: 18}}>{this.state.date.toDateString()}</Text>
     				</TouchableHighlight>
     				<Text style={{fontSize: 20, marginTop: 20}}>Portion</Text>
+    				<CheckBox
+    					style={{padding: 10}}
+    					onClick={()=>this.setState({fullPortion: !this.state.fullPortion})}
+    					isChecked={this.state.fullPortion}
+    					rightText="Full portion"
+					/>
     				<TouchableHighlight
     					underlayColor='#f6f6f6'
     					style={{ padding: 10, backgroundColor: '#f1f1f1' }}
