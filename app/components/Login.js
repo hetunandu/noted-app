@@ -52,7 +52,7 @@ class Login extends Component {
                                     <GoogleSigninButton
                                         style={{width: 312, height: 48}}
                                         size={GoogleSigninButton.Size.Wide}
-                                        color={GoogleSigninButton.Color.Light}
+                                        color={GoogleSigninButton.Color.Dark}
                                         onPress={this._signIn.bind(this)}
                                     />
 
@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
   },
   welcome: {
     fontSize: 25,
-    color: 'white',
     textAlign: 'center',
   }
 });
