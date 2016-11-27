@@ -4,7 +4,8 @@ import {
 	Text,
 	View,
 	TouchableHighlight,
-	StyleSheet
+	StyleSheet,
+    ToastAndroid
 } from 'react-native';
 import Loading from './Loading';
 import { Actions } from 'react-native-router-flux';
@@ -27,33 +28,24 @@ class SubjectView extends React.Component {
 
         return (
         	<View style={styles.container}>
-        		{  isFetching && <Loading /> }
-        		{ plan ? (
-        			
-        			<Text>Display plan details here</Text>
-
-        		) : (
-        			
-        			<TouchableHighlight 
-        			    style={styles.buttonContainer}
-        			    onPress={() =>  Actions.makePlan()}
-        			>
-        			    <View style={styles.revisionButton} >
-        			        <Text style={styles.buttonText}>
-        			            Plan revision
-        			        </Text>
-        			        <Icon name="chevron-right" size={50} color="#fff" />    
-        			    </View>
-        			</TouchableHighlight>
-
-        		) }
+                <TouchableHighlight 
+                    style={styles.buttonContainer}
+                    onPress={() =>  ToastAndroid.show('Not implemented yet', ToastAndroid.SHORT)}
+                >
+                    <View style={styles.revisionButton} >
+                        <Text style={styles.buttonText}>
+                            Daily Study
+                        </Text>
+                        <Icon name="chevron-right" size={50} color="#fff" />    
+                    </View>
+                </TouchableHighlight>
         		<TouchableHighlight 
         		    style={styles.buttonContainer}
         		    onPress={() => this.viewNotes()}
         		>
         		    <View style={styles.notesButton} >
         		        <Text style={styles.buttonText}>
-							View Notes
+							View Index
         		        </Text>
         		        <Icon name="chevron-right" size={50} color="#fff" />    
         		    </View>
@@ -68,16 +60,12 @@ const styles = StyleSheet.create({
         marginTop: 60
     },
     buttonContainer: {
-        marginBottom: 10,
-        elevation: 2,
-        borderRadius: 2
     },
     revisionButton: {
         backgroundColor: '#E83B40',
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 15,
-        borderRadius: 2,
         alignItems: 'center',
     },
     notesButton: {
@@ -85,7 +73,6 @@ const styles = StyleSheet.create({
     	flexDirection: 'row',
     	justifyContent: 'space-between',
     	padding: 15,
-    	borderRadius: 2,
     	alignItems: 'center',
     },
     buttonText: {

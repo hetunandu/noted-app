@@ -46,8 +46,8 @@ function configureStore(initialState){
 const store = configureStore({});
 
 const navBarStyles = {
-    backgroundColor: '#333', 
-    borderBottomColor: '#444',
+    backgroundColor: '#50537f', 
+    borderBottomColor: '#484a72',
     height: 65,
     elevation: 5
 }
@@ -118,16 +118,15 @@ const scenes = Actions.create(
 const ReduxRouter = connect()(Router);
 
 const containerStyles = {
-    padding: 15,
     flex: 1,
-    backgroundColor: '#50537f',
+    backgroundColor: '#f1f1f1',
 }
 // Base App compoent with the provider
 
 class Noted extends Component{
 
   componentDidMount(){
-    StatusBar.setBackgroundColor("#222", true)
+    StatusBar.setBackgroundColor("#404265", true)
   }
   
   render(){
@@ -135,7 +134,7 @@ class Noted extends Component{
       <Provider store={store}>
         <ReduxRouter 
           scenes={scenes} 
-          style={{backgroundColor: '#50537f'}}  
+          style={{backgroundColor: '#f1f1f1'}}  
           sceneStyle={containerStyles}
         />      
       </Provider>

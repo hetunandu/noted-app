@@ -3,7 +3,8 @@ import {
 	Text,
 	View,
 	StyleSheet,
-	TouchableHighlight
+	TouchableHighlight,
+	ScrollView
 } from 'react-native';
 import Loading from './Loading';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -28,13 +29,17 @@ class ChapterList extends Component {
 				<TouchableHighlight
 					style={styles.chapterListItemContainer}
 					key={chapter.key}
-					underlayColor="#333"
 					onPress={this.handleChapterPressed.bind(this, chapter)}
 				>
 					<View style={styles.chapterListItem}>
-						<Text style={styles.chapterListItemText}>
-							{chapter.name}
-						</Text>
+						<View style={{ flex: 1, flexDirection: 'column', flexWrap: 'wrap'}}>
+							<Text style={styles.chapterListItemText}>
+								{chapter.name}
+							</Text>
+							<Text>
+								XX Concepts
+							</Text>
+						</View>
 						<Icon
 							name="chevron-right"
 							size={50}
@@ -52,7 +57,13 @@ class ChapterList extends Component {
 			{
 			  this.props.chapters.isFetching ? (
 			  	<Loading />
-			  ) : this._renderChapterList()
+			  ) : (
+			  		<ScrollView scrollEnabled={true}>
+			  		    {
+			  		    	this._renderChapterList()
+			  		    }
+			  		</ScrollView>
+			  )
 			}
 		  </View>
 		)

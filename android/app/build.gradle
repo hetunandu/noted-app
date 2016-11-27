@@ -90,8 +90,8 @@ android {
         applicationId "study.noted.app"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 1
-        versionName "0.4.2"
+        versionCode 3
+        versionName "0.4.3"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -143,6 +143,7 @@ dependencies {
         exclude group: "com.google.android.gms" // very important
     }
     compile 'com.google.android.gms:play-services-auth:9.4.0' // should be at least 9.0.0
+    compile project(':react-native-android-speech')
 }
 
 // Run this once to be able to run the application with BUCK

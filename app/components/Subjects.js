@@ -64,9 +64,8 @@ const styles = StyleSheet.create({
     },
     subjectListItemContainer: {
         backgroundColor: 'white',
-        marginBottom: 10,
-        elevation: 2,
-        borderRadius: 2
+        borderBottomWidth: 1,
+        borderBottomColor: "grey"
     },
     subjectListItem: {
         backgroundColor: 'white',
