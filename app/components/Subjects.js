@@ -32,36 +32,35 @@ class Subjects extends Component{
                     <Text style={styles.subjectName}>
                         {subject.name}
                     </Text>
-                    <Text style={{fontSize: 20}}>
-                        Progress
+                    <Text style={styles.subjectInfo}>
+                        Total concepts: {subject.total_concepts}
                     </Text>
-                    <View style={[styles.progressBar, {flex: subject.total_concepts}]}>
-                        <View style={[
-                            styles.understoodConceptProgress,
-                            {flex: subject.is_understood_count}
-                        ]}/>
-                        <View style={[
-                            styles.viewedConceptProgress,
-                            {flex: subject.has_data_count}
-                        ]}/>
-                        <View style={[
-                            styles.totalConceptProgress,
-                            {flex: subject.total_concepts}
-                        ]}/>
+                    <Text style={styles.subjectInfo}>
+                        Understood concepts: {subject.is_understood_count}
+                    </Text>
+                    <Text style={styles.subjectInfo}>
+                        More concepts in: {subject.time_to_more} seconds
+                    </Text>
+                    <View style={styles.subjectActions}>
+                        <TouchableHighlight
+                            style={[styles.actionBtn, {
+                                borderBottomLeftRadius: 5,
+                                borderRightColor: "#f1f1f1",
+                                borderRightWidth: 2
+                            }]}
+                            onPress={() => console.log('yo')}
+                        >
+                            <Text style={{fontSize: 20, color: 'white'}}>Quiz</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight
+                            style={[styles.actionBtn, {
+                                borderBottomRightRadius: 5
+                            }]}
+                            onPress={() => this.handleSubjectPressed(subject)}
+                        >
+                            <Text style={{fontSize: 20, color: 'white'}}>Study</Text>
+                        </TouchableHighlight>
                     </View>
-                    <Text>
-                        Total: {subject.total_concepts},
-                        Viewed: {subject.has_data_count},
-                        Understood: {subject.is_understood_count},
-                        Last Fetched: {subject.last_fetched_date}
-
-                    </Text>
-                    <TouchableHighlight
-                        style={styles.studyBtn}
-                        onPress={() => this.handleSubjectPressed(subject)}
-                    >
-                        <Text style={{fontSize: 20, color: 'white'}}>Study</Text>
-                    </TouchableHighlight>
                 </View>
             );
         }); 
@@ -84,7 +83,7 @@ class Subjects extends Component{
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 60,
+        marginTop: 70,
     },
     subjectCard: {
         backgroundColor: 'white',
@@ -98,30 +97,23 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 30
     },
-    progressBar: {
-        height: 10,
+    subjectInfo: {
+        fontSize: 18,
+        marginBottom: 10
+    },
+    subjectActions:{
         flexDirection: 'row',
-        marginBottom: 5
-    },
-    totalConceptProgress: {
-        backgroundColor: "#000"
-    },
-    viewedConceptProgress: {
-        backgroundColor: "#E83B40"
-    },
-    understoodConceptProgress: {
-        backgroundColor: "#2E7F2E"
-    },
-    studyBtn: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 10,
-        backgroundColor: "#E83B40",
         marginBottom: -15,
         marginRight: -15,
         marginLeft: -15,
-        borderBottomRightRadius: 5,
-        borderBottomLeftRadius: 5
+        justifyContent: 'space-around'
+    },
+    actionBtn: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10,
+        backgroundColor: "#333"
     }   
 
 })

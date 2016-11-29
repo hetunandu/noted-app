@@ -16,9 +16,6 @@ import api from './lib/api';
 import Login from './components/Login';
 import LoginDetails from './components/LoginDetails';
 import Subjects from './components/Subjects';
-import SubjectView from './components/SubjectView';
-import MakePlan from './components/MakePlan';
-import ChapterList from './components/ChapterList';
 import ConceptView from './components/ConceptView';
 
 // Activating Layout Animation Support
@@ -46,8 +43,8 @@ function configureStore(initialState){
 const store = configureStore({});
 
 const navBarStyles = {
-    backgroundColor: '#50537f', 
-    borderBottomColor: '#484a72',
+    backgroundColor: '#333', 
+    borderBottomColor: '#444',
     height: 65,
     elevation: 5
 }
@@ -95,19 +92,6 @@ const scenes = Actions.create(
           component={Subjects}
         />
         <Scene
-          key="subjectView"
-          component={SubjectView}
-        />
-        <Scene
-          key="makePlan"
-          title="Plan revision"
-          component={MakePlan}
-        />
-        <Scene
-          key="chapterList"
-          component={ChapterList}
-        />
-        <Scene
           key="conceptView"
           component={ConceptView}
           hideNavBar
@@ -119,14 +103,14 @@ const ReduxRouter = connect()(Router);
 
 const containerStyles = {
     flex: 1,
-    backgroundColor: '#f1f1f1',
+    backgroundColor: '#50537f',
 }
 // Base App compoent with the provider
 
 class Noted extends Component{
 
   componentDidMount(){
-    StatusBar.setBackgroundColor("#404265", true)
+    StatusBar.setBackgroundColor("#222", true)
   }
   
   render(){
@@ -134,7 +118,7 @@ class Noted extends Component{
       <Provider store={store}>
         <ReduxRouter 
           scenes={scenes} 
-          style={{backgroundColor: '#f1f1f1'}}  
+          style={{backgroundColor: '#50537f'}}  
           sceneStyle={containerStyles}
         />      
       </Provider>
