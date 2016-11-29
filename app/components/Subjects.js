@@ -10,7 +10,8 @@ import Loading from './Loading';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Actions } from 'react-native-router-flux';
 import {connect} from 'react-redux';
-import {fetchSubjectList, fetchSubjectDetail} from '../actions/subjects';
+import {fetchSubjectList } from '../actions/subjects';
+import {fetchConceptsList } from '../actions/concepts';
 
 class Subjects extends Component{
 
@@ -19,8 +20,8 @@ class Subjects extends Component{
     }
 
     handleSubjectPressed(subject){
-        Actions.subjectView({title: subject.name, subject})
-        this.props.fetchSubjectDetail(subject.key)
+        Actions.conceptView()
+        this.props.fetchConceptsList(subject.key)
     }
 
     renderSubjectList(){
@@ -87,7 +88,7 @@ const mapStateToProps = ({subjects}) => ({
 
 const mapDispatchToProps = dispatch => ({
     fetchSubjectList: () => {dispatch(fetchSubjectList())},
-    fetchSubjectDetail: (subject_key) => {dispatch(fetchSubjectDetail(subject_key))}
+    fetchConceptsList: (subject_key) => {dispatch(fetchConceptsList(subject_key))}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Subjects)

@@ -5,7 +5,8 @@ import {
     StyleSheet,
     Image,
     ScrollView,
-    Animated
+    Animated,
+    TouchableHighlight
 } from 'react-native';
 
 
@@ -15,31 +16,20 @@ class ConceptCard extends Component {
         super(props);
     
         this.state = {
-            translateX: new Animated.Value(-600),
-            translateY: new Animated.Value(0)
+            translateY: new Animated.Value(1200),
+            scale: new Animated.Value(1)
         };
     }
 
 
     componentDidMount() {
-
         Animated.spring(
-          this.state.translateX,
+          this.state.translateY,
           {
             toValue: 0,
             friction: 7
           }
         ).start();
-    }
-
-    componentWillUpdate(){
-        Animated.spring(
-          this.state.translateY,
-          {
-            toValue: -600,
-            friction: 7
-          }
-        ).start();    
     }
 
     _renderExplanation(){
@@ -52,7 +42,7 @@ class ConceptCard extends Component {
                 case 'image':
                     return (
                                 <Image
-                                    style={{minHeight: 300, backgroundColor: "#f2f2f2"}}
+                                    style={{minHeight: 200, backgroundColor: "#f2f2f2"}}
                                     resizeMode="contain"
                                     key={i}
                                     source={{uri: `${node.data}`}}
@@ -93,7 +83,8 @@ class ConceptCard extends Component {
                                                 case 'image':
                                                     return (
                                                         <Image
-                                                            style={styles.image}
+                                                            style={{minHeight: 200, backgroundColor: "#f2f2f2"}}
+                                                            resizeMode="contain"
                                                             key={k}
                                                             source={{uri: `${node.data}`}}
                                                         />
@@ -113,6 +104,34 @@ class ConceptCard extends Component {
         });
     }
 
+    cardPressed(){
+        if(this.state.scale._value === 1){
+            Animated.spring(
+              this.state.scale,
+              {
+                toValue: 0.7,
+                friction: 6
+              }
+            ).start();    
+        }else{
+            Animated.spring(
+              this.state.scale,
+              {
+                toValue: 1,
+                friction: 7
+              }
+            ).start(); 
+        }
+    }
+
+    conceptUnderstood(){
+        this.props.understood()
+    }
+
+    conceptNotUnderstood(){
+
+    }
+
     render(){
         return(
             <Animated.View 
@@ -120,16 +139,36 @@ class ConceptCard extends Component {
                     styles.card,
                     {
                         transform: [
-                            {translateX: this.state.translateX},
-                            {translateY: this.state.translateY}
+                            {translateY: this.state.translateY},
+                            {scale: this.state.scale}
                         ]
                     }
                 ]}
             >
                 <ScrollView scrollEnabled={true} style={{flex: 1}}>
-                    {
-                        this._renderExplanation()
-                    }
+                    <View style={styles.explanation}>
+                        {
+                            this._renderExplanation()
+                        }
+                    </View>
+                    <View style={styles.conceptActions}>
+                        <TouchableHighlight 
+                            onPress={() => this.conceptNotUnderstood()}
+                            style={[styles.btn, {backgroundColor: "#E83B40"}]}
+                            underlayColor="#d03539"
+                        >
+                            <Text style={styles.btnText}>Did not understand</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight 
+                            onPress={() => this.conceptUnderstood()}
+                            style={[styles.btn, {backgroundColor: "#2E7F2E"}]}
+                            underlayColor="#297229"
+                        >
+                            <Text style={styles.btnText}>
+                                { this.props.concept.isUnderstanding ? '....' : 'Understood'}
+                            </Text>
+                        </TouchableHighlight>
+                    </View>
                 </ScrollView>
             </Animated.View>
         )
@@ -138,20 +177,24 @@ class ConceptCard extends Component {
 
 const styles = StyleSheet.create({
     card: {
+        flex: 1,
         backgroundColor: 'white',
         position: 'absolute',
         top: 0,
         bottom: 0,
         left: 0,
         right: 0,
-        borderRadius: 3,
-        padding: 5,
-        elevation: 5
+        elevation: 5,
+        borderRadius: 3
+    },
+    explanation:{
+        padding: 10,
+        flex: 1
     },
     title: {
         fontSize: 30,
         color: '#000',
-        fontWeight: "100"
+        fontWeight: "200"
     },
     text: {
         fontSize: 18,
@@ -169,6 +212,22 @@ const styles = StyleSheet.create({
     },
     pointNodes: {
         paddingLeft: 20
+    },
+    conceptActions:{
+        justifyContent: 'space-around',
+        flexDirection: 'row'
+    },
+    btn:{
+        padding: 10,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexWrap: 'wrap'
+    },
+    btnText:{
+        textAlign: 'center',
+        color: 'white',
+        fontSize: 22
     }
 })
 

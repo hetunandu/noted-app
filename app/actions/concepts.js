@@ -15,11 +15,31 @@ export function fetchConceptsFromChapter(chapter_key) {
     }
 }
 
+export function fetchConceptsList(subject_key) {
+    return {
+        [CALL_API]: {
+            endpoint: `subjects/${subject_key}/concepts`,
+            authenticated: true,
+            types: [
+                types.CONCEPT_LIST_REQUEST,
+                types.CONCEPT_LIST_SUCCESS,
+                types.CONCEPT_LIST_FAILURE
+            ]
+        }
+    }
+}
 
-export function markConceptAction(concept_action, concept_key){
+
+export function markConceptUnderstood(concept_key){
     return{
-        type: types.CONCEPT_ACTION,
-        concept_action,
-        concept_key
+        [CALL_API]: {
+            endpoint: `concepts/${concept_key}/understood`,
+            authenticated: true,
+            types: [
+                types.CONCEPT_UNDERSTOOD_REQUEST,
+                types.CONCEPT_UNDERSTOOD_SUCCESS,
+                types.CONCEPT_UNDERSTOOD_FAILURE
+            ]
+        }
     }
 }
