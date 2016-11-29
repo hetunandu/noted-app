@@ -19,6 +19,7 @@ class Subjects extends Component{
         this.props.fetchSubjectList()
     }
 
+
     handleSubjectPressed(subject){
         Actions.conceptView()
         this.props.fetchConceptsList(subject.key)
@@ -27,19 +28,41 @@ class Subjects extends Component{
     renderSubjectList(){
         return this.props.subjects.data.map( subject => {
             return(
-                <TouchableHighlight 
-                    key={subject.key}
-                    onPress={this.handleSubjectPressed.bind(this, subject)}
-                    style={styles.subjectListItemContainer}
-                    underlayColor="#333"
-                >
-                    <View style={styles.subjectListItem} >
-                        <Text style={styles.subjectListItemText}>
-                            {subject.name}
-                        </Text>
-                        <Icon name="chevron-right" size={50} color="#333" />    
+                <View key={subject.key} style={styles.subjectCard} >
+                    <Text style={styles.subjectName}>
+                        {subject.name}
+                    </Text>
+                    <Text style={{fontSize: 20}}>
+                        Progress
+                    </Text>
+                    <View style={[styles.progressBar, {flex: subject.total_concepts}]}>
+                        <View style={[
+                            styles.understoodConceptProgress,
+                            {flex: subject.is_understood_count}
+                        ]}/>
+                        <View style={[
+                            styles.viewedConceptProgress,
+                            {flex: subject.has_data_count}
+                        ]}/>
+                        <View style={[
+                            styles.totalConceptProgress,
+                            {flex: subject.total_concepts}
+                        ]}/>
                     </View>
-                </TouchableHighlight>
+                    <Text>
+                        Total: {subject.total_concepts},
+                        Viewed: {subject.has_data_count},
+                        Understood: {subject.is_understood_count},
+                        Last Fetched: {subject.last_fetched_date}
+
+                    </Text>
+                    <TouchableHighlight
+                        style={styles.studyBtn}
+                        onPress={() => this.handleSubjectPressed(subject)}
+                    >
+                        <Text style={{fontSize: 20, color: 'white'}}>Study</Text>
+                    </TouchableHighlight>
+                </View>
             );
         }); 
     }
@@ -63,22 +86,44 @@ const styles = StyleSheet.create({
     container: {
         marginTop: 60,
     },
-    subjectListItemContainer: {
+    subjectCard: {
         backgroundColor: 'white',
-        borderBottomWidth: 1,
-        borderBottomColor: "grey"
-    },
-    subjectListItem: {
-        backgroundColor: 'white',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         padding: 15,
-        borderRadius: 2,
-        alignItems: 'center',
+        elevation: 2,
+        borderRadius: 5,
+        margin: 10
     },
-    subjectListItemText: {
+    subjectName: {
+        textAlign: 'center',
         fontSize: 30
-    }
+    },
+    progressBar: {
+        height: 10,
+        flexDirection: 'row',
+        marginBottom: 5
+    },
+    totalConceptProgress: {
+        backgroundColor: "#000"
+    },
+    viewedConceptProgress: {
+        backgroundColor: "#E83B40"
+    },
+    understoodConceptProgress: {
+        backgroundColor: "#2E7F2E"
+    },
+    studyBtn: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10,
+        backgroundColor: "#E83B40",
+        marginBottom: -15,
+        marginRight: -15,
+        marginLeft: -15,
+        borderBottomRightRadius: 5,
+        borderBottomLeftRadius: 5
+    }   
+
 })
 
 
