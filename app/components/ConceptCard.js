@@ -146,11 +146,16 @@ class ConceptCard extends Component {
                 ]}
             >
                 <ScrollView scrollEnabled={true} style={{flex: 1}}>
-                    <View style={styles.explanation}>
-                        {
-                            this._renderExplanation()
-                        }
-                    </View>
+                    <TouchableHighlight 
+                        underlayColor="#f1f1f1"
+                        onLongPress={() => this.cardPressed()}
+                    >
+                        <View style={styles.explanation}>
+                            {
+                                this._renderExplanation()
+                            }
+                        </View>
+                    </TouchableHighlight>
                     <View style={styles.conceptActions}>
                         <TouchableHighlight 
                             onPress={() => this.conceptNotUnderstood()}
@@ -164,9 +169,7 @@ class ConceptCard extends Component {
                             style={[styles.btn, {backgroundColor: "#2E7F2E"}]}
                             underlayColor="#297229"
                         >
-                            <Text style={styles.btnText}>
-                                { this.props.concept.isUnderstanding ? '....' : 'Understood'}
-                            </Text>
+                            <Text style={styles.btnText}>Understood</Text>
                         </TouchableHighlight>
                     </View>
                 </ScrollView>
