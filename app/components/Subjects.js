@@ -25,42 +25,75 @@ class Subjects extends Component{
         this.props.fetchConceptsList(subject.key)
     }
 
+    convertSecondsToHms(d) {
+        d = Number(d);
+        var h = Math.floor(d / 3600);
+        var m = Math.floor(d % 3600 / 60);
+
+        var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+        var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes ") : "";
+        return hDisplay + mDisplay; 
+    }
+
     renderSubjectList(){
         return this.props.subjects.data.map( subject => {
             return(
-                <View key={subject.key} style={styles.subjectCard} >
-                    <Text style={styles.subjectName}>
-                        {subject.name}
-                    </Text>
-                    <Text style={styles.subjectInfo}>
-                        Total concepts: {subject.total_concepts}
-                    </Text>
-                    <Text style={styles.subjectInfo}>
-                        Understood concepts: {subject.is_understood_count}
-                    </Text>
-                    <Text style={styles.subjectInfo}>
-                        More concepts in: {subject.time_to_more} seconds
-                    </Text>
-                    <View style={styles.subjectActions}>
-                        <TouchableHighlight
-                            style={[styles.actionBtn, {
-                                borderBottomLeftRadius: 5,
-                                borderRightColor: "#f1f1f1",
-                                borderRightWidth: 2
-                            }]}
-                            onPress={() => console.log('yo')}
-                        >
-                            <Text style={{fontSize: 20, color: 'white'}}>Quiz</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight
-                            style={[styles.actionBtn, {
-                                borderBottomRightRadius: 5
-                            }]}
-                            onPress={() => this.handleSubjectPressed(subject)}
-                        >
-                            <Text style={{fontSize: 20, color: 'white'}}>Study</Text>
-                        </TouchableHighlight>
-                    </View>
+                <View key={subject.key} >
+                    {
+                        subject.last_fetched_date ? (
+                            <View style={styles.subjectCard} >
+                                <Text style={styles.subjectName}>
+                                    {subject.name}
+                                </Text>
+                                <Text style={styles.subjectInfo}>
+                                    Total concepts: {subject.total_concepts}
+                                </Text>
+                                <Text style={styles.subjectInfo}>
+                                    Concepts done: {subject.is_done_count}
+                                </Text>
+                                <Text style={styles.subjectInfo}>
+                                    More concepts in: {this.convertSecondsToHms(subject.time_to_more)}
+                                </Text>
+                                <View style={styles.subjectActions}>
+                                    <TouchableHighlight
+                                        style={[styles.actionBtn, {
+                                            borderBottomLeftRadius: 5,
+                                            borderRightColor: "#f1f1f1",
+                                            borderRightWidth: 2
+                                        }]}
+                                        onPress={() => console.log('yo')}
+                                    >
+                                        <Text style={{fontSize: 20, color: 'white'}}>Quiz</Text>
+                                    </TouchableHighlight>
+                                    <TouchableHighlight
+                                        style={[styles.actionBtn, {
+                                            borderBottomRightRadius: 5
+                                        }]}
+                                        onPress={() => this.handleSubjectPressed(subject)}
+                                    >
+                                        <Text style={{fontSize: 20, color: 'white'}}>Study</Text>
+                                    </TouchableHighlight>
+                                </View>
+                            </View>
+
+                        ) : (
+                            <TouchableHighlight
+                                style={styles.subjectListItemContainer}
+                                underlayColor="#f1f1f1"
+                                onPress={() => this.handleSubjectPressed(subject)}
+                            >
+                                <View style={styles.subjectListItem}>
+                                    <Text style={styles.subjectNameIntro}>
+                                        Start {subject.name}
+                                    </Text>
+                                    <Text style={styles.subjectInfo}>
+                                        Total concepts: {subject.total_concepts}
+                                    </Text>
+                                </View>
+                            </TouchableHighlight>
+
+                        )
+                    }
                 </View>
             );
         }); 
@@ -93,12 +126,27 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         margin: 10
     },
+    subjectListItemContainer:{
+        backgroundColor: 'white',
+        elevation: 2,
+        borderRadius: 5,
+        margin: 10
+
+    },
+    subjectListItem: {
+        justifyContent: 'center',
+        padding: 10,
+        borderRadius: 5,
+    },
     subjectName: {
         textAlign: 'center',
         fontSize: 30
     },
+    subjectNameIntro:{
+        fontSize: 25
+    },
     subjectInfo: {
-        fontSize: 18,
+        fontSize: 17,
         marginBottom: 10
     },
     subjectActions:{

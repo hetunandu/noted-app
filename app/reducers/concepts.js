@@ -3,7 +3,6 @@ import * as types from '../actions/types'
 
 export const concepts = createReducer({
     isFetching: false,
-    isUnderstanding: false,
     errorMessage: '', 
     currentConcept: 0,
     data: []
@@ -28,22 +27,27 @@ export const concepts = createReducer({
             errorMessage: action.error
         })
     },
-    [types.CONCEPT_UNDERSTOOD_REQUEST](state, action){
+    [types.CONCEPT_DONE_REQUEST](state, action){
         return Object.assign({}, state, {
-            isUnderstanding: true,
+            isFetching: true,
             errorMessage: ''
         })
     },
-    [types.CONCEPT_UNDERSTOOD_SUCCESS](state, action){
+    [types.CONCEPT_DONE_SUCCESS](state, action){
         return Object.assign({}, state, {
-            isUnderstanding: false,
+            isFetching: false,
             currentConcept: state.currentConcept + 1
         })
     },
-    [types.CONCEPT_UNDERSTOOD_FAILURE](state, action){
+    [types.CONCEPT_DONE_FAILURE](state, action){
         return Object.assign({}, state, {
-            isUnderstanding: false,
+            isFetching: false,
             errorMessage: action.error
+        })
+    },
+    [types.CONCEPT_SKIP](state, action){
+        return Object.assign({}, state, {
+            currentConcept: state.currentConcept + 1
         })
     }
 });

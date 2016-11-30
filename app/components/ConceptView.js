@@ -12,35 +12,18 @@ import tts from 'react-native-android-speech';
 import Loading from './Loading';
 import {connect} from 'react-redux';
 import ConceptCard from './ConceptCard';
-import {markConceptUnderstood} from '../actions/concepts';
+import {markConceptDone, skipCurrentConcept} from '../actions/concepts';
 
 class ConceptView extends React.Component {
 
-    handleNextPressed(){
-
-        const {concepts} = this.props
-
-        if(concepts.data.length === 1){
-            ToastAndroid.show('Done with today', ToastAndroid.SHORT)
-            Actions.pop()
-        }
-        this.props.markConceptUnderstood(concepts.data[concepts.currentConcept].key)
+    handleSkip(){
+        this.props.skipCurrentConcept()
     }
 
-    handleVoicePressed(){
+    handleDone(){
         const {concepts} = this.props
-        const currentConcept = concepts.data[concepts.currentConcept]
-        tts.speak({
-            text: currentConcept.name,
-            forceStop : false,
-            language : 'en',
-        }).then(isSpeaking=>{
-            //Success Callback
-            console.log(isSpeaking);
-        }).catch(error=>{
-            //Errror Callback
-            console.log(error)
-        });
+
+        this.props.markConceptDone(concepts.data[concepts.currentConcept].key)
     }
 
     render(){
@@ -63,14 +46,61 @@ class ConceptView extends React.Component {
                                 <ConceptCard 
                                     key={currentConcept.key} 
                                     concept={currentConcept}
-                                    understood={() => this.handleNextPressed()}
+                                    done={() => this.handleDone()}
+                                    skip={() => this.handleSkip()}
                                 />
                             )
                         )
                     }
-                    <View style={styles.toolbar}>
-                        <Text>Upgrade to pro for tools</Text>
-                    </View>
+                    {
+                        (concepts.currentConcept == concepts.data.length 
+                            && !concepts.isFetching) ? (
+                            <View style={styles.allDoneContainer}>
+                                <Text style={styles.promoText}>
+                                    Buy pro to get all concepts at once
+                                </Text>
+                                <View style={styles.doneInfoContainer}>
+                                    <Text style={styles.doneText}>
+                                        End of today's cards!
+                                    </Text>
+                                </View>
+                                <View style={styles.doneActions}>
+                                    <TouchableHighlight 
+                                        style={styles.actionBtnContainer}
+                                        onPress={() => ToastAndroid.show('yolo', ToastAndroid.SHORT)}
+                                    >
+                                        <View style={styles.actionBtn}>
+                                            <Text style={styles.actionBtnText}>
+                                                Quiz concepts done
+                                            </Text>
+                                        </View>
+                                    </TouchableHighlight>
+                                    <TouchableHighlight 
+                                        style={styles.actionBtnContainer}
+                                        onPress={() => ToastAndroid.show('yolo', ToastAndroid.SHORT)}
+                                    >
+                                        <View style={styles.actionBtn}>
+                                            <Text style={styles.actionBtnText}>
+                                                View skipped concepts
+                                            </Text>
+                                        </View>
+                                    </TouchableHighlight>
+                                    <TouchableHighlight 
+                                        style={styles.actionBtnContainer}
+                                        onPress={() => Actions.pop()}
+                                    >
+                                        <View style={styles.actionBtn}>
+                                            <Text style={styles.actionBtnText}>
+                                                Back to subjects
+                                            </Text>
+                                        </View>
+                                    </TouchableHighlight>
+                                </View>
+                            </View>
+                        ) : (
+                            <View></View>
+                        )
+                    }
                 </View>
             </View>
         )
@@ -83,15 +113,42 @@ const styles = StyleSheet.create({
         flex: 1,
         position: 'relative',
     },
-    toolbar:{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: 50,
-        alignItems: 'center',
+    allDoneContainer:{
+        flexDirection: 'column',
+        flex: 1,
+        justifyContent: 'center'
+    },
+    doneInfoContainer:{
+        flex: 3,
+        alignSelf: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f1f1f1'
+    },
+    promoText: {
+        textAlign: 'center',
+        color: 'white',
+        backgroundColor: 'red',
+        padding: 10,
+        fontSize: 20
+    },
+    doneText:{
+        fontSize: 25,
+        color: 'white'
+    },
+    doneActions: {
+        justifyContent: 'space-between',
+    },
+    actionBtnContainer:{
+    },
+    actionBtn:{
+        flexDirection: 'row',
+        padding: 20,
+        backgroundColor: "#333",
+        borderBottomWidth: 1,
+        borderBottomColor: '#555'
+    },
+    actionBtnText: {
+        color: 'white',
+        fontSize: 20
     }
 })
 
@@ -101,7 +158,8 @@ const mapStateToProps = ({concepts}) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    markConceptUnderstood: (concept_key) => {dispatch(markConceptUnderstood(concept_key))}
+    markConceptDone: (concept_key) => {dispatch(markConceptDone(concept_key))},
+    skipCurrentConcept: () => {dispatch(skipCurrentConcept())}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConceptView)

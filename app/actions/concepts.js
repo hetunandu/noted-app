@@ -30,16 +30,22 @@ export function fetchConceptsList(subject_key) {
 }
 
 
-export function markConceptUnderstood(concept_key){
+export function markConceptDone(concept_key){
     return{
         [CALL_API]: {
-            endpoint: `concepts/${concept_key}/understood`,
+            endpoint: `concepts/${concept_key}/done`,
             authenticated: true,
             types: [
-                types.CONCEPT_UNDERSTOOD_REQUEST,
-                types.CONCEPT_UNDERSTOOD_SUCCESS,
-                types.CONCEPT_UNDERSTOOD_FAILURE
+                types.CONCEPT_DONE_REQUEST,
+                types.CONCEPT_DONE_SUCCESS,
+                types.CONCEPT_DONE_FAILURE
             ]
         }
+    }
+}
+
+export function skipCurrentConcept(){
+    return{
+        type: types.CONCEPT_SKIP
     }
 }

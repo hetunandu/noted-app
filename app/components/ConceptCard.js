@@ -9,6 +9,13 @@ import {
     TouchableHighlight
 } from 'react-native';
 
+import {
+    TitleNode,
+    TextNode,
+    QuoteNode,
+    ImageNode,
+    PointerNode
+} from './ExplanationNodes';
 
 class ConceptCard extends Component {
 
@@ -36,68 +43,15 @@ class ConceptCard extends Component {
         return this.props.concept.explanation.map( (node, i) => {
             switch(node.type){
                 case 'title':
-                    return <Text key={i} style={styles.title}>{node.data}</Text>
+                    return <TitleNode key={i} data={node.data} />
                 case 'text':
-                    return <Text key={i} style={styles.text}> {node.data} </Text>
+                    return <TextNode key={i} data={node.data} />
                 case 'image':
-                    return (
-                                <Image
-                                    style={{minHeight: 200, backgroundColor: "#f2f2f2"}}
-                                    resizeMode="contain"
-                                    key={i}
-                                    source={{uri: `${node.data}`}}
-                                />
-                            )
+                    return <ImageNode key={i} data={node.data} />
                 case 'quote':
-                    return (
-                                <Text
-                                    key={i}
-                                    style={styles.quote}
-                                >
-                                    {node.data}
-                                </Text>
-                            )
+                    return <QuoteNode key={i} data={node.data} />
                 case 'pointers':
-                    return node.data.map((point, j) => {
-                            return (
-                                <View>
-                                    <Text 
-                                        key={`point_${j}`}
-                                        style={styles.pointer}
-                                    >
-                                        {j + 1}. {point.title}
-                                    </Text>
-                                    <View style={styles.pointNodes}>
-                                    {
-                                        point.nodes.map((node, k) => {
-                                            switch(node.type){
-                                                case 'text':
-                                                    return (
-                                                        <Text 
-                                                            key={k} 
-                                                            style={styles.text}
-                                                        > 
-                                                            {node.data} 
-                                                        </Text>
-                                                    )
-                                                case 'image':
-                                                    return (
-                                                        <Image
-                                                            style={{minHeight: 200, backgroundColor: "#f2f2f2"}}
-                                                            resizeMode="contain"
-                                                            key={k}
-                                                            source={{uri: `${node.data}`}}
-                                                        />
-                                                    )
-                                                default: 
-                                            }
-                                        })
-                                    }
-                                    </View>
-
-                                </View>
-                            )
-                        })
+                    return <PointerNode key={i} data={node.data} />
                 default:
                     return <Text key={i}>{node.type}</Text>
             }
@@ -124,12 +78,12 @@ class ConceptCard extends Component {
         }
     }
 
-    conceptUnderstood(){
-        this.props.understood()
+    conceptDone(){
+        this.props.done()
     }
 
-    conceptNotUnderstood(){
-
+    conceptSkip(){
+        this.props.skip()
     }
 
     render(){
@@ -158,18 +112,18 @@ class ConceptCard extends Component {
                     </TouchableHighlight>
                     <View style={styles.conceptActions}>
                         <TouchableHighlight 
-                            onPress={() => this.conceptNotUnderstood()}
+                            onPress={() => this.conceptSkip()}
                             style={[styles.btn, {backgroundColor: "#E83B40"}]}
                             underlayColor="#d03539"
                         >
-                            <Text style={styles.btnText}>Did not understand</Text>
+                            <Text style={styles.btnText}>Skip</Text>
                         </TouchableHighlight>
                         <TouchableHighlight 
-                            onPress={() => this.conceptUnderstood()}
+                            onPress={() => this.conceptDone()}
                             style={[styles.btn, {backgroundColor: "#2E7F2E"}]}
                             underlayColor="#297229"
                         >
-                            <Text style={styles.btnText}>Understood</Text>
+                            <Text style={styles.btnText}>Done</Text>
                         </TouchableHighlight>
                     </View>
                 </ScrollView>
@@ -193,28 +147,6 @@ const styles = StyleSheet.create({
     explanation:{
         padding: 10,
         flex: 1
-    },
-    title: {
-        fontSize: 30,
-        color: '#000',
-        fontWeight: "200"
-    },
-    text: {
-        fontSize: 18,
-    },
-    quote: {
-        paddingLeft: 20,
-        fontSize: 20,
-        borderLeftWidth: 5,
-        borderLeftColor: "#50537f",
-        fontStyle: 'italic'
-    },
-    pointer: {
-        fontSize: 18,
-        fontWeight: "600"
-    },
-    pointNodes: {
-        paddingLeft: 20
     },
     conceptActions:{
         justifyContent: 'space-around',

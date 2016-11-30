@@ -56,10 +56,22 @@ class LoginDetails extends React.Component {
         		<Text style={{ fontSize: 25 }}> 
         			Fill in to finish login
         		</Text>
+
+        		<Text style={styles.label}>
+        			Course:
+        		</Text>
+        		<TextInput
+					style={{height: 40, width: 300}}
+					value="HSC Commerce"
+					editable={false}
+				/>
+				<Text>We currently have support only for HSC Commerce</Text>
+
         		<Text style={styles.label}>
         			College name:
         		</Text>
         		<TextInput
+        			autoFocus={true}
 					style={{height: 40, width: 300}}
 					onChangeText={(text) => this.setState({college: text})}
 					value={this.state.college}
@@ -80,6 +92,7 @@ class LoginDetails extends React.Component {
 
 const styles = StyleSheet.create({
 	container: {
+		margin: 10,
         marginTop: 60,
         flex: 1,
         alignItems: 'center',
