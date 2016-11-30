@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Actions } from 'react-native-router-flux';
 import {connect} from 'react-redux';
 import {fetchSubjectList } from '../actions/subjects';
-import {fetchConceptsList } from '../actions/concepts';
+import {fetchConceptsStudy, fetchConceptsQuiz } from '../actions/concepts';
 
 class Subjects extends Component{
 
@@ -20,9 +20,14 @@ class Subjects extends Component{
     }
 
 
-    handleSubjectPressed(subject){
-        Actions.conceptView()
-        this.props.fetchConceptsList(subject.key)
+    handleStudyPressed(subject){
+        Actions.conceptView({subject})
+        this.props.fetchConceptsStudy(subject.key)
+    }
+
+    handleQuizPressed(subject){
+        Actions.conceptView({subject})
+        this.props.fetchConceptsQuiz(subject.key)
     }
 
     convertSecondsToHms(d) {
@@ -61,7 +66,7 @@ class Subjects extends Component{
                                             borderRightColor: "#f1f1f1",
                                             borderRightWidth: 2
                                         }]}
-                                        onPress={() => console.log('yo')}
+                                        onPress={() => this.handleQuizPressed(subject)}
                                     >
                                         <Text style={{fontSize: 20, color: 'white'}}>Quiz</Text>
                                     </TouchableHighlight>
@@ -69,7 +74,7 @@ class Subjects extends Component{
                                         style={[styles.actionBtn, {
                                             borderBottomRightRadius: 5
                                         }]}
-                                        onPress={() => this.handleSubjectPressed(subject)}
+                                        onPress={() => this.handleStudyPressed(subject)}
                                     >
                                         <Text style={{fontSize: 20, color: 'white'}}>Study</Text>
                                     </TouchableHighlight>
@@ -80,7 +85,7 @@ class Subjects extends Component{
                             <TouchableHighlight
                                 style={styles.subjectListItemContainer}
                                 underlayColor="#f1f1f1"
-                                onPress={() => this.handleSubjectPressed(subject)}
+                                onPress={() => this.handleStudyPressed(subject)}
                             >
                                 <View style={styles.subjectListItem}>
                                     <Text style={styles.subjectNameIntro}>
@@ -173,7 +178,8 @@ const mapStateToProps = ({subjects}) => ({
 
 const mapDispatchToProps = dispatch => ({
     fetchSubjectList: () => {dispatch(fetchSubjectList())},
-    fetchConceptsList: (subject_key) => {dispatch(fetchConceptsList(subject_key))}
+    fetchConceptsStudy: (subject_key) => {dispatch(fetchConceptsStudy(subject_key))},
+    fetchConceptsQuiz: (subject_key) => {dispatch(fetchConceptsQuiz(subject_key))}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Subjects)

@@ -12,7 +12,14 @@ import tts from 'react-native-android-speech';
 import Loading from './Loading';
 import {connect} from 'react-redux';
 import ConceptCard from './ConceptCard';
-import {markConceptDone, skipCurrentConcept} from '../actions/concepts';
+import {fetchSubjectList } from '../actions/subjects';
+import {
+    markConceptDone,
+    skipCurrentConcept,
+    fetchConceptsStudy,
+    fetchConceptsQuiz,
+    changeMode
+} from '../actions/concepts';
 
 class ConceptView extends React.Component {
 
@@ -24,6 +31,28 @@ class ConceptView extends React.Component {
         const {concepts} = this.props
 
         this.props.markConceptDone(concepts.data[concepts.currentConcept].key)
+    }
+
+    handleQuiz(){
+        this.props.fetchConceptsQuiz(this.props.subject.key)
+    }
+
+    handleStudy(){
+        this.props.fetchConceptsStudy(this.props.subject.key)
+    }
+
+    handleBack(){
+        this.props.fetchSubjectList()
+        Actions.pop()
+    }
+
+    handleSeeAnswer(){
+        this.props.changeMode("ans")
+    }
+
+    handleResult(result){
+        this.props.changeMode("quiz")
+        this.handleSkip()
     }
 
     render(){
@@ -46,8 +75,11 @@ class ConceptView extends React.Component {
                                 <ConceptCard 
                                     key={currentConcept.key} 
                                     concept={currentConcept}
+                                    mode={concepts.mode}
                                     done={() => this.handleDone()}
                                     skip={() => this.handleSkip()}
+                                    answer={() => this.handleSeeAnswer()}
+                                    result={(result) => this.handleResult(result)}
                                 />
                             )
                         )
@@ -67,7 +99,7 @@ class ConceptView extends React.Component {
                                 <View style={styles.doneActions}>
                                     <TouchableHighlight 
                                         style={styles.actionBtnContainer}
-                                        onPress={() => ToastAndroid.show('yolo', ToastAndroid.SHORT)}
+                                        onPress={() => this.handleQuiz()}
                                     >
                                         <View style={styles.actionBtn}>
                                             <Text style={styles.actionBtnText}>
@@ -77,7 +109,7 @@ class ConceptView extends React.Component {
                                     </TouchableHighlight>
                                     <TouchableHighlight 
                                         style={styles.actionBtnContainer}
-                                        onPress={() => ToastAndroid.show('yolo', ToastAndroid.SHORT)}
+                                        onPress={() => this.handleStudy()}
                                     >
                                         <View style={styles.actionBtn}>
                                             <Text style={styles.actionBtnText}>
@@ -87,7 +119,7 @@ class ConceptView extends React.Component {
                                     </TouchableHighlight>
                                     <TouchableHighlight 
                                         style={styles.actionBtnContainer}
-                                        onPress={() => Actions.pop()}
+                                        onPress={() => this.handleBack()}
                                     >
                                         <View style={styles.actionBtn}>
                                             <Text style={styles.actionBtnText}>
@@ -159,7 +191,11 @@ const mapStateToProps = ({concepts}) => ({
 
 const mapDispatchToProps = dispatch => ({
     markConceptDone: (concept_key) => {dispatch(markConceptDone(concept_key))},
-    skipCurrentConcept: () => {dispatch(skipCurrentConcept())}
+    skipCurrentConcept: () => {dispatch(skipCurrentConcept())},
+    fetchConceptsStudy: (subject_key) => {dispatch(fetchConceptsStudy(subject_key))},
+    fetchConceptsQuiz: (subject_key) => {dispatch(fetchConceptsQuiz(subject_key))},
+    fetchSubjectList: () => {dispatch(fetchSubjectList())},
+    changeMode: (mode) => {dispatch(changeMode(mode))}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConceptView)

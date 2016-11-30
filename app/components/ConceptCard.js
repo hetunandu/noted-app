@@ -39,43 +39,135 @@ class ConceptCard extends Component {
         ).start();
     }
 
-    _renderExplanation(){
-        return this.props.concept.explanation.map( (node, i) => {
-            switch(node.type){
-                case 'title':
-                    return <TitleNode key={i} data={node.data} />
-                case 'text':
-                    return <TextNode key={i} data={node.data} />
-                case 'image':
-                    return <ImageNode key={i} data={node.data} />
-                case 'quote':
-                    return <QuoteNode key={i} data={node.data} />
-                case 'pointers':
-                    return <PointerNode key={i} data={node.data} />
-                default:
-                    return <Text key={i}>{node.type}</Text>
-            }
-        });
+    _renderCard(){
+        switch(this.props.mode){
+            case 'exp':
+                return this._renderExplanation()
+            case 'quiz':
+                return this._renderQuestion()
+            case 'ref':
+                return this._renderReferences()
+            case 'ans':
+                return this._renderExplanation()
+            default:
+                return this._renderExplanation()
+        }
     }
 
-    cardPressed(){
-        if(this.state.scale._value === 1){
-            Animated.spring(
-              this.state.scale,
-              {
-                toValue: 0.7,
-                friction: 6
-              }
-            ).start();    
-        }else{
-            Animated.spring(
-              this.state.scale,
-              {
-                toValue: 1,
-                friction: 7
-              }
-            ).start(); 
+    _renderActions(){
+        switch(this.props.mode){
+            case 'exp':
+                return this._renderExplanationActions()
+            case 'quiz':
+                return this._renderQuestionActions()
+            case 'ans':
+                return this._renderAnswerActions()
+            default:
+                return null
         }
+    }
+
+    _renderNodes(node, i){
+        switch(node.type){
+            case 'title':
+                return <TitleNode key={i} data={node.data} />
+            case 'text':
+                return <TextNode key={i} data={node.data} />
+            case 'image':
+                return <ImageNode key={i} data={node.data} />
+            case 'quote':
+                return <QuoteNode key={i} data={node.data} />
+            case 'pointers':
+                return <PointerNode key={i} data={node.data} />
+            default:
+                return <Text key={i}>{node.type}</Text>
+        }
+    }
+
+    _renderExplanation(){
+        return (
+            <View style={{flex: 1}}>
+                <ScrollView style={{flex: 1, marginBottom: 70}}>
+                    <View style={styles.explanation}>
+                        {
+                            this.props.concept.explanation.map((node, i) => this._renderNodes(node, i))
+                        }
+                    </View>
+                </ScrollView>
+                {
+                    this._renderActions()
+                }
+            </View>
+        )
+    }
+
+    _renderExplanationActions(){
+        return(
+            <View style={styles.cardActions}>
+                <TouchableHighlight 
+                    onPress={() => this.conceptSkip()}
+                    style={[styles.btn, {backgroundColor: "#E83B40"}]}
+                    underlayColor="#d03539"
+                >
+                    <Text style={styles.btnText}>Skip</Text>
+                </TouchableHighlight>
+                <TouchableHighlight 
+                    onPress={() => this.conceptDone()}
+                    style={[styles.btn, {backgroundColor: "#2E7F2E"}]}
+                    underlayColor="#297229"
+                >
+                    <Text style={styles.btnText}>Done</Text>
+                </TouchableHighlight>
+            </View>
+        )
+    }
+
+    _renderAnswerActions(){
+        return(
+            <View style={styles.cardActions}>
+                <TouchableHighlight 
+                    onPress={() => this.questionResult("wrong")}
+                    style={[styles.btn, {backgroundColor: "#E83B40"}]}
+                    underlayColor="#d03539"
+                >
+                    <Text style={styles.btnText}>I was wrong</Text>
+                </TouchableHighlight>
+                <TouchableHighlight 
+                    onPress={() => this.questionResult("right")}
+                    style={[styles.btn, {backgroundColor: "#2E7F2E"}]}
+                    underlayColor="#297229"
+                >
+                    <Text style={styles.btnText}>I was right</Text>
+                </TouchableHighlight>
+            </View>
+        )
+    }
+
+    _renderQuestion(){
+        return (
+            <View style={styles.question}>
+                <Text style={styles.conceptName}>{this.props.concept.name}</Text>
+                <Text style={styles.questionText}>Q. {this.props.concept.questions[0]}</Text>
+                {this._renderActions()}
+            </View>
+        )
+    }
+
+    _renderQuestionActions(){
+        return(
+            <View style={styles.cardActions}>
+                <TouchableHighlight
+                    onPress={() => this.seeAnswer()}
+                    style={[styles.btn, {backgroundColor: "#333"}]}
+                >
+                    <Text style={styles.btnText}>See Answer</Text>
+                </TouchableHighlight>
+            </View>
+        )
+    }
+
+    _renderReferences(){
+        return <View></View>
     }
 
     conceptDone(){
@@ -84,6 +176,14 @@ class ConceptCard extends Component {
 
     conceptSkip(){
         this.props.skip()
+    }
+
+    seeAnswer(){
+        this.props.answer()
+    }
+
+    questionResult(result){
+        this.props.result(result)
     }
 
     render(){
@@ -99,34 +199,9 @@ class ConceptCard extends Component {
                     }
                 ]}
             >
-                <ScrollView scrollEnabled={true} style={{flex: 1}}>
-                    <TouchableHighlight 
-                        underlayColor="#f1f1f1"
-                        onLongPress={() => this.cardPressed()}
-                    >
-                        <View style={styles.explanation}>
-                            {
-                                this._renderExplanation()
-                            }
-                        </View>
-                    </TouchableHighlight>
-                    <View style={styles.conceptActions}>
-                        <TouchableHighlight 
-                            onPress={() => this.conceptSkip()}
-                            style={[styles.btn, {backgroundColor: "#E83B40"}]}
-                            underlayColor="#d03539"
-                        >
-                            <Text style={styles.btnText}>Skip</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight 
-                            onPress={() => this.conceptDone()}
-                            style={[styles.btn, {backgroundColor: "#2E7F2E"}]}
-                            underlayColor="#297229"
-                        >
-                            <Text style={styles.btnText}>Done</Text>
-                        </TouchableHighlight>
-                    </View>
-                </ScrollView>
+                {
+                    this._renderCard()
+                }
             </Animated.View>
         )
     }
@@ -144,16 +219,36 @@ const styles = StyleSheet.create({
         elevation: 5,
         borderRadius: 3
     },
+    cardActions: {
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        left: 0,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+
+    },
     explanation:{
         padding: 10,
-        flex: 1
+        flex: 1,
     },
-    conceptActions:{
-        justifyContent: 'space-around',
-        flexDirection: 'row'
+    question:{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    conceptName: {
+        textAlign: 'center',
+        fontSize: 18,
+        color: "#999",
+        marginBottom: 20
+    },
+    questionText:{
+        fontSize: 23,
+        textAlign: 'center'
     },
     btn:{
-        padding: 10,
+        padding: 20,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',

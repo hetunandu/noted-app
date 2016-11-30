@@ -15,7 +15,7 @@ export function fetchConceptsFromChapter(chapter_key) {
     }
 }
 
-export function fetchConceptsList(subject_key) {
+export function fetchConceptsStudy(subject_key) {
     return {
         [CALL_API]: {
             endpoint: `subjects/${subject_key}/concepts`,
@@ -24,6 +24,20 @@ export function fetchConceptsList(subject_key) {
                 types.CONCEPT_LIST_REQUEST,
                 types.CONCEPT_LIST_SUCCESS,
                 types.CONCEPT_LIST_FAILURE
+            ]
+        }
+    }
+}
+
+export function fetchConceptsQuiz(subject_key) {
+    return {
+        [CALL_API]: {
+            endpoint: `subjects/${subject_key}/quiz`,
+            authenticated: true,
+            types: [
+                types.CONCEPT_QUIZ_REQUEST,
+                types.CONCEPT_QUIZ_SUCCESS,
+                types.CONCEPT_QUIZ_FAILURE
             ]
         }
     }
@@ -47,5 +61,12 @@ export function markConceptDone(concept_key){
 export function skipCurrentConcept(){
     return{
         type: types.CONCEPT_SKIP
+    }
+}
+
+export function changeMode(mode){
+    return{
+        type: types.CHANGE_CONCEPT_MODE,
+        mode
     }
 }
