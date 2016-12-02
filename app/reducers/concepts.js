@@ -5,7 +5,6 @@ export const concepts = createReducer({
     isFetching: false,
     errorMessage: '', 
     currentConcept: 0,
-    mode: "exp",
     data: []
 }, {
     [types.CONCEPT_LIST_REQUEST](state, action){

@@ -16,8 +16,8 @@ import {fetchSubjectList } from '../actions/subjects';
 import {
     markConceptDone,
     skipCurrentConcept,
-    fetchConceptsStudy,
-    fetchConceptsQuiz,
+    fetchRevisionConcepts,
+    fetchTestConcepts,
     changeMode
 } from '../actions/concepts';
 
@@ -33,12 +33,12 @@ class ConceptView extends React.Component {
         this.props.markConceptDone(concepts.data[concepts.currentConcept].key)
     }
 
-    handleQuiz(){
-        this.props.fetchConceptsQuiz(this.props.subject.key)
+    handleTest(){
+        this.props.fetchTestConcepts(this.props.subject.key)
     }
 
-    handleStudy(){
-        this.props.fetchConceptsStudy(this.props.subject.key)
+    handleRevision(){
+        this.props.fetchRevisionConcepts(this.props.subject.key)
     }
 
     handleBack(){
@@ -93,23 +93,23 @@ class ConceptView extends React.Component {
                                 </Text>
                                 <View style={styles.doneInfoContainer}>
                                     <Text style={styles.doneText}>
-                                        End of today's cards!
+                                            End of today's cards!
                                     </Text>
                                 </View>
                                 <View style={styles.doneActions}>
                                     <TouchableHighlight 
                                         style={styles.actionBtnContainer}
-                                        onPress={() => this.handleQuiz()}
+                                        onPress={() => this.handleTest()}
                                     >
                                         <View style={styles.actionBtn}>
                                             <Text style={styles.actionBtnText}>
-                                                Quiz concepts done
+                                                Test concepts done
                                             </Text>
                                         </View>
                                     </TouchableHighlight>
                                     <TouchableHighlight 
                                         style={styles.actionBtnContainer}
-                                        onPress={() => this.handleStudy()}
+                                        onPress={() => this.handleRevision()}
                                     >
                                         <View style={styles.actionBtn}>
                                             <Text style={styles.actionBtnText}>
@@ -192,8 +192,8 @@ const mapStateToProps = ({concepts}) => ({
 const mapDispatchToProps = dispatch => ({
     markConceptDone: (concept_key) => {dispatch(markConceptDone(concept_key))},
     skipCurrentConcept: () => {dispatch(skipCurrentConcept())},
-    fetchConceptsStudy: (subject_key) => {dispatch(fetchConceptsStudy(subject_key))},
-    fetchConceptsQuiz: (subject_key) => {dispatch(fetchConceptsQuiz(subject_key))},
+    fetchRevisionConcepts: (subject_key) => {dispatch(fetchRevisionConcepts(subject_key))},
+    fetchTestConcepts: (subject_key) => {dispatch(fetchTestConcepts(subject_key))},
     fetchSubjectList: () => {dispatch(fetchSubjectList())},
     changeMode: (mode) => {dispatch(changeMode(mode))}
 })

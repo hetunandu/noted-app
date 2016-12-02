@@ -15,10 +15,10 @@ export function fetchConceptsFromChapter(chapter_key) {
     }
 }
 
-export function fetchConceptsStudy(subject_key) {
+export function fetchRevisionConcepts(subject_key) {
     return {
         [CALL_API]: {
-            endpoint: `subjects/${subject_key}/concepts`,
+            endpoint: `subjects/${subject_key}/revise`,
             authenticated: true,
             types: [
                 types.CONCEPT_LIST_REQUEST,
@@ -29,10 +29,10 @@ export function fetchConceptsStudy(subject_key) {
     }
 }
 
-export function fetchConceptsQuiz(subject_key) {
+export function fetchTestConcepts(subject_key) {
     return {
         [CALL_API]: {
-            endpoint: `subjects/${subject_key}/quiz`,
+            endpoint: `subjects/${subject_key}/test`,
             authenticated: true,
             types: [
                 types.CONCEPT_QUIZ_REQUEST,
