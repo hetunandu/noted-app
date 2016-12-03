@@ -149,7 +149,6 @@ const styles = StyleSheet.create({
     subjectCard: {
         backgroundColor: 'white',
         justifyContent: 'center',
-        padding: 15,
         elevation: 2,
         borderRadius: 5,
         margin: 10
@@ -168,20 +167,19 @@ const styles = StyleSheet.create({
     },
     subjectName: {
         textAlign: 'center',
-        fontSize: 30
+        fontSize: 30,
+        marginTop: 10
     },
     subjectNameIntro:{
         fontSize: 25
     },
     subjectInfo: {
         fontSize: 17,
-        marginBottom: 10
+        marginBottom: 10,
+        marginLeft: 10
     },
     subjectActions:{
         flexDirection: 'row',
-        marginBottom: -15,
-        marginRight: -15,
-        marginLeft: -15,
         justifyContent: 'space-around'
     },
     actionBtn: {

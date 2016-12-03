@@ -5,6 +5,7 @@ import {
 	Image,
 	StyleSheet
 } from 'react-native';
+import Markdown from 'react-native-simple-markdown'
 
 
 export class TitleNode extends React.Component{
@@ -15,7 +16,17 @@ export class TitleNode extends React.Component{
 
 export class TextNode extends React.Component{
 	render(){
-		return <Text style={styles.text}>{this.props.data}</Text>
+		return <Markdown styles={markdownStyles}>{this.props.data}</Markdown>
+	}
+}
+
+const markdownStyles = {
+	text: {
+		fontSize: 18
+	},
+	strong: {
+		fontWeight: 'bold',
+		color: 'red'
 	}
 }
 
@@ -29,7 +40,7 @@ export class ImageNode extends React.Component{
 	render(){
 		return (
 			<Image
-                style={{minHeight: 200, backgroundColor: "#f2f2f2"}}
+                style={{minHeight: 200, backgroundColor: "#f2f2f2", marginBottom: 10}}
                 resizeMode="contain"
                 source={{uri: `${this.props.data}`}}
             />
@@ -75,30 +86,30 @@ export class PointerNode extends React.Component{
 
 const styles = StyleSheet.create({
 	title: {
+		marginTop: 10,
+		marginBottom: 10,
 	    fontSize: 30,
 	    color: '#000',
 	    fontWeight: "200"
-	},
-	text: {
-	    fontSize: 18,
-	    marginBottom: 5
 	},
 	quote: {
 	    paddingLeft: 20,
 	    fontSize: 20,
 	    borderLeftWidth: 5,
-	    borderLeftColor: "#50537f",
+	    borderLeftColor: "red",
+	    color: "red",
 	    fontStyle: 'italic',
-	    marginBottom: 5
+	    marginBottom: 10
 	},
 	pointer:{
-		marginBottom: 5
+		marginBottom: 10
 	},
 	pointerHead:{
 		paddingLeft: 3,
 		backgroundColor: "#f4f4f4",
 		flexDirection: 'row',
-		alignItems: 'center'
+		alignItems: 'center',
+		marginBottom: 5
 	},
 	pointerIndex: {
 		fontSize: 25,
@@ -111,6 +122,6 @@ const styles = StyleSheet.create({
 	    fontWeight: "400"
 	},
 	pointNodes: {
-	    paddingLeft: 20
+	    paddingLeft: 25
 	},
 })
