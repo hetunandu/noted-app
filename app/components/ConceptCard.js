@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import Explanation from './Explanation';
 import Question from './Question';
-import ConceptActions from './ConceptActions';
 
 class ConceptCard extends Component {
 
@@ -37,51 +36,25 @@ class ConceptCard extends Component {
 
     _renderCard(){
         switch(this.props.mode){
-            case 'exp':
+            case 'study':
                 return (
-                    <Explanation 
-                        data={this.props.concept.explanation}
-                        actions={
-                            <ConceptActions 
-                                successText="Done"
-                                successPressed={() => this.props.done()}
-                                failText="Skip"
-                                failPressed={() => this.props.skip()}
-                            />
-                        }
-                    />
+                    <Explanation data={this.props.concept.explanation} />
                 )
-            case 'quiz':
+            case 'question':
                 return (
                     <Question
                         name={this.props.concept.name}
                         question={this.props.concept.questions[0]}
-                        actions={
-                            <ConceptActions
-                                neutralText="See Answer"
-                                neutralPressed={() => this.props.answer()}
-                            />
-                        }
                     />
                 );
-            case 'ref':
-                return this._renderReferences()
-            case 'ans':
+            case 'reference':
+                return <Text>Render references here</Text>
+            case 'answer':
                 return (
-                    <Explanation 
-                        data={this.props.concept.explanation}
-                        actions={
-                            <ConceptActions 
-                                successText="I was right"
-                                successPressed={() => this.props.right()}
-                                failText="I was wrong"
-                                failPressed={() => this.props.wrong()}
-                            />
-                        }
-                    />
+                    <Explanation data={this.props.concept.explanation} />
                 )
             default:
-                return <View></View>
+                return <Text>Unkown mode</Text>
         }
     }
 
@@ -108,14 +81,10 @@ class ConceptCard extends Component {
 
 const styles = StyleSheet.create({
     card: {
-        flex: 1,
+        margin: 10,
+        flex: 7,
         backgroundColor: 'white',
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        elevation: 5,
+        elevation: 2,
         borderRadius: 3
     }
 

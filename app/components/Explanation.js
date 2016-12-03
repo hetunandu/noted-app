@@ -37,7 +37,7 @@ class Explanation extends React.Component {
     render() {
         return(
         	<View style={{flex: 1}}>
-        	    <ScrollView style={{flex: 1, marginBottom: 70}}>
+        	    <ScrollView style={{flex: 1}}>
         	        <View style={{flex: 1, padding: 10}}>
         	            {
         	                this.props.data.map((node, i) => this._renderNodes(node, i))

@@ -1,19 +1,6 @@
 import * as types from './types';
 import {CALL_API} from '../lib/api';
 
-export function fetchConceptsFromChapter(chapter_key) {
-    return {
-        [CALL_API]: {
-            endpoint: `chapters/${chapter_key}`,
-            authenticated: true,
-            types: [
-                types.CONCEPT_LIST_REQUEST,
-                types.CONCEPT_LIST_SUCCESS,
-                types.CONCEPT_LIST_FAILURE
-            ]
-        }
-    }
-}
 
 export function fetchRevisionConcepts(subject_key) {
     return {
@@ -35,16 +22,31 @@ export function fetchTestConcepts(subject_key) {
             endpoint: `subjects/${subject_key}/test`,
             authenticated: true,
             types: [
-                types.CONCEPT_QUIZ_REQUEST,
-                types.CONCEPT_QUIZ_SUCCESS,
-                types.CONCEPT_QUIZ_FAILURE
+                types.CONCEPT_LIST_REQUEST,
+                types.CONCEPT_LIST_SUCCESS,
+                types.CONCEPT_LIST_FAILURE
             ]
         }
     }
 }
 
+// Set the mode
+export function setMode(mode){
+    return {
+        type: types.SET_MODE,
+        mode     
+    }
+}
 
-export function markConceptDone(concept_key){
+// Skip the current concept
+export function conceptSkip(){
+    return{
+        type: types.CONCEPT_SKIP
+    }
+}
+
+// Mark the current concept as Done
+export function conceptDone(concept_key){
     return{
         [CALL_API]: {
             endpoint: `concepts/${concept_key}/done`,
@@ -58,7 +60,8 @@ export function markConceptDone(concept_key){
     }
 }
 
-export function markConceptRight(concept_key){
+// Mark the current concept as Right
+export function conceptRight(concept_key){
     return{
         [CALL_API]: {
             endpoint: `concepts/${concept_key}/right`,
@@ -72,7 +75,8 @@ export function markConceptRight(concept_key){
     }
 }
 
-export function markConceptWrong(concept_key){
+// Mark the current concept as Wrong
+export function conceptWrong(concept_key){
     return{
         [CALL_API]: {
             endpoint: `concepts/${concept_key}/wrong`,
@@ -83,18 +87,5 @@ export function markConceptWrong(concept_key){
                 types.CONCEPT_WRONG_FAILURE
             ]
         }
-    }
-}
-
-export function skipCurrentConcept(){
-    return{
-        type: types.CONCEPT_SKIP
-    }
-}
-
-export function changeMode(mode){
-    return{
-        type: types.CHANGE_CONCEPT_MODE,
-        mode
     }
 }

@@ -50,22 +50,19 @@ class ConceptActions extends React.Component {
 
 const styles = StyleSheet.create({
 	cardActions: {
-	    position: 'absolute',
-	    bottom: 0,
-	    right: 0,
-	    left: 0,
+        flex: 1,
 	    flexDirection: 'row',
 	    justifyContent: 'space-around',
 	},
 	btn:{
-	    padding: 20,
 	    flex: 1,
+        padding: 10,
+        alignSelf: 'stretch',
 	    alignItems: 'center',
 	    justifyContent: 'center',
 	    flexWrap: 'wrap'
 	},
 	btnText:{
-	    textAlign: 'center',
 	    color: 'white',
 	    fontSize: 22
 	}
