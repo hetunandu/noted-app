@@ -3,8 +3,7 @@ import {
     View, 
     Text,
     StyleSheet,
-    ListView,
-    TouchableHighlight
+    ScrollView,
 } from 'react-native';
 import Loading from './Loading';
 import SubjectCard from './SubjectCard';
@@ -38,16 +37,22 @@ class Subjects extends Component{
                 {
                     this.props.subjects.isFetching ? (
                         <Loading />
-                    ) : this.props.subjects.data.map( subject => {
-                        return (
-                            <SubjectCard 
-                                subject={subject}
-                                startRevision={() => this.handleRevisionPressed(subject)}
-                                startTest={() =>this.handleTestPressed(subject)}
-                                key={subject.key} 
-                            />
-                        )
-                    }) 
+                    ) : (
+                        <ScrollView style={{flex: 1}}>
+                            {
+                                this.props.subjects.data.map( subject => {
+                                    return (
+                                        <SubjectCard 
+                                            subject={subject}
+                                            startRevision={() => this.handleRevisionPressed(subject)}
+                                            startTest={() =>this.handleTestPressed(subject)}
+                                            key={subject.key} 
+                                        />
+                                    )
+                                }) 
+                            }
+                        </ScrollView>
+                    )
                 }
                 
             </View>
@@ -58,6 +63,7 @@ class Subjects extends Component{
 const styles = StyleSheet.create({
     container: {
         marginTop: 70,
+        flex: 1
     }
 })
 

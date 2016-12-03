@@ -15,6 +15,8 @@ import ConceptCard from './ConceptCard';
 import {fetchSubjectList } from '../actions/subjects';
 import {
     markConceptDone,
+    markConceptRight,
+    markConceptWrong,
     skipCurrentConcept,
     fetchRevisionConcepts,
     fetchTestConcepts,
@@ -50,9 +52,16 @@ class ConceptView extends React.Component {
         this.props.changeMode("ans")
     }
 
-    handleResult(result){
+    handleRight(){
+        const {concepts} = this.props
+        this.props.markConceptRight(concepts.data[concepts.currentConcept].key)
         this.props.changeMode("quiz")
-        this.handleSkip()
+    }
+
+    handleWrong(){
+        const {concepts} = this.props
+        this.props.markConceptWrong(concepts.data[concepts.currentConcept].key)
+        this.props.changeMode("quiz")   
     }
 
     render(){
@@ -79,7 +88,8 @@ class ConceptView extends React.Component {
                                     done={() => this.handleDone()}
                                     skip={() => this.handleSkip()}
                                     answer={() => this.handleSeeAnswer()}
-                                    result={(result) => this.handleResult(result)}
+                                    right={() => this.handleRight()}
+                                    wrong={() => this.handleWrong()}
                                 />
                             )
                         )
@@ -191,10 +201,14 @@ const mapStateToProps = ({concepts}) => ({
 
 const mapDispatchToProps = dispatch => ({
     markConceptDone: (concept_key) => {dispatch(markConceptDone(concept_key))},
+    markConceptRight: (concept_key) => {dispatch(markConceptRight(concept_key))},
+    markConceptWrong: (concept_key) => {dispatch(markConceptWrong(concept_key))},
     skipCurrentConcept: () => {dispatch(skipCurrentConcept())},
+
     fetchRevisionConcepts: (subject_key) => {dispatch(fetchRevisionConcepts(subject_key))},
     fetchTestConcepts: (subject_key) => {dispatch(fetchTestConcepts(subject_key))},
     fetchSubjectList: () => {dispatch(fetchSubjectList())},
+    
     changeMode: (mode) => {dispatch(changeMode(mode))}
 })
 

@@ -47,6 +47,42 @@ export const concepts = createReducer({
             errorMessage: action.error
         })
     },
+    [types.CONCEPT_RIGHT_REQUEST](state, action){
+        return Object.assign({}, state, {
+            isFetching: true,
+            errorMessage: ''
+        })
+    },
+    [types.CONCEPT_RIGHT_SUCCESS](state, action){
+        return Object.assign({}, state, {
+            isFetching: false,
+            currentConcept: state.currentConcept + 1
+        })
+    },
+    [types.CONCEPT_RIGHT_FAILURE](state, action){
+        return Object.assign({}, state, {
+            isFetching: false,
+            errorMessage: action.error
+        })
+    },
+    [types.CONCEPT_WRONG_REQUEST](state, action){
+        return Object.assign({}, state, {
+            isFetching: true,
+            errorMessage: ''
+        })
+    },
+    [types.CONCEPT_WRONG_SUCCESS](state, action){
+        return Object.assign({}, state, {
+            isFetching: false,
+            currentConcept: state.currentConcept + 1
+        })
+    },
+    [types.CONCEPT_WRONG_FAILURE](state, action){
+        return Object.assign({}, state, {
+            isFetching: false,
+            errorMessage: action.error
+        })
+    },
     [types.CONCEPT_SKIP](state, action){
         return Object.assign({}, state, {
             currentConcept: state.currentConcept + 1

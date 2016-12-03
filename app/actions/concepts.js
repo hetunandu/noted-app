@@ -58,6 +58,34 @@ export function markConceptDone(concept_key){
     }
 }
 
+export function markConceptRight(concept_key){
+    return{
+        [CALL_API]: {
+            endpoint: `concepts/${concept_key}/right`,
+            authenticated: true,
+            types: [
+                types.CONCEPT_RIGHT_REQUEST,
+                types.CONCEPT_RIGHT_SUCCESS,
+                types.CONCEPT_RIGHT_FAILURE
+            ]
+        }
+    }
+}
+
+export function markConceptWrong(concept_key){
+    return{
+        [CALL_API]: {
+            endpoint: `concepts/${concept_key}/wrong`,
+            authenticated: true,
+            types: [
+                types.CONCEPT_WRONG_REQUEST,
+                types.CONCEPT_WRONG_SUCCESS,
+                types.CONCEPT_WRONG_FAILURE
+            ]
+        }
+    }
+}
+
 export function skipCurrentConcept(){
     return{
         type: types.CONCEPT_SKIP

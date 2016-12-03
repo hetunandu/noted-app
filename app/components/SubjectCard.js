@@ -53,7 +53,7 @@ class SubjectCard extends React.Component {
 		        this.setState({
 		        	time_left: (
 		        		<Text style={{color: "red"}}>
-		        			{`${hours}h ${minutes}m ${seconds}s`}
+		        			{`in ${hours}h ${minutes}m ${seconds}s`}
 		        		</Text>
 		        	)
 		        })
@@ -63,7 +63,7 @@ class SubjectCard extends React.Component {
 
 
 	handleTestPressed(){
-		if(this.props.subject.is_done_count > 10){
+		if(this.props.subject.is_done_count > 9){
 			this.props.startTest()
 		}else{
 			ToastAndroid.show(
@@ -92,9 +92,26 @@ class SubjectCard extends React.Component {
         	                <Text style={styles.subjectInfo}>
         	                    Concepts done: {subject.is_done_count}
         	                </Text>
-        	                <Text style={styles.subjectInfo}>
-        	                    More concepts in: {this.state.time_left}
-        	                </Text>
+                            {
+                                subject.is_skipped_count > 0 && (
+                                    <Text style={styles.subjectInfo}>
+                                        Concepts skipped: {subject.is_skipped_count}
+                                    </Text>
+                                )
+                            }
+                            {
+                                subject.total_concepts == subject.is_done_count ? (
+                                    <Text style={styles.subjectInfo}>
+                                        All concepts revised. Time to test!
+                                    </Text>
+
+                                ) :(
+                                    
+                                    <Text style={styles.subjectInfo}>
+                                        {subject.concept_limit - subject.is_skipped_count} more concepts: {this.state.time_left}
+                                    </Text>
+                                )
+                            }
 
         	                <View style={styles.subjectActions}>
         	                    <TouchableHighlight
@@ -129,7 +146,7 @@ class SubjectCard extends React.Component {
         	                    <Text style={styles.subjectNameIntro}>
         	                        Start {subject.name}
         	                    </Text>
-        	                    <Text style={styles.subjectInfo}>
+        	                    <Text style={{fontSize: 17}}>
         	                        Total concepts: {subject.total_concepts}
         	                    </Text>
         	                </View>
@@ -168,15 +185,15 @@ const styles = StyleSheet.create({
     subjectName: {
         textAlign: 'center',
         fontSize: 30,
-        marginTop: 10
     },
     subjectNameIntro:{
         fontSize: 25
     },
     subjectInfo: {
         fontSize: 17,
-        marginBottom: 10,
-        marginLeft: 10
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: "#f1f1f1"
     },
     subjectActions:{
         flexDirection: 'row',

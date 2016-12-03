@@ -73,9 +73,9 @@ class ConceptCard extends Component {
                         actions={
                             <ConceptActions 
                                 successText="I was right"
-                                successPressed={() => this.props.result('correct')}
+                                successPressed={() => this.props.right()}
                                 failText="I was wrong"
-                                failPressed={() => this.props.result('wrong')}
+                                failPressed={() => this.props.wrong()}
                             />
                         }
                     />
