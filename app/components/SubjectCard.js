@@ -13,7 +13,7 @@ class SubjectCard extends React.Component {
 
 	constructor(props) {
 	  super(props);
-	
+
 	  this.state = {time_left: "Calculating..."};
 	}
 
@@ -29,7 +29,7 @@ class SubjectCard extends React.Component {
 			var date = new Date(subject.next_concepts_on)
 			var ist_date = new Date(date.valueOf() + date.getTimezoneOffset());
 			var time_left = ist_date - new Date()
-			
+
 			if (time_left < 0){
 				this.clearInterval()
 				this.setState({
@@ -47,7 +47,7 @@ class SubjectCard extends React.Component {
 
 				var hours = Math.floor((time_left % _day) / _hour);
 		        var minutes = Math.floor((time_left % _hour) / _minute);
-		        var seconds = Math.floor((time_left % _minute) / _second); 
+		        var seconds = Math.floor((time_left % _minute) / _second);
 
 
 		        this.setState({
@@ -81,7 +81,7 @@ class SubjectCard extends React.Component {
         	    {
         	        subject.has_data_count > 0 ? (
         	            <View style={styles.subjectCard} >
-        	                
+
 
         	                <Text style={styles.subjectName}>
         	                    {subject.name}
@@ -95,7 +95,7 @@ class SubjectCard extends React.Component {
                             {
                                 subject.is_skipped_count > 0 && (
                                     <Text style={styles.subjectInfo}>
-                                        Concepts skipped: {subject.is_skipped_count}
+                                        Concepts left to revise: {subject.is_skipped_count}
                                     </Text>
                                 )
                             }
@@ -106,9 +106,9 @@ class SubjectCard extends React.Component {
                                     </Text>
 
                                 ) :(
-                                    
+
                                     <Text style={styles.subjectInfo}>
-                                        {subject.concept_limit - subject.is_skipped_count} more concepts: {this.state.time_left}
+                                        {subject.concept_limit - subject.is_skipped_count} new concepts: {this.state.time_left}
                                     </Text>
                                 )
                             }

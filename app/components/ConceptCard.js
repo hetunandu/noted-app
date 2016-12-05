@@ -16,7 +16,7 @@ class ConceptCard extends Component {
 
     constructor(props) {
         super(props);
-    
+
         this.state = {
             scale: new Animated.Value(0)
         };
@@ -38,7 +38,11 @@ class ConceptCard extends Component {
         switch(this.props.mode){
             case 'study':
                 return (
-                    <Explanation data={this.props.concept.explanation} />
+                    <Explanation
+                      explanation={this.props.concept.explanation}
+                      references={this.props.concept.references}
+                      tips={this.props.concept.tips}
+                    />
                 )
             case 'question':
                 return (
@@ -51,7 +55,11 @@ class ConceptCard extends Component {
                 return <Text>Render references here</Text>
             case 'answer':
                 return (
-                    <Explanation data={this.props.concept.explanation} />
+                  <Explanation
+                    explanation={this.props.concept.explanation}
+                    references={this.props.concept.references}
+                    tips={this.props.concept.tips}
+                  />
                 )
             default:
                 return <Text>Unkown mode</Text>
@@ -61,7 +69,7 @@ class ConceptCard extends Component {
     render(){
 
         return(
-            <Animated.View 
+            <Animated.View
                 style={[
                     styles.card,
                     {

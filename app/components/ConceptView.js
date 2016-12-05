@@ -2,9 +2,9 @@ import React from 'react';
 import {
     Text,
     View,
-    StyleSheet,
     TouchableHighlight,
     StatusBar,
+    StyleSheet,
     ToastAndroid
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -12,7 +12,7 @@ import Loading from './Loading';
 import {connect} from 'react-redux';
 import ConceptCard from './ConceptCard';
 import ConceptActions from './ConceptActions';
-import {fetchSubjectList } from '../actions/subjects';
+import { fetchSubjectList } from '../actions/subjects';
 import {
     fetchRevisionConcepts,
     fetchTestConcepts,
@@ -44,23 +44,23 @@ class ConceptView extends React.Component {
 
     handleRight(){
         const {conceptReader, setMode, conceptRight} = this.props
-        
+
         conceptRight(conceptReader.list[conceptReader.currentIndex].key)
         setMode("question")
     }
 
     handleWrong(){
         const {conceptReader, setMode, conceptWrong} = this.props
-        
+
         conceptWrong(conceptReader.list[conceptReader.currentIndex].key)
-        setMode("question")   
+        setMode("question")
     }
 
     // Result Actions
 
     handleTest(){
         const {fetchTestConcepts, subject, setMode} = this.props
-        
+
         fetchTestConcepts(subject.key)
         setMode("question")
 
@@ -95,7 +95,7 @@ class ConceptView extends React.Component {
                         Right: {this.props.result.right}
                     </Text>
                     <Text style={styles.resultText}>
-                        Wrong: {this.props.result.wrong} 
+                        Wrong: {this.props.result.wrong}
                     </Text>
                 </View>
                 <View style={styles.resultActions}>
@@ -120,7 +120,7 @@ class ConceptView extends React.Component {
         switch(mode){
             case "study":
                 return (
-                    <ConceptActions 
+                    <ConceptActions
                         successText="Done"
                         successPressed={() => this.handleDone()}
                         failText="Skip"
@@ -136,14 +136,14 @@ class ConceptView extends React.Component {
                 )
             case "answer":
                 return (
-                    <ConceptActions 
+                    <ConceptActions
                         successText="I was right"
                         successPressed={() => this.handleRight()}
                         failText="I was wrong"
                         failPressed={() => this.handleWrong()}
                     />
                 )
-            default: 
+            default:
                 return <View></View>
         }
     }
@@ -152,7 +152,7 @@ class ConceptView extends React.Component {
     render(){
         const {conceptReader} = this.props
         const concept = conceptReader.list[conceptReader.currentIndex]
-        
+
         return (
             <View style={{flex: 1}}>
                 <StatusBar
@@ -163,13 +163,13 @@ class ConceptView extends React.Component {
                     {
                         this.props.conceptReader.isFetching ? (
                             <Loading />
-                        ) 
-                        : 
+                        )
+                        :
                         (
                             concept && (
                                 <View style={{flex: 1}}>
                                     <ConceptCard
-                                        key={concept.key} 
+                                        key={concept.key}
                                         concept={concept}
                                         mode={conceptReader.mode}
                                     />
@@ -182,8 +182,9 @@ class ConceptView extends React.Component {
                         )
                     }
                     {
-                        (conceptReader.currentIndex == conceptReader.list.length 
-                            && !conceptReader.isFetching) ? this._renderResult() : (<View></View>)
+                        (conceptReader.currentIndex == conceptReader.list.length
+                            && !conceptReader.isFetching) ? (
+                              this._renderResult() ) : (<View></View>)
                     }
                 </View>
             </View>
@@ -232,8 +233,12 @@ const mapStateToProps = ({conceptReader, result}) => ({
 
 const mapDispatchToProps = dispatch => ({
 
-    fetchRevisionConcepts: (subject_key) => {dispatch(fetchRevisionConcepts(subject_key))},
-    fetchTestConcepts: (subject_key) => {dispatch(fetchTestConcepts(subject_key))},
+    fetchRevisionConcepts: (subject_key) => {
+      dispatch(fetchRevisionConcepts(subject_key))
+    },
+    fetchTestConcepts: (subject_key) => {
+      dispatch(fetchTestConcepts(subject_key))
+    },
     fetchSubjectList: () => {dispatch(fetchSubjectList())},
 
     setMode: (mode) => {dispatch(setMode(mode))},
