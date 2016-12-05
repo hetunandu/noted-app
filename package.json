@@ -12,6 +12,7 @@
     "react-native": "^0.37.0",
     "react-native-android-speech": "0.0.6",
     "react-native-check-box": "^1.0.2",
+    "react-native-google-analytics-bridge": "^4.0.2",
     "react-native-google-signin": "^0.8.1",
     "react-native-router-flux": "^3.36.0",
     "react-native-simple-markdown": "^1.0.60-rc.2",

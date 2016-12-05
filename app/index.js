@@ -12,16 +12,15 @@ import {
     ActionConst
 } from 'react-native-router-flux';
 import api from './lib/api';
-
 import Login from './components/Login';
 import LoginDetails from './components/LoginDetails';
 import Subjects from './components/Subjects';
 import ConceptView from './components/ConceptView';
-
-// Activating Layout Animation Support
-
-UIManager.setLayoutAnimationEnabledExperimental && 
-  UIManager.setLayoutAnimationEnabledExperimental(true);
+import {
+  GoogleAnalyticsTracker,
+  GoogleTagManager,
+  GoogleAnalyticsSettings
+} from 'react-native-google-analytics-bridge';
 
 // Make a logging middlware
 const loggerMiddleware = createLogger({predicate: (getState, action) => __DEV__});
@@ -43,7 +42,7 @@ function configureStore(initialState){
 const store = configureStore({});
 
 const navBarStyles = {
-    backgroundColor: '#333', 
+    backgroundColor: '#333',
     borderBottomColor: '#444',
     height: 65,
     elevation: 5
@@ -58,10 +57,10 @@ const navBarTitleStyles = {
   alignSelf: 'flex-start'
 }
 
-// Routes 
+// Routes
 const scenes = Actions.create(
     <Scene key="root"
-      navigationBarStyle={navBarStyles} 
+      navigationBarStyle={navBarStyles}
       titleStyle={navBarTitleStyles}
       backButtonImage={require('./back-arrow.png')}
       leftButtonIconStyle={{height: 36, width: 36}}
@@ -73,14 +72,14 @@ const scenes = Actions.create(
         justifyContent: 'center'
       }}
     >
-        <Scene 
+        <Scene
           key="login"
           title="Login"
-          component={Login} 
+          component={Login}
           initial={true}
           type={ActionConst.REPLACE}
         />
-        <Scene 
+        <Scene
           key="loginDetails"
           title="Finish Login"
           component={LoginDetails}
@@ -96,7 +95,7 @@ const scenes = Actions.create(
           component={ConceptView}
           hideNavBar
         />
-      </Scene> 
+      </Scene>
 );
 
 const ReduxRouter = connect()(Router);
@@ -111,16 +110,17 @@ class Noted extends Component{
 
   componentDidMount(){
     StatusBar.setBackgroundColor("#222", true)
+    let tracker = new GoogleAnalyticsTracker('UA-88471116-1');
   }
-  
+
   render(){
     return (
       <Provider store={store}>
-        <ReduxRouter 
-          scenes={scenes} 
-          style={{backgroundColor: '#50537f'}}  
+        <ReduxRouter
+          scenes={scenes}
+          style={{backgroundColor: '#50537f'}}
           sceneStyle={containerStyles}
-        />      
+        />
       </Provider>
     )
   }
