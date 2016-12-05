@@ -7,15 +7,12 @@ import {
     StyleSheet,
     ToastAndroid
 } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import Loading from './Loading';
 import {connect} from 'react-redux';
 import ConceptCard from './ConceptCard';
 import ConceptActions from './ConceptActions';
-import { fetchSubjectList } from '../actions/subjects';
+import Result from './Result';
 import {
-    fetchRevisionConcepts,
-    fetchTestConcepts,
     setMode,
     conceptSkip,
     conceptDone,
@@ -56,65 +53,6 @@ class ConceptView extends React.Component {
         setMode("question")
     }
 
-    // Result Actions
-
-    handleTest(){
-        const {fetchTestConcepts, subject, setMode} = this.props
-
-        fetchTestConcepts(subject.key)
-        setMode("question")
-
-    }
-
-    handleRevision(){
-        const {fetchRevisionConcepts, subject, setMode} = this.props
-
-        fetchRevisionConcepts(subject.key)
-        setMode("study")
-    }
-
-    handleBack(){
-        this.props.fetchSubjectList()
-        Actions.pop()
-    }
-
-    _renderResult(){
-        return(
-            <View style={styles.resultContainer}>
-                <Text style={styles.promoText}>
-                    Buy pro to get all concepts at once
-                </Text>
-                <View style={styles.resultInfoContainer}>
-                    <Text style={styles.resultText}>
-                        Done: {this.props.result.done}
-                    </Text>
-                    <Text style={styles.resultText}>
-                        Skip: {this.props.result.skip}
-                    </Text>
-                    <Text style={styles.resultText}>
-                        Right: {this.props.result.right}
-                    </Text>
-                    <Text style={styles.resultText}>
-                        Wrong: {this.props.result.wrong}
-                    </Text>
-                </View>
-                <View style={styles.resultActions}>
-                    <ConceptActions
-                        neutralText="Test concepts that are done"
-                        neutralPressed={() => this.handleTest()}
-                    />
-                    <ConceptActions
-                        neutralText="View Skipped concepts"
-                        neutralPressed={() => this.handleRevision()}
-                    />
-                    <ConceptActions
-                        neutralText="Back to subjects"
-                        neutralPressed={() => this.handleBack()}
-                    />
-                </View>
-            </View>
-        );
-    }
 
     _renderActions(mode){
         switch(mode){
@@ -150,7 +88,7 @@ class ConceptView extends React.Component {
 
 
     render(){
-        const {conceptReader} = this.props
+        const {conceptReader, subject} = this.props
         const concept = conceptReader.list[conceptReader.currentIndex]
 
         return (
@@ -183,8 +121,12 @@ class ConceptView extends React.Component {
                     }
                     {
                         (conceptReader.currentIndex == conceptReader.list.length
-                            && !conceptReader.isFetching) ? (
-                              this._renderResult() ) : (<View></View>)
+                            && !conceptReader.isFetching) && (
+                              <Result
+                                mode={conceptReader.mode}
+                                subject={subject}
+                              />
+                            )
                     }
                 </View>
             </View>
@@ -197,52 +139,16 @@ const styles = StyleSheet.create({
         backgroundColor: "#50537f",
         flex: 1,
         position: 'relative',
-    },
-    resultContainer:{
-        flexDirection: 'column',
-        flex: 1,
-        justifyContent: 'center'
-    },
-    resultInfoContainer:{
-        flex: 3,
-        alignSelf: 'center',
-        justifyContent: 'center',
-    },
-    promoText: {
-        textAlign: 'center',
-        color: 'white',
-        backgroundColor: 'red',
-        padding: 10,
-        fontSize: 20
-    },
-    resultText:{
-        fontSize: 25,
-        color: 'white'
-    },
-    resultActions: {
-        flex: 2,
-        justifyContent: 'space-between',
-        flexDirection: 'column'
     }
 })
 
 
-const mapStateToProps = ({conceptReader, result}) => ({
-    conceptReader, result
+const mapStateToProps = ({conceptReader}) => ({
+    conceptReader
 })
 
 const mapDispatchToProps = dispatch => ({
-
-    fetchRevisionConcepts: (subject_key) => {
-      dispatch(fetchRevisionConcepts(subject_key))
-    },
-    fetchTestConcepts: (subject_key) => {
-      dispatch(fetchTestConcepts(subject_key))
-    },
-    fetchSubjectList: () => {dispatch(fetchSubjectList())},
-
     setMode: (mode) => {dispatch(setMode(mode))},
-
     conceptSkip: () => {dispatch(conceptSkip())},
     conceptDone: (concept_key) => {dispatch(conceptDone(concept_key))},
     conceptRight: (concept_key) => {dispatch(conceptRight(concept_key))},
