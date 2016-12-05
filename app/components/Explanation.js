@@ -134,7 +134,8 @@ class Explanation extends React.Component {
 const styles = StyleSheet.create({
 	explanation: {
 		flex: 1,
-		backgroundColor: 'white'
+		backgroundColor: 'white',
+		borderRadius: 3
 	},
 	references: {
 		backgroundColor: '#333'

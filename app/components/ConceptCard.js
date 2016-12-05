@@ -7,7 +7,8 @@ import {
     ScrollView,
     Animated,
     Easing,
-    TouchableHighlight
+    TouchableHighlight,
+    Dimensions
 } from 'react-native';
 import Explanation from './Explanation';
 import Question from './Question';
@@ -18,17 +19,19 @@ class ConceptCard extends Component {
         super(props);
 
         this.state = {
-            scale: new Animated.Value(0)
+            translateX: new Animated.Value(0)
         };
     }
 
 
     componentDidMount() {
-        this.state.scale.setValue(0.1)
+        var {width} = Dimensions.get('window');
+        const startValue = -Math.abs(width)
+        this.state.translateX.setValue(startValue)
         Animated.spring(
-          this.state.scale,
+          this.state.translateX,
           {
-            toValue: 1,
+            toValue: 0,
             friction: 7
           }
         ).start();
@@ -74,7 +77,7 @@ class ConceptCard extends Component {
                     styles.card,
                     {
                         transform: [
-                            {scale: this.state.scale}
+                            {translateX: this.state.translateX}
                         ]
                     }
                 ]}
@@ -89,11 +92,12 @@ class ConceptCard extends Component {
 
 const styles = StyleSheet.create({
     card: {
-        margin: 10,
-        flex: 7,
-        backgroundColor: 'white',
-        elevation: 2,
-        borderRadius: 3
+      margin: 5,
+      marginTop: 10,
+      flex: 7,
+      backgroundColor: 'white',
+      elevation: 2,
+      borderRadius: 3
     }
 
 })

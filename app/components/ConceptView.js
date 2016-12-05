@@ -5,7 +5,9 @@ import {
     TouchableHighlight,
     StatusBar,
     StyleSheet,
-    ToastAndroid
+    ToastAndroid,
+    Dimensions,
+    Animated
 } from 'react-native';
 import Loading from './Loading';
 import {connect} from 'react-redux';
@@ -23,6 +25,18 @@ import {
 
 class ConceptView extends React.Component {
 
+
+    constructor(props){
+      super(props)
+
+      this.state = {
+        progress: new Animated.Value(0)
+      }
+    }
+
+    componentDidUpdate(){
+      this._updateProgress()
+    }
     // Concept actions
 
     handleSkip(){
@@ -86,6 +100,17 @@ class ConceptView extends React.Component {
         }
     }
 
+    _updateProgress(){
+      var {width} = Dimensions.get('window');
+      const each = width / this.props.conceptReader.list.length
+      const progress = each * this.props.conceptReader.currentIndex
+
+      Animated.timing(
+        this.state.progress,
+        { toValue: progress}
+      ).start();
+    }
+
 
     render(){
         const {conceptReader, subject} = this.props
@@ -98,6 +123,14 @@ class ConceptView extends React.Component {
                     animated={true}
                 />
                 <View style={styles.conceptCardContainer}>
+                    <Animated.View
+                      style={[
+                        styles.progress,
+                        {
+                          width: this.state.progress
+                        }
+                      ]}
+                    />
                     {
                         this.props.conceptReader.isFetching ? (
                             <Loading />
@@ -112,7 +145,9 @@ class ConceptView extends React.Component {
                                         mode={conceptReader.mode}
                                     />
                                     <View style={{flex: 1}}>
-                                        { this._renderActions(conceptReader.mode) }
+                                      {
+                                        this._renderActions(conceptReader.mode)
+                                      }
                                     </View>
                                 </View>
 
@@ -139,6 +174,15 @@ const styles = StyleSheet.create({
         backgroundColor: "#50537f",
         flex: 1,
         position: 'relative',
+    },
+    progress: {
+      position: 'absolute',
+      top: 1,
+      left: 0,
+      height: 5,
+      borderBottomRightRadius: 3,
+      borderTopRightRadius: 3,
+      backgroundColor: 'red'
     }
 })
 
