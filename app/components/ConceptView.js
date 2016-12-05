@@ -25,7 +25,6 @@ import {
 
 class ConceptView extends React.Component {
 
-
     constructor(props){
       super(props)
 
@@ -37,7 +36,6 @@ class ConceptView extends React.Component {
     componentDidUpdate(){
       this._updateProgress()
     }
-    // Concept actions
 
     handleSkip(){
         this.props.conceptSkip()
@@ -104,11 +102,14 @@ class ConceptView extends React.Component {
       var {width} = Dimensions.get('window');
       const each = width / this.props.conceptReader.list.length
       const progress = each * this.props.conceptReader.currentIndex
-
-      Animated.timing(
-        this.state.progress,
-        { toValue: progress}
-      ).start();
+      if(progress < width){
+        Animated.timing(
+          this.state.progress,
+          { toValue: progress}
+        ).start();
+      }else{
+        this.state.progress.setValue(0)
+      }
     }
 
 
