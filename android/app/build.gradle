@@ -90,8 +90,8 @@ android {
         applicationId "study.noted.app"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 12
-        versionName "0.7.1"
+        versionCode 13
+        versionName "0.7.3"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -139,7 +139,7 @@ dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
-    compile(project(":react-native-google-signin")){         
+    compile(project(":react-native-google-signin")){
         exclude group: "com.google.android.gms" // very important
     }
     compile 'com.google.android.gms:play-services-auth:9.4.0' // should be at least 9.0.0
@@ -153,5 +153,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     into 'libs'
 }
 
-apply plugin: 'com.google.gms.google-services' 
+apply plugin: 'com.google.gms.google-services'
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
