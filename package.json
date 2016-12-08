@@ -1,6 +1,6 @@
 {
   "name": "Noted",
-  "version": "0.4.0",
+  "version": "0.7.0",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -9,14 +9,10 @@
   "dependencies": {
     "react": "15.3.2",
     "react-mixin": "^2.0.2",
-    "react-native": "^0.37.0",
-    "react-native-android-speech": "0.0.6",
-    "react-native-check-box": "^1.0.2",
-    "react-native-google-analytics-bridge": "^4.0.2",
+    "react-native": "^0.39.0",
     "react-native-google-signin": "^0.8.1",
     "react-native-router-flux": "^3.36.0",
     "react-native-simple-markdown": "^1.0.60-rc.2",
-    "react-native-vector-icons": "^3.0.0",
     "react-redux": "^4.4.5",
     "react-timer-mixin": "^0.13.3",
     "redux": "^3.6.0",
@@ -30,6 +26,7 @@
     "babel-preset-react-native-stage-0": "^1.0.1",
     "es6-symbol": "^3.1.0",
     "babel-jest": "16.0.0",
+    "whatwg-fetch": "^1.0.0",
     "jest": "16.0.1",
     "jest-react-native": "16.0.0",
     "react-test-renderer": "15.3.2"

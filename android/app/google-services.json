@@ -13,7 +13,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "865864307125-obl2ubr05i4f3pkoh5vd5kbds375cd75.apps.googleusercontent.com",
+          "client_id": "865864307125-ov8tignpitp40j7knrj5k0rnl0jnmqsa.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "study.noted.app",
@@ -40,7 +40,10 @@
       ],
       "services": {
         "analytics_service": {
-          "status": 1
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-88471116-1"
+          }
         },
         "appinvite_service": {
           "status": 1,

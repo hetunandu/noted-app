@@ -16,11 +16,6 @@ import Login from './components/Login';
 import LoginDetails from './components/LoginDetails';
 import Subjects from './components/Subjects';
 import ConceptView from './components/ConceptView';
-import {
-  GoogleAnalyticsTracker,
-  GoogleTagManager,
-  GoogleAnalyticsSettings
-} from 'react-native-google-analytics-bridge';
 
 // Make a logging middlware
 const loggerMiddleware = createLogger({predicate: (getState, action) => __DEV__});
@@ -62,7 +57,6 @@ const scenes = Actions.create(
     <Scene key="root"
       navigationBarStyle={navBarStyles}
       titleStyle={navBarTitleStyles}
-      backButtonImage={require('./back-arrow.png')}
       leftButtonIconStyle={{height: 36, width: 36}}
       leftButtonStyle={{
         top: 0,
@@ -110,7 +104,6 @@ class Noted extends Component{
 
   componentDidMount(){
     StatusBar.setBackgroundColor("#222", true)
-    let tracker = new GoogleAnalyticsTracker('UA-88471116-1');
   }
 
   render(){

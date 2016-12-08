@@ -1,5 +1,5 @@
 import { AppRegistry } from 'react-native';
-import Noted from './app';
+import Noted from './src';
 
 
 AppRegistry.registerComponent('Noted', () => Noted);

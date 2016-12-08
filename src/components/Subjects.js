@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import Loading from './Loading';
 import SubjectCard from './SubjectCard';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Actions } from 'react-native-router-flux';
 import {connect} from 'react-redux';
 import {fetchSubjectList } from '../actions/subjects';
