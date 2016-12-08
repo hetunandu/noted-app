@@ -67,12 +67,12 @@ class Explanation extends React.Component {
 					{
 						this.props.references.length > 0 ? (
 							this.props.references.map( (ref, i) => {
-									return (
-										<View key={`ref_${i}`}>
-											<Text style={styles.refText}>{ref.title}</Text>
-											<Text style={styles.refText}>{ref.source}</Text>
-										</View>
-									)
+								return (
+									<View key={`ref_${i}`}>
+										<Text style={styles.refText}>{ref.title}</Text>
+										<Text style={styles.refText}>{ref.source}</Text>
+									</View>
+								)
 							})
 						) : (<Text style={styles.refText}>No References for this concept</Text>)
 					}
@@ -87,7 +87,6 @@ class Explanation extends React.Component {
 								)
 							})
 						) : (<Text style={styles.refText}>No Tips for this concept</Text>)
-
 					}
 				</View>
 			</TouchableHighlight>
@@ -123,13 +122,13 @@ class Explanation extends React.Component {
 				styles.explanation,
 				this.state.mode == "ref" && styles.references
 			]}>
-					{
-						this._renderContents()
-					}
+				{
+					this._renderContents()
+				}
 			</View>
-			);
-		}
+		);
 	}
+}
 
 const styles = StyleSheet.create({
 	explanation: {

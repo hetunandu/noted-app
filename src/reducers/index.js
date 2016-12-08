@@ -5,8 +5,8 @@ import * as subjectReducer from './subjects';
 import * as conceptReducer from './concepts';
 
 export default combineReducers(Object.assign(
-    authReducer,
-    courseReducer,
-    subjectReducer,
-    conceptReducer
+	authReducer,
+	courseReducer,
+	subjectReducer,
+	conceptReducer
 ));

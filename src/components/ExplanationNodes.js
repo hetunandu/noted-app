@@ -40,11 +40,11 @@ export class ImageNode extends React.Component{
 	render(){
 		return (
 			<Image
-                style={{minHeight: 200, backgroundColor: "#f2f2f2", marginBottom: 10}}
-                resizeMode="contain"
-                source={{uri: `${this.props.data}`}}
-            />
-        );
+				style={{minHeight: 200, backgroundColor: "#f2f2f2", marginBottom: 10}}
+				resizeMode="contain"
+				source={{uri: `${this.props.data}`}}
+			/>
+		);
 	}
 }
 
@@ -54,28 +54,28 @@ export class PointerNode extends React.Component{
 			<View>
 			{
 				this.props.data.map((point, j) => {
-			        return (
-			            <View key={`point_${j}`} style={styles.pointer}>
-			            	<View style={styles.pointerHead} >
-				                <Text style={styles.pointerIndex}>{j + 1}.</Text>
-				                <Text style={styles.pointerTitle}>{point.title}</Text>
-				            </View>
-			                <View style={styles.pointNodes}>
-			                {
-			                    point.nodes.map((node, k) => {
-			                        switch(node.type){
-			                            case 'text':
-			                                return <TextNode key={k} data={node.data} />
-			                            case 'image':
-			                                return <ImageNode key={k} data={node.data} />
-			                            default: 
-			                            	return <TextNode key={k} data={node.type} />
-			                        }
-			                    })
-			                }
-			                </View>
-			            </View>
-		        	)
+					return (
+						<View key={`point_${j}`} style={styles.pointer}>
+							<View style={styles.pointerHead} >
+								<Text style={styles.pointerIndex}>{j + 1}.</Text>
+								<Text style={styles.pointerTitle}>{point.title}</Text>
+							</View>
+							<View style={styles.pointNodes}>
+								{
+									point.nodes.map((node, k) => {
+										switch(node.type){
+											case 'text':
+												return <TextNode key={k} data={node.data} />
+											case 'image':
+												return <ImageNode key={k} data={node.data} />
+											default: 
+												return <TextNode key={k} data={node.type} />
+										}
+									})
+								}
+							</View>
+						</View>
+					)
 				})
 			}
 		</View>
@@ -88,18 +88,18 @@ const styles = StyleSheet.create({
 	title: {
 		marginTop: 10,
 		marginBottom: 10,
-	    fontSize: 30,
-	    color: '#000',
-	    fontWeight: "200"
+		fontSize: 30,
+		color: '#000',
+		fontWeight: "200"
 	},
 	quote: {
-	    paddingLeft: 20,
-	    fontSize: 20,
-	    borderLeftWidth: 5,
-	    borderLeftColor: "red",
-	    color: "red",
-	    fontStyle: 'italic',
-	    marginBottom: 10
+		paddingLeft: 20,
+		fontSize: 20,
+		borderLeftWidth: 5,
+		borderLeftColor: "red",
+		color: "red",
+		fontStyle: 'italic',
+		marginBottom: 10
 	},
 	pointer:{
 		marginBottom: 10
@@ -118,10 +118,10 @@ const styles = StyleSheet.create({
 		marginRight: 5
 	},
 	pointerTitle: {
-	    fontSize: 20,
-	    fontWeight: "400"
+		fontSize: 20,
+		fontWeight: "400"
 	},
 	pointNodes: {
-	    paddingLeft: 25
+		paddingLeft: 25
 	},
 })
