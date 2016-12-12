@@ -12,7 +12,7 @@ import {
 import Loading from './Loading';
 import {connect} from 'react-redux';
 import ConceptCard from './ConceptCard';
-import ConceptActions from './ConceptActions';
+import ActionBtn from './ActionBtn';
 import Result from './Result';
 import {
 	setMode,
@@ -21,7 +21,7 @@ import {
 	conceptRight,
 	conceptWrong,
 } from '../actions/concepts';
-
+import tts from 'react-native-android-speech';
 
 class ConceptView extends React.Component {
 
@@ -29,12 +29,25 @@ class ConceptView extends React.Component {
 		super(props)
 
 		this.state = {
-			progress: new Animated.Value(0)
+			progress: new Animated.Value(0),
+			isSpeaking: false,
 		}
 	}
 
 	componentDidUpdate(){
 		this._updateProgress()
+
+		tts.isSpeaking()
+		.then(isSpeaking=>{
+		    //Callback
+		    this.setState({
+		    	isSpeaking
+		    })
+		})
+		.catch(error=>{
+		    //if it fails 
+		    console.log(error)
+		});
 	}
 
 	handleSkip(){
@@ -45,6 +58,84 @@ class ConceptView extends React.Component {
 		const {conceptReader, conceptDone} = this.props
 
 		conceptDone(conceptReader.list[conceptReader.currentIndex].key)
+	}
+
+	handlePauseVoice(){
+		tts.stop()
+		.then(isStopped=>{
+		    this.setState({
+		    	isSpeaking: false
+		    })
+		})
+		.catch(error=>{
+		    console.log(error);
+		});
+	}
+
+	handleVoicePressed(){
+		const {conceptReader} = this.props
+
+		let textToSpeak = ""
+
+		conceptReader.list[conceptReader.currentIndex].explanation.map((node, i) => {
+			switch(node.type){
+				case 'title':
+					textToSpeak = textToSpeak.concat(node.data, '.')
+					break;
+				case 'text':
+					textToSpeak = textToSpeak.concat(node.data, '.')
+					break;
+				case 'image':
+					break;
+				case 'quote':
+					textToSpeak = textToSpeak.concat(node.data, '.')
+					break;
+				case 'pointers':
+					node.data.map((point, i) => {
+						textToSpeak = textToSpeak.concat(`Point ${i + 1}. ${point.title}`)
+						point.nodes.map(node => {
+							switch(node.type){
+								case 'text':
+									textToSpeak = textToSpeak.concat(node.data)
+									break;
+								case 'image':
+									break;
+								default:
+									textToSpeak = textToSpeak.concat("unknown node type. cant speak")
+							}
+						})
+					})
+					break;
+				default:
+					textToSpeak = textToSpeak.concat("unknown explanation type. cant speak")
+			}
+		})
+
+
+		textToSpeak = textToSpeak.concat(". End of concept")
+
+		textToSpeak = textToSpeak.replace(/\*/g, '');
+
+		tts.speak({
+		    text: textToSpeak, // Mandatory
+		    pitch:1, // Optional Parameter to set the pitch of Speech,
+		    forceStop : false , //  Optional Parameter if true , it will stop TTS if it is already in process
+		    language : 'en', // Optional Paramenter Default is en you can provide any supported lang by TTS
+		    country : 'IN' // Optional Paramenter Default is null, it provoques that system selects its default
+		}).then(isSpeaking=>{
+		    //Success Callback
+		    this.setState({
+		    	isSpeaking: true
+		    })
+		}).catch(error=>{
+		    //Errror Callback
+		    this.setState({
+		    	isSpeaking: false
+		    })
+		});
+
+
+
 	}
 
 	handleSeeAnswer(){
@@ -70,28 +161,66 @@ class ConceptView extends React.Component {
 		switch(mode){
 			case "study":
 				return (
-					<ConceptActions
-						successText="Done"
-						successPressed={() => this.handleDone()}
-						failText="Skip"
-						failPressed={() => this.handleSkip()}
-					/>
+					<View style={styles.conceptActions}>
+						<ActionBtn 
+							backgroundColor="#C53337"
+							underlayColor="#9d282c"
+							iconName="skip-next"
+							btnPressed={() => this.handleSkip()}
+						/>
+						{
+							this.state.isSpeaking ? (
+								<ActionBtn 
+									backgroundColor="#333"
+									underlayColor="#444"
+									iconName="pause"
+									btnPressed={() => this.handlePauseVoice()}
+								/>
+							) : (
+								<ActionBtn 
+									backgroundColor="#333"
+									underlayColor="#444"
+									iconName="volume-up"
+									btnPressed={() => this.handleVoicePressed()}
+								/>
+							)
+						}
+						<ActionBtn 
+							backgroundColor="#2E7F2E"
+							underlayColor="#246524"
+							iconName="done"
+							btnPressed={() => this.handleDone()}
+						/>
+					</View>
 				)
 			case "question":
 				return (
-					<ConceptActions
-						neutralText="Check Answer"
-						neutralPressed={() => this.handleSeeAnswer()}
+					<ActionBtn 
+						backgroundColor="#333"
+						underlayColor="#444"
+						btnText="Check answer"
+						btnPressed={() => this.handleSeeAnswer()}
 					/>
 				)
 			case "answer":
 				return (
-					<ConceptActions
-						successText="I was right"
-						successPressed={() => this.handleRight()}
-						failText="I was wrong"
-						failPressed={() => this.handleWrong()}
-					/>
+					<View style={styles.conceptActions}>
+						<ActionBtn 
+							backgroundColor="#C53337"
+							underlayColor="#9d282c"
+							iconName="close"
+							btnText="I was wrong"
+							btnPressed={() => this.handleWrong()}
+						/>
+						<ActionBtn 
+							backgroundColor="#2E7F2E"
+							underlayColor="#246524"
+							iconName="done"
+							btnText="I was right"
+							btnPressed={() => this.handleRight()}
+						/>
+					</View>
+
 				)
 			default:
 				return <View></View>
@@ -180,6 +309,11 @@ const styles = StyleSheet.create({
 		borderBottomRightRadius: 3,
 		borderTopRightRadius: 3,
 		backgroundColor: 'red'
+	},
+	conceptActions: {
+		flexDirection: 'row',
+		flex: 1,
+		justifyContent: 'space-around',
 	}
 })
 

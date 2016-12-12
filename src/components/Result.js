@@ -4,7 +4,7 @@ import {
 	Text,
 	StyleSheet
 } from 'react-native';
-import ConceptActions from './ConceptActions';
+import ActionBtn from './ActionBtn';
 import {connect} from 'react-redux';
 import { fetchSubjectList } from '../actions/subjects';
 import {
@@ -100,21 +100,27 @@ class Result extends Component {
 				{
 					this.props.mode == "study" && (
 						<View style={styles.resultActions}>
-							<ConceptActions
-								neutralText="Test revised concepts"
-								neutralPressed={() => this.handleTest()}
+							<ActionBtn 
+								backgroundColor="#333"
+								underlayColor="#444"
+								btnText="Test revised concepts"
+								btnPressed={() => this.handleTest()}
 							/>
 							{
 								this.props.result.skip > 0 && (
-									<ConceptActions
-										neutralText="Revise skipped concepts"
-										neutralPressed={() => this.handleRevision()}
+									<ActionBtn 
+										backgroundColor="#333"
+										underlayColor="#444"
+										btnText="Revise skipped Concepts"
+										btnPressed={() => this.handleRevision()}
 									/>
 								)
 							}
-							<ConceptActions
-								neutralText="Back to subjects"
-								neutralPressed={() => this.handleBack()}
+							<ActionBtn 
+								backgroundColor="#333"
+								underlayColor="#444"
+								btnText="Back to subjects"
+								btnPressed={() => this.handleBack()}
 							/>
 						</View>
 					)
@@ -122,21 +128,27 @@ class Result extends Component {
 				{
 					this.props.mode == "question" && (
 						<View style={styles.resultActions}>
-							<ConceptActions
-								neutralText="Test again"
-								neutralPressed={() => this.handleTest()}
+							<ActionBtn 
+								backgroundColor="#333"
+								underlayColor="#444"
+								btnText="Test Again"
+								btnPressed={() => this.handleTest()}
 							/>
 							{
 								this.props.result.wrong > 0 && (
-									<ConceptActions
-										neutralText="Review wrong concepts"
-										neutralPressed={() => this.handleRevision()}
+									<ActionBtn 
+										backgroundColor="#333"
+										underlayColor="#444"
+										btnText="Review wrong concepts"
+										btnPressed={() => this.handleRevision()}
 									/>
 								)
 							}
-							<ConceptActions
-								neutralText="Back to subjects"
-								neutralPressed={() => this.handleBack()}
+							<ActionBtn 
+								backgroundColor="#333"
+								underlayColor="#444"
+								btnText="Back to subjects"
+								btnPressed={() => this.handleBack()}
 							/>
 						</View>
 					)

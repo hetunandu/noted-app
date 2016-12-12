@@ -10,12 +10,14 @@ import reactMixin from 'react-mixin';
 import TimerMixin from 'react-timer-mixin';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+
 class SubjectCard extends React.Component {
 
 	constructor(props) {
 		super(props);
 
 		this.state = {time_left: "Calculating..."};
+
 	}
 
 	componentDidMount(){

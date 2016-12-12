@@ -12,7 +12,10 @@ import com.facebook.soloader.SoLoader;
 
 import java.util.Arrays;
 import java.util.List;
+
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
+import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
+import com.mihir.react.tts.*;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -26,7 +29,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-          new RNGoogleSigninPackage()
+          new RNGoogleSigninPackage(),
+          new GoogleAnalyticsBridgePackage(),
+          new RCTTextToSpeechModule()
       );
     }
   };
