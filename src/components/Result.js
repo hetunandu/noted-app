@@ -160,25 +160,25 @@ const styles = StyleSheet.create({
 		margin: 20,
 		alignSelf: 'stretch',
 		borderWidth: 1,
-		borderColor: '#f1f1f1',
+		borderColor: '#333',
 		borderRadius: 2
 	},
 	summaryRow: {
 		padding: 10,
 		flexDirection: 'row',
-		justifyContent: 'space-around',
+		justifyContent: 'space-between',
 		alignItems: 'center',
 		borderBottomWidth: 1,
-		borderBottomColor: '#f4f4f4'
+		borderBottomColor: '#444'
 	},
 	summaryInfo: {
 		fontSize: 20,
-		color: 'white'
+		color: '#333'
 	},
 	summaryValue:{
 		fontSize: 25,
 		fontWeight: 'bold',
-		color: 'white'
+		color: '#333'
 	},
 	promoText: {
 		textAlign: 'center',
@@ -190,7 +190,8 @@ const styles = StyleSheet.create({
 	resultText:{
 		textAlign: 'center',
 		fontSize: 25,
-		color: 'white'
+		fontWeight: '500',
+		color: '#000'
 	},
 	resultActions: {
 		flex: 2,

@@ -100,7 +100,7 @@ class Explanation extends React.Component {
 					underlayColor="#f1f1f1"
 					onLongPress={() => this.handleLongPress()}
 				>
-					<View style={{flex: 1, padding: 10}}>
+					<View style={{flex: 1, padding: 15}}>
 						{this.props.explanation.map((node, i) => this._renderNodes(node, i))}
 					</View>
 				</TouchableHighlight>

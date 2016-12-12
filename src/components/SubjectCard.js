@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import reactMixin from 'react-mixin';
 import TimerMixin from 'react-timer-mixin';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 class SubjectCard extends React.Component {
 
@@ -33,11 +34,7 @@ class SubjectCard extends React.Component {
 			if (time_left < 0){
 				this.clearInterval()
 				this.setState({
-					time_left: (
-						<Text style={{color:"green"}}>
-							Available
-						</Text>
-					)
+					time_left: -1
 				})
 			}else{
 				var _second = 1000;
@@ -51,11 +48,7 @@ class SubjectCard extends React.Component {
 
 
 				this.setState({
-					time_left: (
-						<Text style={{color: "red"}}>
-							{`in ${hours}h ${minutes}m ${seconds}s`}
-						</Text>
-					)
+					time_left: `${hours}h ${minutes}m ${seconds}s`
 				})
 			}
 		}
@@ -81,53 +74,70 @@ class SubjectCard extends React.Component {
 				{
 					subject.has_data_count > 0 ? (
 						<View style={styles.subjectCard} >
-							<Text style={styles.subjectName}>
-								{subject.name}
-							</Text>
-							<Text style={styles.subjectInfo}>
-								Total concepts: {subject.total_concepts}
-							</Text>
-							<Text style={styles.subjectInfo}>
-								Concepts done: {subject.is_done_count}
-							</Text>
-							{
-								subject.is_skipped_count > 0 && (
-									<Text style={styles.subjectInfo}>
-										Concepts left to revise: {subject.is_skipped_count}
+							<View style={styles.subjectHeader}>
+								<Text style={styles.subjectName}>
+									{subject.name}
+								</Text>
+								<Text style={styles.subjectTotalConcepts}>
+									{subject.total_concepts}
+								</Text>
+							</View>
+							<View style={styles.subjectInfoContainer}>
+								<View style={styles.subjectInfoRow}>
+									<Text style={styles.subjectInfoText}>
+										Revised
 									</Text>
-								)
-							}
-							{
-								subject.total_concepts == subject.is_done_count ? (
-									<Text style={styles.subjectInfo}>
-										All concepts revised. Time to test!
+									<Text style={styles.subjectInfoValue}>
+										{subject.is_done_count}
 									</Text>
-								) : (
-									<Text style={styles.subjectInfo}>
-										{subject.concept_limit - subject.is_skipped_count} new concepts: {this.state.time_left}
+								</View>
+								<View style={styles.subjectInfoRow}>
+									<Text style={styles.subjectInfoText}>
+										Correct
 									</Text>
-								)
-							}
-
+									<Text style={styles.subjectInfoValue}>
+										{subject.is_right_count}
+									</Text>
+								</View>
+							</View>
 							<View style={styles.subjectActions}>
 								<TouchableHighlight
-									style={[styles.actionBtn, {
-										borderBottomLeftRadius: 5,
-										borderRightColor: "#f1f1f1",
-										borderRightWidth: 2
-									}]}
-									onPress={() => this.handleTestPressed()}
-								>
-									<Text style={{fontSize: 20, color: 'white'}}>Test</Text>
-								</TouchableHighlight>
-								<TouchableHighlight
-									style={[styles.actionBtn, {
-										borderBottomRightRadius: 5
-									}]}
+									style={[styles.actionBtn]}
+									underlayColor="#f1f1f1"
+									disabled={this.state.time_left !== -1 }
 									onPress={() => this.props.startRevision()}
 								>
-									<Text style={{fontSize: 20, color: 'white'}}>Revise</Text>
+									{
+										this.state.time_left === -1 ? (
+											<View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+												<Text style={styles.actionBtnText} >Revise</Text>
+												<Icon name="chevron-right" size={30} color="#333" />
+											</View>
+										)
+										:
+										(
+											<Text style={[
+													styles.actionBtnText,
+													{color: 'red'}
+												]}
+											>
+												Wait {this.state.time_left}
+											</Text>
+										)
+									}
 								</TouchableHighlight>
+
+								<TouchableHighlight
+									style={[styles.actionBtn]}
+									underlayColor="#f1f1f1"
+									onPress={() => this.handleTestPressed()}
+								>
+									<View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+										<Text style={styles.actionBtnText} >Test</Text>
+										<Icon name="chevron-right" size={30} color="#333" />
+									</View>
+								</TouchableHighlight>
+								
 							</View>
 						</View>
 					) 
@@ -138,13 +148,11 @@ class SubjectCard extends React.Component {
 							underlayColor="#f1f1f1"
 							onPress={() => this.props.startRevision()}
 						>
-							<View style={styles.subjectListItem}>
-								<Text style={styles.subjectNameIntro}>
-									Start {subject.name}
+							<View style={styles.subjectHeader}>
+								<Text style={styles.subjectName}>
+									{subject.name}
 								</Text>
-								<Text style={{fontSize: 17}}>
-									Total concepts: {subject.total_concepts}
-								</Text>
+								<Icon name="chevron-right" size={30} color="#333" />
 							</View>
 						</TouchableHighlight>
 					)
@@ -165,42 +173,59 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		margin: 10
 	},
+	subjectHeader: {
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+	},
+	subjectName: {
+		padding: 5,
+		fontWeight: '500',
+		fontSize: 30,
+	},
+	subjectTotalConcepts: {
+		padding: 5,
+		fontWeight: '800',
+		fontSize: 30,
+	},
+	subjectInfoContainer: {
+
+	},
+	subjectInfoRow: {
+		padding: 5,
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		flexDirection: 'row',
+		borderBottomColor: '#f1f1f1',
+		borderBottomWidth: 1
+	},
+	subjectInfoText: {
+		fontSize: 20
+	},
+	subjectInfoValue: {
+		fontSize: 25,
+		fontWeight: '600'
+	},
 	subjectListItemContainer:{
 		backgroundColor: 'white',
 		elevation: 2,
 		borderRadius: 5,
-		margin: 10
-
+		margin: 10,
+		padding: 10
 	},
-	subjectListItem: {
-		justifyContent: 'center',
-		padding: 10,
-		borderRadius: 5,
-	},
-	subjectName: {
-		textAlign: 'center',
-		fontSize: 30,
-	},
-	subjectNameIntro:{
-		fontSize: 25
-	},
-	subjectInfo: {
-		fontSize: 17,
-		padding: 10,
-		borderBottomWidth: 1,
-		borderBottomColor: "#f1f1f1"
-	},
-	subjectActions:{
-		flexDirection: 'row',
-		justifyContent: 'space-around'
+	subjectActions: {
 	},
 	actionBtn: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
-		padding: 10,
-		backgroundColor: "#333"
+		padding: 15,
+		borderBottomColor: '#BBB',
+		borderBottomWidth: 1
+	},
+	actionBtnText: {
+		fontSize: 20,
+		fontWeight: '500'
 	}
+
 })
 
 export default SubjectCard;

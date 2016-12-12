@@ -4,6 +4,7 @@ import {
 	Text,
 	View,
 	Alert,
+	Image,
 	ActivityIndicator
 } from 'react-native';
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
@@ -33,34 +34,29 @@ class Login extends Component {
 		return (
 			<View style={styles.container}>
 				<View>
-					{
-						this.props.user.isAuthenticated ? (
-							<View>
-								<Text style={styles.welcome}>
-									Welcome back!
-								</Text>
-							</View>
-						)
-						:
-						(
-							<View>
-								<Text style={styles.welcome}>
-									Welcome to Noted!
-								</Text>
-								{
-									this.props.user.isFectching ? <Loading /> : (
-										<GoogleSigninButton
-											style={{width: 312, height: 48}}
-											size={GoogleSigninButton.Size.Wide}
-											color={GoogleSigninButton.Color.Light}
-											onPress={this._signIn.bind(this)}
-										/>
-									)
-								}
-								<Text>{this.props.user.errorMessage}</Text>
-							</View>
-						)
-					}
+					<View style={styles.welcome}>
+						<Text style={styles.welcomeText}>
+							Welcome to
+						</Text>
+						<Image 
+							source={require('../images/logo.png')}
+							style={{width: 300, height: 100}}
+							resizeMode="contain"
+						/>
+					</View>
+					<View style={styles.login}>
+						{
+							this.props.user.isFectching ? <Loading /> : (
+								<GoogleSigninButton
+									style={{width: 230, height: 48, alignSelf: 'center'}}
+									size={GoogleSigninButton.Size.Standard}
+									color={GoogleSigninButton.Color.Dark}
+									onPress={this._signIn.bind(this)}
+								/>
+							)
+						}
+						<Text>{this.props.user.errorMessage}</Text>
+					</View>
 				</View>
 			</View>
 		);
@@ -80,14 +76,22 @@ class Login extends Component {
 
 const styles = StyleSheet.create({
 	container: {
+		marginTop: 60,
+		padding: 10,
 		flex: 1,
 		alignItems: 'center',
-		justifyContent: 'center',
 	},
 	welcome: {
-		fontSize: 25,
-		color: 'white',
-		textAlign: 'center',
+		flex: 2,
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	welcomeText: {
+		fontSize: 30,
+		textAlign: 'center'
+	},
+	login: {
+		flex: 1
 	}
 });
 

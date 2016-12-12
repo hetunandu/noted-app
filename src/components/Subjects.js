@@ -67,7 +67,7 @@ class Subjects extends Component{
 
 const styles = StyleSheet.create({
 	container: {
-		marginTop: 65,
+		marginTop: 60,
 		flex: 1
 	}
 })

@@ -45,40 +45,47 @@ class LoginDetails extends React.Component {
 		return (
 			<View style={styles.container}>
 				
-				<Image 
-					source={{uri: this.props.user.data.picture_uri}}
-					style={{width: 90, height: 90, borderRadius: 50}} 
-				/>
+				<View style={{alignItems: 'center'}}>
+					<Image 
+						source={{uri: this.props.user.data.picture_uri}}
+						style={{width: 90, height: 90, borderRadius: 50}} 
+					/>
 				
-				<Text style={{ fontSize: 20}}>
-					Welcome {this.props.user.data.name}!
-				</Text>
+					<Text style={{ fontSize: 20}}>
+						Welcome {this.props.user.data.name}!
+					</Text>
+				</View>
 				
 				<Text style={{ fontSize: 25 }}> 
 					Fill in to finish login
 				</Text>
 				
-				<Text style={styles.label}>
-					Course:
-				</Text>
-				
-				<TextInput
-					style={{height: 40, width: 300}}
-					value="HSC Commerce"
-					editable={false}
-				/>
-				<Text>We currently have support only for HSC Commerce</Text>
+				<View>
 
-				<Text style={styles.label}>
-					College name:
-				</Text>
-				
-				<TextInput
-					autoFocus={true}
-					style={{height: 40, width: 300}}
-					onChangeText={(text) => this.setState({college: text})}
-					value={this.state.college}
-				/>
+					<Text style={styles.label}>
+						Course:
+					</Text>
+					
+					<TextInput
+						style={{height: 40, width: 300}}
+						value="HSC Commerce"
+						editable={false}
+					/>
+					<Text>We currently have support only for HSC Commerce</Text>
+				</View>
+
+				<View>
+					<Text style={styles.label}>
+						College name:
+					</Text>
+					
+					<TextInput
+						autoFocus={true}
+						style={{height: 40, width: 300}}
+						onChangeText={(text) => this.setState({college: text})}
+						value={this.state.college}
+					/>
+				</View>
 
 				<TouchableHighlight
 					style={styles.submitBtn}
@@ -99,10 +106,8 @@ const styles = StyleSheet.create({
 		marginTop: 60,
 		flex: 1,
 		alignItems: 'center',
-		backgroundColor: 'white',
-		padding: 10,
-		borderRadius: 2,
-		elevation: 2
+		justifyContent: 'space-between',
+		padding: 10
 	},
 	label: { 
 		alignSelf: 'flex-start',

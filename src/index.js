@@ -37,9 +37,9 @@ function configureStore(initialState){
 const store = configureStore({});
 
 const navBarStyles = {
-	backgroundColor: '#333',
-	borderBottomColor: '#444',
-	height: 65,
+	backgroundColor: '#50537f',
+	borderBottomColor: '#404265',
+	height: 60,
 	elevation: 5
 }
 
@@ -48,7 +48,7 @@ const navBarTitleStyles = {
 	fontWeight: '600',
 	color: 'white',
 	textAlign: 'left',
-	marginLeft: 50,
+	marginLeft: 10,
 	alignSelf: 'flex-start'
 }
 
@@ -81,7 +81,7 @@ const scenes = Actions.create(
 		/>
 		<Scene
 			key="subjects"
-			title="Subjects"
+			title="Home"
 			component={Subjects}
 		/>
 		<Scene
@@ -96,14 +96,14 @@ const ReduxRouter = connect()(Router);
 
 const containerStyles = {
 	flex: 1,
-	backgroundColor: '#50537f',
+	backgroundColor: '#DDD',
 }
 // Base App compoent with the provider
 
 class Noted extends Component{
 
 	componentDidMount(){
-		StatusBar.setBackgroundColor("#222", true)
+		StatusBar.setBackgroundColor("#404265", true)
 	}
 
 	render(){
@@ -111,7 +111,7 @@ class Noted extends Component{
 			<Provider store={store}>
 				<ReduxRouter
 					scenes={scenes}
-					style={{backgroundColor: '#50537f'}}
+					style={{backgroundColor: '#f1f1f1'}}
 					sceneStyle={containerStyles}
 				/>
 			</Provider>

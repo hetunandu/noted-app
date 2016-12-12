@@ -16,17 +16,28 @@ export class TitleNode extends React.Component{
 
 export class TextNode extends React.Component{
 	render(){
-		return <Markdown styles={markdownStyles}>{this.props.data}</Markdown>
+		return (
+			<Markdown 
+				whitelist={['strong']}
+				styles={markdownStyles}
+			>
+				{this.props.data}
+			</Markdown>
+		)
 	}
 }
 
 const markdownStyles = {
 	text: {
-		fontSize: 18
+		fontSize: 18,
+	},
+	paragraph: {
+		marginBottom: 10,
+		marginTop: 0
 	},
 	strong: {
 		fontWeight: 'bold',
-		color: 'red'
+		color: 'red',
 	}
 }
 
@@ -57,7 +68,7 @@ export class PointerNode extends React.Component{
 					return (
 						<View key={`point_${j}`} style={styles.pointer}>
 							<View style={styles.pointerHead} >
-								<Text style={styles.pointerIndex}>{j + 1}.</Text>
+								<Text style={styles.pointerIndex}>{j + 1}</Text>
 								<Text style={styles.pointerTitle}>{point.title}</Text>
 							</View>
 							<View style={styles.pointNodes}>
@@ -86,40 +97,39 @@ export class PointerNode extends React.Component{
 
 const styles = StyleSheet.create({
 	title: {
-		marginTop: 10,
+		marginTop: 5,
 		marginBottom: 10,
 		fontSize: 30,
 		color: '#000',
-		fontWeight: "200"
+		fontWeight: "100"
 	},
 	quote: {
-		paddingLeft: 20,
+		padding: 5,
+		paddingLeft: 25,
 		fontSize: 20,
-		borderLeftWidth: 5,
+		borderLeftWidth: 7,
 		borderLeftColor: "red",
 		color: "red",
 		fontStyle: 'italic',
 		marginBottom: 10
 	},
 	pointer:{
-		marginBottom: 10
-	},
-	pointerHead:{
-		paddingLeft: 3,
-		backgroundColor: "#f4f4f4",
-		flexDirection: 'row',
-		alignItems: 'center',
 		marginBottom: 5
 	},
+	pointerHead:{
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
 	pointerIndex: {
-		fontSize: 25,
-		color: '#666',
-		fontWeight: "500",
-		marginRight: 5
+		fontSize: 30,
+		color: '#000',
+		fontWeight: "900"
 	},
 	pointerTitle: {
+		paddingLeft: 10,
 		fontSize: 20,
-		fontWeight: "400"
+		fontWeight: "500",
+		flexWrap: 'wrap'
 	},
 	pointNodes: {
 		paddingLeft: 25

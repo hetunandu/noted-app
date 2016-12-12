@@ -80,7 +80,7 @@ class ConceptView extends React.Component {
 			case "question":
 				return (
 					<ConceptActions
-						neutralText="See Answer"
+						neutralText="Check Answer"
 						neutralPressed={() => this.handleSeeAnswer()}
 					/>
 				)
@@ -169,7 +169,6 @@ class ConceptView extends React.Component {
 
 const styles = StyleSheet.create({
 	conceptCardContainer: {
-		backgroundColor: "#50537f",
 		flex: 1,
 		position: 'relative',
 	},
