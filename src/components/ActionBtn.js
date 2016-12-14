@@ -16,12 +16,16 @@ class ActionBtn extends React.Component {
 				underlayColor={this.props.underlayColor}
 			>
 				<View style={styles.btnContainer}>
-					<Icon 
-						name={this.props.iconName}
-						size={40} 
-						style={styles.btnIcon}
-						color="#fff" 
-					/>
+					{
+						this.props.iconName && (
+							<Icon 
+								name={this.props.iconName}
+								size={40} 
+								style={styles.btnIcon}
+								color="#fff" 
+							/>
+						)
+					}
 					<Text style={styles.btnText}>{this.props.btnText}</Text>
 				</View>
 			</TouchableHighlight>
@@ -45,12 +49,7 @@ const styles = StyleSheet.create({
 	},
 	btnText:{
 		color: 'white',
-		fontSize: 22
-	},
-	btnContainer: {
-	},
-	btnIcon: {
-
-	},
+		fontSize: 15
+	}
 })
 export default ActionBtn;

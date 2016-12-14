@@ -40,9 +40,9 @@ class ConceptView extends React.Component {
 		tts.isSpeaking()
 		.then(isSpeaking=>{
 		    //Callback
-		    this.setState({
-		    	isSpeaking
-		    })
+		    if(isSpeaking !== this.state.isSpeaking){
+		    	this.setState({isSpeaking})
+		    }
 		})
 		.catch(error=>{
 		    //if it fails 
@@ -118,7 +118,7 @@ class ConceptView extends React.Component {
 
 		tts.speak({
 		    text: textToSpeak, // Mandatory
-		    pitch:1, // Optional Parameter to set the pitch of Speech,
+		    pitch: 0.7,
 		    forceStop : false , //  Optional Parameter if true , it will stop TTS if it is already in process
 		    language : 'en', // Optional Paramenter Default is en you can provide any supported lang by TTS
 		    country : 'IN' // Optional Paramenter Default is null, it provoques that system selects its default
