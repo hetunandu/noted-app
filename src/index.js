@@ -88,6 +88,7 @@ const scenes = Actions.create(
 			key="conceptView"
 			component={ConceptView}
 			hideNavBar
+			panHandlers={null}
 		/>
 	</Scene>
 	);
