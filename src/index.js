@@ -15,7 +15,10 @@ import api from './lib/api';
 import Login from './components/Login';
 import LoginDetails from './components/LoginDetails';
 import Subjects from './components/Subjects';
+import SubjectDetail from './components/SubjectDetail';
 import ConceptView from './components/ConceptView';
+import SubjectIndex from './components/SubjectIndex';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // Make a logging middlware
 const loggerMiddleware = createLogger({predicate: (getState, action) => __DEV__});
@@ -44,11 +47,11 @@ const navBarStyles = {
 }
 
 const navBarTitleStyles = {
-	fontSize: 25,
+	fontSize: 23,
 	fontWeight: '600',
 	color: 'white',
 	textAlign: 'left',
-	marginLeft: 10,
+	marginLeft: 40,
 	alignSelf: 'flex-start'
 }
 
@@ -57,7 +60,8 @@ const scenes = Actions.create(
 	<Scene key="root"
 		navigationBarStyle={navBarStyles}
 		titleStyle={navBarTitleStyles}
-		leftButtonIconStyle={{height: 36, width: 36}}
+		leftButtonIconStyle={{height: 25, width: 25}}
+		backButtonImage={require('./images/backIcon.png')}
 		leftButtonStyle={{
 			top: 0,
 			height: 65,
@@ -65,6 +69,8 @@ const scenes = Actions.create(
 			alignItems: 'center',
 			justifyContent: 'center'
 		}}
+		panHandlers={null}
+		
 	>
 		<Scene
 			key="login"
@@ -81,14 +87,22 @@ const scenes = Actions.create(
 		/>
 		<Scene
 			key="subjects"
-			title="Home"
+			title="Subjects"
 			component={Subjects}
 		/>
+		<Scene 
+			key="subjectDetail"
+			component={SubjectDetail}
+		/>
+		<Scene 
+			key="subjectIndex"
+			title="Index"
+			component={SubjectIndex}
+		/>
 		<Scene
-			key="conceptView"
+			key="conceptReader"
 			component={ConceptView}
 			hideNavBar
-			panHandlers={null}
 		/>
 	</Scene>
 	);

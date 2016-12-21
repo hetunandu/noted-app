@@ -1,5 +1,6 @@
 import * as types from './types';
 import Api from '../lib/api';
+import {BASE_URL} from '../lib/api';
 import {AsyncStorage, ToastAndroid} from 'react-native';
 import {GoogleSignin} from 'react-native-google-signin';
 
@@ -21,11 +22,19 @@ function loginFailed(error){
 	}
 }
 
+function tokenFound(){
+	return {
+		type: types.TOKEN_FOUND
+	}
+}
+
 export function checkToken(){
 	return (dispatch, getState) => {
 		AsyncStorage.getItem('login_token')
 			.then((token) => {
 				if(token){
+					dispatch(tokenFound())
+					dispatch(loginRequest())
 					let config = {
 						headers: {
 							'Accept': 'application/json',
@@ -34,10 +43,10 @@ export function checkToken(){
 							'User-Agent': "AndroidApp"
 						}
 					};
-					dispatch(loginRequest())
-					return fetch(`https://noted-api.appspot.com/users/details`, config)
+					return fetch(`${BASE_URL}user`, config)
 						.then(res => res.json())
 						.then(json => {
+							//console.warn(json)
 							if(json.success === false){
 								dispatch(loginFailed(json.error))
 							}else{
@@ -69,11 +78,11 @@ export function login(token) {
 	return dispatch => {
 		// We dispatch requestLogin to kickoff the call to the API
 		dispatch(loginRequest())
-
-		return fetch(`https://noted-api.appspot.com/users/social`, config)
+		return fetch(`${BASE_URL}login`, config)
 			.then(res => res.json())
 			.then(json => {
 				if(json.success === false){
+					console.warn(json.error)
 					dispatch(loginFailed(json.error))
 				}else{
 					// If login was successful, set the token in local storage
@@ -82,7 +91,7 @@ export function login(token) {
 					dispatch(loginSuccess(json.message.user))
 				}
 			})
-			.catch(err => console.log(err))
+			.catch(err => console.warn(err))
 	}
 }
 

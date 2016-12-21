@@ -8,9 +8,9 @@ export function fetchRevisionConcepts(subject_key) {
 			endpoint: `subjects/${subject_key}/revise`,
 			authenticated: true,
 			types: [
-			types.CONCEPT_LIST_REQUEST,
-			types.CONCEPT_LIST_SUCCESS,
-			types.CONCEPT_LIST_FAILURE
+				types.CONCEPT_LIST_REQUEST,
+				types.CONCEPT_LIST_SUCCESS,
+				types.CONCEPT_LIST_FAILURE
 			]
 		}
 	}
@@ -22,9 +22,23 @@ export function fetchTestConcepts(subject_key) {
 			endpoint: `subjects/${subject_key}/test`,
 			authenticated: true,
 			types: [
-			types.CONCEPT_LIST_REQUEST,
-			types.CONCEPT_LIST_SUCCESS,
-			types.CONCEPT_LIST_FAILURE
+				types.CONCEPT_LIST_REQUEST,
+				types.CONCEPT_LIST_SUCCESS,
+				types.CONCEPT_LIST_FAILURE
+			]
+		}
+	}
+}
+
+export function fetchSingleConcept(concept_key){
+	return {
+		[CALL_API]: {
+			endpoint: `concepts/${concept_key}`,
+			authenticated: true,
+			types: [
+				types.CONCEPT_VIEW_REQUEST,
+				types.CONCEPT_VIEW_SUCCESS,
+				types.CONCEPT_VIEW_FAILURE
 			]
 		}
 	}
@@ -46,15 +60,15 @@ export function conceptSkip(){
 }
 
 // Mark the current concept as Done
-export function conceptDone(concept_key){
+export function conceptRead(concept_key){
 	return{
 		[CALL_API]: {
-			endpoint: `concepts/${concept_key}/done`,
+			endpoint: `concepts/${concept_key}/read`,
 			authenticated: true,
 			types: [
-			types.CONCEPT_DONE_REQUEST,
-			types.CONCEPT_DONE_SUCCESS,
-			types.CONCEPT_DONE_FAILURE
+				types.CONCEPT_READ_REQUEST,
+				types.CONCEPT_READ_SUCCESS,
+				types.CONCEPT_READ_FAILURE
 			]
 		}
 	}
@@ -67,9 +81,9 @@ export function conceptRight(concept_key){
 			endpoint: `concepts/${concept_key}/right`,
 			authenticated: true,
 			types: [
-			types.CONCEPT_RIGHT_REQUEST,
-			types.CONCEPT_RIGHT_SUCCESS,
-			types.CONCEPT_RIGHT_FAILURE
+				types.CONCEPT_RIGHT_REQUEST,
+				types.CONCEPT_RIGHT_SUCCESS,
+				types.CONCEPT_RIGHT_FAILURE
 			]
 		}
 	}
@@ -82,9 +96,9 @@ export function conceptWrong(concept_key){
 			endpoint: `concepts/${concept_key}/wrong`,
 			authenticated: true,
 			types: [
-			types.CONCEPT_WRONG_REQUEST,
-			types.CONCEPT_WRONG_SUCCESS,
-			types.CONCEPT_WRONG_FAILURE
+				types.CONCEPT_WRONG_REQUEST,
+				types.CONCEPT_WRONG_SUCCESS,
+				types.CONCEPT_WRONG_FAILURE
 			]
 		}
 	}

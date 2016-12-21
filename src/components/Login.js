@@ -45,8 +45,9 @@ class Login extends Component {
 						/>
 					</View>
 					<View style={styles.login}>
-						{
-							this.props.user.isFectching ? <Loading /> : (
+						{ this.props.user.isFectching && <Loading /> }
+								
+						{ this.props.user.token == false && (
 								<GoogleSigninButton
 									style={{width: 230, height: 48, alignSelf: 'center'}}
 									size={GoogleSigninButton.Size.Standard}

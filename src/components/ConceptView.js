@@ -7,8 +7,11 @@ import {
 	StyleSheet,
 	ToastAndroid,
 	Dimensions,
-	Animated
+	Animated,
+	BackAndroid,
+	Alert
 } from 'react-native';
+import {Actions} from 'react-native-router-flux'
 import Loading from './Loading';
 import {connect} from 'react-redux';
 import ConceptCard from './ConceptCard';
@@ -17,7 +20,7 @@ import Result from './Result';
 import {
 	setMode,
 	conceptSkip,
-	conceptDone,
+	conceptRead,
 	conceptRight,
 	conceptWrong,
 } from '../actions/concepts';
@@ -32,6 +35,17 @@ class ConceptView extends React.Component {
 			progress: new Animated.Value(0),
 			isSpeaking: false,
 		}
+
+		// BackAndroid.addEventListener('hardwareBackPress', async () => {
+		// 	await Alert.alert(
+		// 		'Finish session?',
+		// 		'Your progress is saved',
+		// 		[
+		// 			{text: 'Cancel', onPress: () => {return false}},
+		// 			{text: 'Yea im done', onPress: () => { Actions.pop() }}
+		// 		]
+		// 	)
+		// })
 	}
 
 	componentDidUpdate(){
@@ -54,10 +68,10 @@ class ConceptView extends React.Component {
 		this.props.conceptSkip()
 	}
 
-	handleDone(){
-		const {conceptReader, conceptDone} = this.props
+	handleRead(){
+		const {conceptReader, conceptRead} = this.props
 
-		conceptDone(conceptReader.list[conceptReader.currentIndex].key)
+		conceptRead(conceptReader.list[conceptReader.currentIndex].key)
 	}
 
 	handlePauseVoice(){
@@ -189,7 +203,7 @@ class ConceptView extends React.Component {
 							backgroundColor="#2E7F2E"
 							underlayColor="#246524"
 							iconName="done"
-							btnPressed={() => this.handleDone()}
+							btnPressed={() => this.handleRead()}
 						/>
 					</View>
 				)
@@ -325,7 +339,7 @@ const mapStateToProps = ({conceptReader}) => ({
 const mapDispatchToProps = dispatch => ({
 	setMode: (mode) => {dispatch(setMode(mode))},
 	conceptSkip: () => {dispatch(conceptSkip())},
-	conceptDone: (concept_key) => {dispatch(conceptDone(concept_key))},
+	conceptRead: (concept_key) => {dispatch(conceptRead(concept_key))},
 	conceptRight: (concept_key) => {dispatch(conceptRight(concept_key))},
 	conceptWrong: (concept_key) => {dispatch(conceptWrong(concept_key))}
 })

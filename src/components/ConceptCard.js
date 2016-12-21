@@ -54,8 +54,6 @@ class ConceptCard extends Component {
 						question={this.props.concept.questions[0]}
 					/>
 				);
-			case 'reference':
-				return <Text>Render references here</Text>
 			case 'answer':
 				return (
 					<Explanation
@@ -92,12 +90,9 @@ class ConceptCard extends Component {
 
 const styles = StyleSheet.create({
 	card: {
-		margin: 5,
-		marginTop: 10,
 		flex: 7,
 		backgroundColor: 'white',
 		elevation: 2,
-		borderRadius: 3
 	}
 })
 

@@ -57,53 +57,42 @@ class Explanation extends React.Component {
 
 	_renderReferences(){
 		return (
-			<TouchableHighlight
-				underlayColor="#444"
-				style={{flex: 1, padding: 10}}
-				onLongPress={() => this.handleLongPress()}
-			>
-				<View style={{flex: 1}}>
-					<Text style={styles.refTitle}>References</Text>
-					{
-						this.props.references.length > 0 ? (
-							this.props.references.map( (ref, i) => {
-								return (
-									<View key={`ref_${i}`}>
-										<Text style={styles.refText}>{ref.title}</Text>
-										<Text style={styles.refText}>{ref.source}</Text>
-									</View>
-								)
-							})
-						) : (<Text style={styles.refText}>No References for this concept</Text>)
-					}
-					<Text style={styles.refTitle}>Tips</Text>
-					{
-						this.props.tips.length > 0 ? (
-							this.props.tips.map( (tip, i) => {
-								return (
-									<Text key={`tip_${i}`} style={styles.refText}>
-										{tip}
-									</Text>
-								)
-							})
-						) : (<Text style={styles.refText}>No Tips for this concept</Text>)
-					}
-				</View>
-			</TouchableHighlight>
+			<View style={{flex: 1}}>
+				<Text style={styles.refTitle}>References</Text>
+				{
+					this.props.references.length > 0 ? (
+						this.props.references.map( (ref, i) => {
+							return (
+								<View key={`ref_${i}`}>
+									<Text style={styles.refText}>{ref.title}</Text>
+									<Text style={styles.refText}>{ref.source}</Text>
+								</View>
+							)
+						})
+					) : (<Text style={styles.refText}>No References for this concept</Text>)
+				}
+				<Text style={styles.refTitle}>Tips</Text>
+				{
+					this.props.tips.length > 0 ? (
+						this.props.tips.map( (tip, i) => {
+							return (
+								<Text key={`tip_${i}`} style={styles.refText}>
+									{tip}
+								</Text>
+							)
+						})
+					) : (<Text style={styles.refText}>No Tips for this concept</Text>)
+				}
+			</View>
 		)
 	}
 
 	_renderExplanation(){
 		return (
 			<ScrollView style={{flex: 1}}>
-				<TouchableHighlight
-					underlayColor="#f1f1f1"
-					onLongPress={() => this.handleLongPress()}
-				>
-					<View style={{flex: 1, padding: 15}}>
-						{this.props.explanation.map((node, i) => this._renderNodes(node, i))}
-					</View>
-				</TouchableHighlight>
+				<View style={{flex: 1, padding: 15}}>
+					{this.props.explanation.map((node, i) => this._renderNodes(node, i))}
+				</View>
 			</ScrollView>
 		)
 	}

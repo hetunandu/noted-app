@@ -29,6 +29,26 @@ export const conceptReader = createReducer({
 			errorMessage: action.error
 		})
 	},
+	[types.CONCEPT_VIEW_REQUEST](state, action){
+		return Object.assign({}, state, {
+			isFetching: true,
+			errorMessage: '',
+			list: []
+		})
+	},
+	[types.CONCEPT_VIEW_SUCCESS](state, action){
+		return Object.assign({}, state, {
+			isFetching: false,
+			currentIndex: 0,
+			list: [action.data.concept]
+		})
+	},
+	[types.CONCEPT_VIEW_FAILURE](state, action){
+		return Object.assign({}, state, {
+			isFetching: false,
+			errorMessage: action.error
+		})
+	},
 	[types.SET_MODE](state, action){
 		return Object.assign({}, state, {
 			mode: action.mode
@@ -39,21 +59,13 @@ export const conceptReader = createReducer({
 			currentIndex: state.currentIndex + 1
 		})
 	},
-	[types.CONCEPT_DONE_REQUEST](state, action){
+	[types.CONCEPT_READ_REQUEST](state, action){
 		return Object.assign({}, state, {
-			isFetching: true,
-			errorMessage: ''
-		})
-	},
-	[types.CONCEPT_DONE_SUCCESS](state, action){
-		return Object.assign({}, state, {
-			isFetching: false,
 			currentIndex: state.currentIndex + 1
 		})
 	},
-	[types.CONCEPT_DONE_FAILURE](state, action){
+	[types.CONCEPT_READ_FAILURE](state, action){
 		return Object.assign({}, state, {
-			isFetching: false,
 			errorMessage: action.error
 		})
 	},

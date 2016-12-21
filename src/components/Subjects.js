@@ -3,15 +3,12 @@ import {
 	View, 
 	Text,
 	StyleSheet,
-	ScrollView,
+	TouchableHighlight
 } from 'react-native';
 import Loading from './Loading';
-import SubjectCard from './SubjectCard';
 import { Actions } from 'react-native-router-flux';
 import {connect} from 'react-redux';
-import {fetchSubjectList } from '../actions/subjects';
-import {fetchRevisionConcepts, fetchTestConcepts, setMode } from '../actions/concepts';
-
+import {fetchSubjectList, fetchSubjectDetail } from '../actions/subjects';
 
 class Subjects extends Component{
 
@@ -19,18 +16,9 @@ class Subjects extends Component{
 		this.props.fetchSubjectList()
 	}
 
-	handleRevisionPressed(subject){
-		Actions.conceptView({subject})
-
-		this.props.setMode("study")
-		this.props.fetchRevisionConcepts(subject.key)
-	}
-
-	handleTestPressed(subject){
-		Actions.conceptView({subject})
-
-		this.props.setMode("question")
-		this.props.fetchTestConcepts(subject.key)
+	subjectPressed(subject){
+		this.props.fetchSubjectDetail(subject.key)
+		Actions.subjectDetail({'title': subject.name})
 	}
 
 	render(){
@@ -43,20 +31,22 @@ class Subjects extends Component{
 					)
 					: 
 					(
-						<ScrollView style={{flex: 1}}>
-							{
-								this.props.subjects.data.map( subject => {
-									return (
-										<SubjectCard 
-											subject={subject}
-											startRevision={() => this.handleRevisionPressed(subject)}
-											startTest={() =>this.handleTestPressed(subject)}
-											key={subject.key} 
-										/>
-									)
-								}) 
-							}
-						</ScrollView>
+						this.props.subjects.list.map((subject, i) => {
+							return (
+								<TouchableHighlight
+									key={i}
+									underlayColor="#f1f1f1"
+									style={styles.subjectBtn}
+									onPress={this.subjectPressed.bind(this, subject)}
+								>
+									<View>
+										<Text style={styles.subjectName}>
+											{subject.name}
+										</Text>
+									</View>
+								</TouchableHighlight>
+							)
+						})
 					)
 				}
 				
@@ -69,6 +59,16 @@ const styles = StyleSheet.create({
 	container: {
 		marginTop: 60,
 		flex: 1
+	},
+	subjectBtn: {
+		margin: 10,
+		padding: 15,
+		backgroundColor: 'white',
+		elevation: 3,
+		borderRadius: 3
+	},
+	subjectName: {
+		fontSize: 25
 	}
 })
 
@@ -79,9 +79,7 @@ const mapStateToProps = ({subjects}) => ({
 
 const mapDispatchToProps = dispatch => ({
 	fetchSubjectList: () => {dispatch(fetchSubjectList())},
-	fetchRevisionConcepts: (subject_key) => {dispatch(fetchRevisionConcepts(subject_key))},
-	fetchTestConcepts: (subject_key) => {dispatch(fetchTestConcepts(subject_key))},
-	setMode: (mode) => {dispatch(setMode(mode))}
+	fetchSubjectDetail: (subject_key) => {dispatch(fetchSubjectDetail(subject_key))},
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Subjects)
