@@ -35,6 +35,13 @@ export const user = createReducer({
 			}) 
 		})
 	},
+	[types.SUBJECT_SKIP_SUCCESS](state, action){
+		return Object.assign({}, state, {
+			data: Object.assign({}, state.data, {
+				points: state.data.points - 25
+			})
+		})
+	},
 	[types.TOKEN_FOUND](state, action){
 		return Object.assign({}, state, {
 			token: true

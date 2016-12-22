@@ -43,3 +43,17 @@ export function fetchSubjectIndex(subject_key){
 		}
 	}
 }
+
+export function skipSubjectCooldown(subject_key){
+	return {
+		[CALL_API]: {
+			endpoint: `subjects/${subject_key}/reset`,
+			authenticated: true,
+			types: [
+				types.SUBJECT_SKIP_REQUEST,
+				types.SUBJECT_SKIP_SUCCESS,
+				types.SUBJECT_SKIP_FAILURE
+			]
+		}
+	}
+}

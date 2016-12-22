@@ -6,6 +6,7 @@ import {
 	StyleSheet,
     TouchableHighlight
 } from 'react-native';
+import Navbar from './Navbar';
 import Loading from './Loading';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
@@ -27,7 +28,8 @@ class SubjectIndex extends React.Component {
         const {index} = this.props
 
         return (
-        	<View style={{flex: 1, marginTop: 60}}>
+        	<View style={{flex: 1}}>
+                <Navbar title="Index"/>
                 {
                     index.isFetching ? <Loading /> : (
                         <ScrollView style={{flex: 1}}>

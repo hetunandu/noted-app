@@ -110,14 +110,14 @@ export const conceptReader = createReducer({
 
 export const result = createReducer({
 	skip: 0,
-	done: 0,
+	read: 0,
 	right: 0,
 	wrong: 0
 }, {
 	[types.CONCEPT_LIST_SUCCESS](state, action){
 		return {
 			skip: 0,
-			done: 0,
+			read: 0,
 			right: 0,
 			wrong: 0
 		}
@@ -127,9 +127,9 @@ export const result = createReducer({
 			skip: state.skip + 1,
 		})
 	},
-	[types.CONCEPT_DONE_SUCCESS](state, action){
+	[types.CONCEPT_READ_SUCCESS](state, action){
 		return Object.assign({}, state, {
-			done: state.done + 1
+			read: state.read + 1
 		})
 	},
 	[types.CONCEPT_RIGHT_SUCCESS](state, action){

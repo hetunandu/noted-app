@@ -1,233 +1,287 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
+	View, 
 	Text,
-	View,
-	TouchableHighlight,
 	StyleSheet,
-	ToastAndroid
+	ScrollView,
+    TouchableHighlight,
+    Image
 } from 'react-native';
+import { fetchSubjectIndex, fetchSubjectList, skipSubjectCooldown } from '../actions/subjects';
+import {
+    fetchRevisionConcepts,
+    fetchTestConcepts,
+    setMode
+} from '../actions/concepts';
+import { Actions } from 'react-native-router-flux';
+import {connect} from 'react-redux';
+import Loading from './Loading';
 import reactMixin from 'react-mixin';
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import TimerMixin from 'react-timer-mixin';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+
+class SubjectCard extends Component{
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+        	"time_left": "Calculating"
+        };
+
+    }
+
+    componentDidMount(){
+ 
+        this.setInterval(this.countdown, 1000)
+    }
+
+    skipCooldown(){
+    	this.props.skipSubjectCooldown(this.props.subject.key)
+    	this.props.fetchSubjectList()
+    }
 
 
-class SubjectCard extends React.Component {
+    revisePressed(){
+        this.props.fetchRevisionConcepts(this.props.subject.key)
+        this.props.setMode("study")
+        Actions.conceptReader()
+    }
 
-	constructor(props) {
-		super(props);
+    testPressed(){
+        this.props.fetchTestConcepts(this.props.subject.key)
+        this.props.setMode("question")
+        Actions.conceptReader()
+    }
 
-		this.state = {time_left: "Calculating..."};
+    indexPressed(){
+        this.props.fetchSubjectIndex(this.props.subject.key)
+        Actions.subjectIndex()
+    }
 
-	}
+    calcProgress(){
+        total = this.props.subject.total_concepts
+        read = this.props.subject.read_concepts
 
-	componentDidMount(){
-		this.setInterval(this.countdown, 1000)
-	}
+         return Math.round(read / total * 100)
+    }
 
-	countdown(){
-		const {subject} = this.props
-
-		if(subject.has_data_count > 0){
-
-			var date = new Date(subject.next_concepts_on)
-			var ist_date = new Date(date.valueOf() + date.getTimezoneOffset());
-			var time_left = ist_date - new Date()
-
-			if (time_left < 0){
-				this.clearInterval()
-				this.setState({
-					time_left: -1
-				})
-			}else{
-				var _second = 1000;
-				var _minute = _second * 60;
-				var _hour = _minute * 60;
-				var _day = _hour * 24;
-
-				var hours = Math.floor((time_left % _day) / _hour);
-				var minutes = Math.floor((time_left % _hour) / _minute);
-				var seconds = Math.floor((time_left % _minute) / _second);
+    countdown(){
+        const {subject} = this.props
 
 
-				this.setState({
-					time_left: `${hours}h ${minutes}m ${seconds}s`
-				})
-			}
-		}
-	}
+        var date = new Date(subject.session_ends)
+        var ist_date = new Date(date.valueOf() + date.getTimezoneOffset());
+        var time_left = ist_date - new Date()
+
+            if (time_left < 0){
+                this.clearInterval()
+                this.setState({
+                    time_left: -1
+                })
+
+            }else{
+                var _second = 1000;
+                var _minute = _second * 60;
+                var _hour = _minute * 60;
+                var _day = _hour * 24;
+
+                var hours = Math.floor((time_left % _day) / _hour);
+                var minutes = Math.floor((time_left % _hour) / _minute);
+                var seconds = Math.floor((time_left % _minute) / _second);
 
 
-	handleTestPressed(){
-		if(this.props.subject.is_done_count > 9){
-			this.props.startTest()
-		}else{
-			ToastAndroid.show(
-				"You need to revise alteast 10 concepts before we can test",
-				ToastAndroid.LONG
-			)
-		}
-	}
+                this.setState({
+                    time_left: `${hours}h ${minutes}m ${seconds}s`
+                })
+            }
+    }
 
-	render() {
-		const {subject} = this.props
+    render(){
+        const {subject} = this.props
 
-		return (
-			<View>
-				{
-					subject.has_data_count > 0 ? (
-						<View style={styles.subjectCard} >
-							<View style={styles.subjectHeader}>
-								<Text style={styles.subjectName}>
-									{subject.name}
-								</Text>
-								<Text style={styles.subjectTotalConcepts}>
-									{subject.total_concepts}
-								</Text>
-							</View>
-							<View style={styles.subjectInfoContainer}>
-								<View style={styles.subjectInfoRow}>
-									<Text style={styles.subjectInfoText}>
-										Revised
-									</Text>
-									<Text style={styles.subjectInfoValue}>
-										{subject.is_done_count}
-									</Text>
-								</View>
-								<View style={styles.subjectInfoRow}>
-									<Text style={styles.subjectInfoText}>
-										Correct
-									</Text>
-									<Text style={styles.subjectInfoValue}>
-										{subject.is_right_count}
-									</Text>
-								</View>
-							</View>
-							<View style={styles.subjectActions}>
-								<TouchableHighlight
-									style={[styles.actionBtn]}
-									underlayColor="#f1f1f1"
-									disabled={this.state.time_left !== -1 }
-									onPress={() => this.props.startRevision()}
-								>
-									{
-										this.state.time_left === -1 ? (
-											<View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-												<Text style={styles.actionBtnText} >Revise</Text>
-												<Icon name="chevron-right" size={30} color="#333" />
-											</View>
-										)
-										:
-										(
-											<Text style={[
-													styles.actionBtnText,
-													{color: 'red'}
-												]}
-											>
-												Wait {this.state.time_left}
-											</Text>
-										)
-									}
-								</TouchableHighlight>
+        return(
+            <View style={styles.subjectCard}>
+            	<View style={styles.subjectDetails}>
+            		<View>
+		            	<Text style={styles.subjectName}>
+		                	{this.props.subject.name}
+		                </Text>
+		                <Text style={styles.viewsText}> 
+		                	{this.props.subject.views_available} views available
+		                </Text>
+	                </View>
+	                <View>
+	                	<Text style={styles.progress}>{this.calcProgress()}%</Text>
+	                </View>
+            	</View>
+	            {
+	                subject.views_available > 0 ? (
+	                    <View >
+	                        <TouchableHighlight style={styles.subjectActionContainer}
+	                            onPress={() => this.revisePressed()}
+	                            underlayColor="#f3f3f3"
+	                        >
+	                            <View style={styles.subjectAction}>                    
+	                            	<View>
+	                                	<Text style={styles.subjectActionText}>Revise</Text>
+	                                	<Text style={styles.viewsText}>Cost: 5 views</Text>
+	                                </View>
+	                                <Icon name="chevron-right" size={30} color="#333" />
+	                            </View>
 
-								<TouchableHighlight
-									style={[styles.actionBtn]}
-									underlayColor="#f1f1f1"
-									onPress={() => this.handleTestPressed()}
-								>
-									<View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-										<Text style={styles.actionBtnText} >Test</Text>
-										<Icon name="chevron-right" size={30} color="#333" />
-									</View>
-								</TouchableHighlight>
-								
-							</View>
-						</View>
-					) 
-					: 
-					(
-						<TouchableHighlight
-							style={styles.subjectListItemContainer}
-							underlayColor="#f1f1f1"
-							onPress={() => this.props.startRevision()}
-						>
-							<View style={styles.subjectHeader}>
-								<Text style={styles.subjectName}>
-									{subject.name}
-								</Text>
-								<Icon name="chevron-right" size={30} color="#333" />
-							</View>
-						</TouchableHighlight>
-					)
-				}
-			</View>
-		);
-	}
+	                        </TouchableHighlight>
+	                        <TouchableHighlight style={styles.subjectActionContainer}
+	                            onPress={() => this.testPressed()}
+	                            underlayColor="#f3f3f3"
+	                        >
+	                            <View style={styles.subjectAction}>
+	                            	<View>
+	                                	<Text style={styles.subjectActionText}>Test</Text>
+	                                	<Text style={styles.viewsText}>Cost: 5 views</Text>
+	                                </View>
+	                                <Icon name="chevron-right" size={30} color="#333" />
+	                            </View>
+	                        </TouchableHighlight>
+	                        <TouchableHighlight style={styles.subjectActionContainer}
+	                            onPress={() => this.indexPressed()}
+	                            underlayColor="#f3f3f3"
+	                        >
+	                            <View style={styles.subjectAction}>
+	                            	<View>
+	                                	<Text style={styles.subjectActionText}>Index</Text>
+	                                	<Text style={styles.viewsText}>Cost: 1 view per concept</Text>
+	                                </View>
+	                                <Icon name="chevron-right" size={30} color="#333" />
+	                            </View>
+	                        </TouchableHighlight>
+	                    </View>
+
+	                ) : (
+	                    <View style={styles.cooldownContainer}>
+	                        <Text style={{
+	                        	fontSize: 25,
+	                        	textAlign:'center',
+	                        	fontWeight: 'bold',
+	                        	color: 'red',
+	                        	}}
+	                        >
+	                            Cooldown
+	                        </Text>
+	                        <Text style={{
+	                        	fontSize: 20,
+	                        	textAlign:'center',
+	                        	marginBottom: 10
+	                       		}}
+	                       	>
+	                            More views in : {this.state.time_left}
+	                        </Text>
+	                        <TouchableHighlight 
+	                        	onPress={() => this.skipCooldown()}
+	                        >
+		                        <View style={styles.skipAction}>
+		                        	<Text 
+		                        		style={{
+		                        			fontSize: 25,
+		                        			color: 'white',
+		                        			marginRight: 5
+		                        		}}
+		                        	>Skip for </Text>
+		                        		
+	                        		<View 
+	                        			style={{
+	                        				flexDirection: 'row',
+	                        				alignItems: 'center'
+	                        			}}
+	                        		>
+			                        	<Image 
+											source={require('../images/icon.png')}
+											style={{width: 20, height: 20, borderRadius: 50}} 
+										/>
+			                        	<Text 
+			                        		style={{
+			                        			fontSize: 30,
+			                        			marginLeft: 5,
+			                        			fontWeight: 'bold',
+			                        			color: 'white'
+			                        		}}
+			                        	>
+			                        		25
+			                        	</Text>
+		                        	</View>
+		                        </View>
+							</TouchableHighlight>
+	                    </View>
+	                )
+	            }
+	        </View>
+        )
+    }
 }
+
+const styles = StyleSheet.create({
+    subjectCard:{
+    	backgroundColor: 'white',
+    	elevation: 2,
+    	margin: 10,
+    	borderRadius: 5
+    },
+    subjectDetails:{
+    	padding: 5,
+    	borderBottomWidth: 1,
+    	borderBottomColor: '#333',
+    	flexDirection: 'row',
+    	justifyContent:'space-between'
+    },
+    progress: {
+    	fontSize: 30,
+    	color: 'green'
+    },
+    subjectName:{
+    	fontSize: 25,
+    	fontWeight: 'bold'
+    },	
+    viewsText: {
+        fontSize: 15,
+        color: '#999'
+    }, 
+    subjectAction: {
+        padding: 10,
+        backgroundColor: 'white',
+        borderBottomWidth: 1,
+        borderBottomColor: '#888',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    subjectActionText:{
+        fontSize: 23,
+    },
+    cooldownContainer: {
+        padding: 5,
+        backgroundColor: 'white',
+        borderRadius: 5
+    },
+    skipAction:{
+    	backgroundColor: '#50537f',
+    	flex: 1,
+    	padding: 5,
+    	justifyContent: 'center',
+    	alignItems: 'center',
+    	flexDirection: 'row'
+    }
+})
 
 // Add react timer mixin to the subject class
 reactMixin(SubjectCard.prototype, TimerMixin)
 
-const styles = StyleSheet.create({
-	subjectCard: {
-		backgroundColor: 'white',
-		justifyContent: 'center',
-		elevation: 2,
-		borderRadius: 5,
-		margin: 10
-	},
-	subjectHeader: {
-		alignItems: 'center',
-		justifyContent: 'space-between',
-		flexDirection: 'row',
-		flexWrap: 'wrap',
-	},
-	subjectName: {
-		padding: 5,
-		fontWeight: '500',
-		fontSize: 30,
-	},
-	subjectTotalConcepts: {
-		padding: 5,
-		fontWeight: '800',
-		fontSize: 30,
-	},
-	subjectInfoContainer: {
-
-	},
-	subjectInfoRow: {
-		padding: 5,
-		alignItems: 'center',
-		justifyContent: 'space-between',
-		flexDirection: 'row',
-		borderBottomColor: '#f1f1f1',
-		borderBottomWidth: 1
-	},
-	subjectInfoText: {
-		fontSize: 20
-	},
-	subjectInfoValue: {
-		fontSize: 25,
-		fontWeight: '600'
-	},
-	subjectListItemContainer:{
-		backgroundColor: 'white',
-		elevation: 2,
-		borderRadius: 5,
-		margin: 10,
-		padding: 10
-	},
-	subjectActions: {
-	},
-	actionBtn: {
-		padding: 15,
-		borderBottomColor: '#BBB',
-		borderBottomWidth: 1
-	},
-	actionBtnText: {
-		fontSize: 20,
-		fontWeight: '500'
-	}
-
+const mapDispatchToProps = dispatch => ({
+	fetchSubjectList: () => {dispatch(fetchSubjectList())},
+    fetchRevisionConcepts: (subject_key) => {dispatch(fetchRevisionConcepts(subject_key))},
+    fetchTestConcepts: (subject_key) => {dispatch(fetchTestConcepts(subject_key))},
+    fetchSubjectIndex: (subject_key) => {dispatch(fetchSubjectIndex(subject_key))},
+    skipSubjectCooldown: (subject_key) => {dispatch(skipSubjectCooldown(subject_key))},
+    setMode: (mode) => {dispatch(setMode(mode))}
 })
 
-export default SubjectCard;
+export default connect(null, mapDispatchToProps)(SubjectCard)

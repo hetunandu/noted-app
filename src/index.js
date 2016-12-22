@@ -18,7 +18,7 @@ import Subjects from './components/Subjects';
 import SubjectDetail from './components/SubjectDetail';
 import ConceptView from './components/ConceptView';
 import SubjectIndex from './components/SubjectIndex';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Home from './components/Home';
 
 // Make a logging middlware
 const loggerMiddleware = createLogger({predicate: (getState, action) => __DEV__});
@@ -51,7 +51,7 @@ const navBarTitleStyles = {
 	fontWeight: '600',
 	color: 'white',
 	textAlign: 'left',
-	marginLeft: 40,
+	marginLeft: 10,
 	alignSelf: 'flex-start'
 }
 
@@ -86,12 +86,13 @@ const scenes = Actions.create(
 			type={ActionConst.REPLACE}
 		/>
 		<Scene
-			key="subjects"
-			title="Subjects"
-			component={Subjects}
+			key="home"
+			hideNavBar
+			component={Home}
 		/>
 		<Scene 
 			key="subjectDetail"
+
 			component={SubjectDetail}
 		/>
 		<Scene 

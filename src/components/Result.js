@@ -12,6 +12,7 @@ import {
 	fetchTestConcepts,
 	setMode
 } from '../actions/concepts';
+import Navbar from './Navbar';
 import { Actions } from 'react-native-router-flux';
 
 
@@ -68,7 +69,7 @@ class Result extends Component {
 								Revised
 							</Text>
 							<Text style={styles.summaryValue}>
-								{this.props.result.done}
+								{this.props.result.read}
 							</Text>
 						</View>
 						<View style={styles.summaryRow}>
@@ -90,11 +91,8 @@ class Result extends Component {
 	render(){
 		return (
 			<View style={styles.resultContainer}>
-				<Text style={styles.promoText}>
-					Buy pro to get all concepts at once
-				</Text>
+				<Navbar title="Result"/>
 				<View style={styles.resultInfoContainer}>
-					<Text style={styles.resultText}>Session Summary</Text>
 					{this._renderResult()}
 				</View>
 				{
@@ -106,16 +104,6 @@ class Result extends Component {
 								btnText="Test revised concepts"
 								btnPressed={() => this.handleTest()}
 							/>
-							{
-								this.props.result.skip > 0 && (
-									<ActionBtn 
-										backgroundColor="#333"
-										underlayColor="#444"
-										btnText="Revise skipped Concepts"
-										btnPressed={() => this.handleRevision()}
-									/>
-								)
-							}
 							<ActionBtn 
 								backgroundColor="#333"
 								underlayColor="#444"
@@ -134,16 +122,6 @@ class Result extends Component {
 								btnText="Test Again"
 								btnPressed={() => this.handleTest()}
 							/>
-							{
-								this.props.result.wrong > 0 && (
-									<ActionBtn 
-										backgroundColor="#333"
-										underlayColor="#444"
-										btnText="Review wrong concepts"
-										btnPressed={() => this.handleRevision()}
-									/>
-								)
-							}
 							<ActionBtn 
 								backgroundColor="#333"
 								underlayColor="#444"
