@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
 import {
 	View,
-	Text,
 	StyleSheet,
-	Image,
-	ScrollView,
 	Animated,
 	Easing,
 	TouchableHighlight,
@@ -12,6 +9,8 @@ import {
 } from 'react-native';
 import Explanation from './Explanation';
 import Question from './Question';
+import tts from 'react-native-android-speech';
+
 
 class ConceptCard extends Component {
 
@@ -19,13 +18,20 @@ class ConceptCard extends Component {
 		super(props);
 
 		this.state = {
+			translateY: new Animated.Value(0),
 			translateX: new Animated.Value(0)
 		};
 	}
 
 
 	componentDidMount() {
-		var {width} = Dimensions.get('window');
+
+		this.animateCardIn()
+		
+	}
+
+	animateCardIn(){
+		var { width } = Dimensions.get('window');
 		const startValue = -Math.abs(width)
 		this.state.translateX.setValue(startValue)
 		Animated.spring(
@@ -37,52 +43,34 @@ class ConceptCard extends Component {
 		).start();
 	}
 
-	_renderCard(){
-		switch(this.props.mode){
-			case 'study':
-				return (
-					<Explanation
-						explanation={this.props.concept.explanation}
-						references={this.props.concept.references}
-						tips={this.props.concept.tips}
-					/>
-				)
-			case 'question':
-				return (
-					<Question
-						name={this.props.concept.name}
-						question={this.props.concept.questions[0]}
-					/>
-				);
-			case 'answer':
-				return (
-					<Explanation
-						explanation={this.props.concept.explanation}
-						references={this.props.concept.references}
-						tips={this.props.concept.tips}
-					/>
-				)
-			default:
-				return <Text>Unkown mode</Text>
-		}
+	animateCardOut(){
+		var {height} = Dimensions.get('window');
+		const endValue = -Math.abs(height)
+		Animated.spring(
+			this.state.translateY,
+			{
+				toValue: endValue,
+				friction: 7
+			}
+		).start();
 	}
 
 	render(){
-
+		var {height} = Dimensions.get('window')
 		return(
 			<Animated.View
 				style={[
 					styles.card,
 					{
+						height: height - 60,
 						transform: [
+							{translateY: this.state.translateY},
 							{translateX: this.state.translateX}
 						]
 					}
 				]}
 			>
-				{
-					this._renderCard()
-				}
+				{this.props.children}
 			</Animated.View>
 		)
 	}
@@ -90,9 +78,10 @@ class ConceptCard extends Component {
 
 const styles = StyleSheet.create({
 	card: {
-		flex: 7,
+		padding: 10,
 		backgroundColor: 'white',
-		elevation: 2,
+		borderRadius: 3,
+		elevation: 2
 	}
 })
 

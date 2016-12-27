@@ -15,9 +15,9 @@ import api from './lib/api';
 import Login from './components/Login';
 import LoginDetails from './components/LoginDetails';
 import Subjects from './components/Subjects';
-import SubjectDetail from './components/SubjectDetail';
-import ConceptView from './components/ConceptView';
+import ConceptReader from './components/ConceptReader';
 import SubjectIndex from './components/SubjectIndex';
+import Result from './components/Result';
 import Home from './components/Home';
 
 // Make a logging middlware
@@ -58,19 +58,8 @@ const navBarTitleStyles = {
 // Routes
 const scenes = Actions.create(
 	<Scene key="root"
-		navigationBarStyle={navBarStyles}
-		titleStyle={navBarTitleStyles}
-		leftButtonIconStyle={{height: 25, width: 25}}
-		backButtonImage={require('./images/backIcon.png')}
-		leftButtonStyle={{
-			top: 0,
-			height: 65,
-			width: 40,
-			alignItems: 'center',
-			justifyContent: 'center'
-		}}
+		hideNavBar={true}
 		panHandlers={null}
-		
 	>
 		<Scene
 			key="login"
@@ -82,6 +71,7 @@ const scenes = Actions.create(
 		<Scene
 			key="loginDetails"
 			title="Finish Login"
+			panHandlers={null}
 			component={LoginDetails}
 			type={ActionConst.REPLACE}
 		/>
@@ -91,18 +81,22 @@ const scenes = Actions.create(
 			component={Home}
 		/>
 		<Scene 
-			key="subjectDetail"
-
-			component={SubjectDetail}
-		/>
-		<Scene 
 			key="subjectIndex"
 			title="Index"
+			panHandlers={null}
 			component={SubjectIndex}
 		/>
 		<Scene
 			key="conceptReader"
-			component={ConceptView}
+			panHandlers={null}
+			component={ConceptReader}
+			hideNavBar
+		/>
+		<Scene
+			key="resultPage"
+			panHandlers={null}
+			component={Result}
+			type={ActionConst.REPLACE}
 			hideNavBar
 		/>
 	</Scene>

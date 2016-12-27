@@ -28,7 +28,6 @@ class Navbar extends Component{
 }
 
 
-
 const styles = StyleSheet.create({
 	navBar:{
 		padding: 10,
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
 	points:{
 		fontSize: 30,
 		fontWeight: 'bold',
-		'color': 'white',
+		color: 'white',
 		marginLeft: 5
 	}
 })

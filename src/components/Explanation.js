@@ -17,14 +17,6 @@ import {
 
 class Explanation extends React.Component {
 
-	constructor(props){
-		super(props)
-
-		this.state = {
-			"mode": 'exp'
-		}
-	}
-
 
 	_renderNodes(node, i){
 		switch(node.type){
@@ -40,18 +32,6 @@ class Explanation extends React.Component {
 				return <PointerNode key={i} data={node.data} />
 			default:
 				return <Text key={i}>{node.type}</Text>
-		}
-	}
-
-	handleLongPress(){
-		if(this.state.mode == "exp"){
-			this.setState({
-				mode: 'ref'
-			})
-		}else{
-			this.setState({
-				mode: 'exp'
-			})
 		}
 	}
 
@@ -90,7 +70,7 @@ class Explanation extends React.Component {
 	_renderExplanation(){
 		return (
 			<ScrollView style={{flex: 1}}>
-				<View style={{flex: 1, padding: 15}}>
+				<View style={{flex: 1}}>
 					{this.props.explanation.map((node, i) => this._renderNodes(node, i))}
 				</View>
 			</ScrollView>
@@ -98,7 +78,7 @@ class Explanation extends React.Component {
 	}
 
 	_renderContents(){
-		if(this.state.mode == "exp"){
+		if(!this.props.showRef){
 			return this._renderExplanation()
 		}else{
 			return this._renderReferences()
@@ -109,7 +89,7 @@ class Explanation extends React.Component {
 		return(
 			<View style={[
 				styles.explanation,
-				this.state.mode == "ref" && styles.references
+				this.props.showRef && styles.references
 			]}>
 				{
 					this._renderContents()
@@ -123,9 +103,9 @@ const styles = StyleSheet.create({
 	explanation: {
 		flex: 1,
 		backgroundColor: 'white',
-		borderRadius: 3
 	},
 	references: {
+		padding: 5,
 		backgroundColor: '#333'
 	},
 	refText: {
@@ -134,6 +114,7 @@ const styles = StyleSheet.create({
 		paddingLeft: 10
 	},
 	refTitle:{
+		textAlign: 'center',
 		color: "#fff",
 		marginTop: 10,
 		fontSize: 35

@@ -4,22 +4,22 @@ import * as types from '../actions/types'
 export const conceptReader = createReducer({
 	isFetching: false,
 	errorMessage: '',
-	mode: false,
-	currentIndex: 0,
-	list: [],
+	reference: false,
+	showAns: false,
+	isReading: false,
+	list: []
 }, {
 	[types.CONCEPT_LIST_REQUEST](state, action){
 		return Object.assign({}, state, {
 			isFetching: true,
 			errorMessage: '',
-			result: {},
+			result: [],
 			list: []
 		})
 	},
 	[types.CONCEPT_LIST_SUCCESS](state, action){
 		return Object.assign({}, state, {
 			isFetching: false,
-			currentIndex: 0,
 			list: action.data.concepts
 		})
 	},
@@ -33,13 +33,13 @@ export const conceptReader = createReducer({
 		return Object.assign({}, state, {
 			isFetching: true,
 			errorMessage: '',
-			list: []
+			list: [],
+			result: []
 		})
 	},
 	[types.CONCEPT_VIEW_SUCCESS](state, action){
 		return Object.assign({}, state, {
 			isFetching: false,
-			currentIndex: 0,
 			list: [action.data.concept]
 		})
 	},
@@ -49,97 +49,77 @@ export const conceptReader = createReducer({
 			errorMessage: action.error
 		})
 	},
-	[types.SET_MODE](state, action){
+	[types.TOGGLE_REFERENCES](state, action){
 		return Object.assign({}, state, {
-			mode: action.mode
+			reference: !state.reference
 		})
 	},
-	[types.CONCEPT_SKIP](state, action){
+	[types.READ_CONCEPT](state, action){
 		return Object.assign({}, state, {
-			currentIndex: state.currentIndex + 1
+			isReading: action.reading
 		})
 	},
-	[types.CONCEPT_READ_REQUEST](state, action){
+	[types.MARK_CONCEPT](state, action){
 		return Object.assign({}, state, {
-			currentIndex: state.currentIndex + 1
+			list: state.list.filter((concept) => {
+				if (concept.key == action.key){
+					return false
+				}else{
+					return true
+				}
+			})
 		})
 	},
-	[types.CONCEPT_READ_FAILURE](state, action){
+	[types.SHOW_ANSWER](state, action){
 		return Object.assign({}, state, {
-			errorMessage: action.error
-		})
-	},
-	[types.CONCEPT_RIGHT_REQUEST](state, action){
-		return Object.assign({}, state, {
-			isFetching: true,
-			errorMessage: ''
-		})
-	},
-	[types.CONCEPT_RIGHT_SUCCESS](state, action){
-		return Object.assign({}, state, {
-			isFetching: false,
-			currentIndex: state.currentIndex + 1
-		})
-	},
-	[types.CONCEPT_RIGHT_FAILURE](state, action){
-		return Object.assign({}, state, {
-			isFetching: false,
-			errorMessage: action.error
-		})
-	},
-	[types.CONCEPT_WRONG_REQUEST](state, action){
-		return Object.assign({}, state, {
-			isFetching: true,
-			errorMessage: ''
-		})
-	},
-	[types.CONCEPT_WRONG_SUCCESS](state, action){
-		return Object.assign({}, state, {
-			isFetching: false,
-			currentIndex: state.currentIndex + 1
-		})
-	},
-	[types.CONCEPT_WRONG_FAILURE](state, action){
-		return Object.assign({}, state, {
-			isFetching: false,
-			errorMessage: action.error
+			showAns: action.showAns
 		})
 	}
 });
 
 
 export const result = createReducer({
-	skip: 0,
-	read: 0,
-	right: 0,
-	wrong: 0
+	isFetching: false,
+	errorMessage: '',
+	data: [],
+	points: 0
 }, {
 	[types.CONCEPT_LIST_SUCCESS](state, action){
-		return {
-			skip: 0,
-			read: 0,
-			right: 0,
-			wrong: 0
-		}
-	},
-	[types.CONCEPT_SKIP](state, action){
 		return Object.assign({}, state, {
-			skip: state.skip + 1,
+			data: [],
+			points: 0
 		})
 	},
-	[types.CONCEPT_READ_SUCCESS](state, action){
+	[types.CONCEPT_VIEW_SUCCESS](state, action){
 		return Object.assign({}, state, {
-			read: state.read + 1
+			data: [],
+			points: 0
 		})
 	},
-	[types.CONCEPT_RIGHT_SUCCESS](state, action){
+	[types.MARK_CONCEPT](state, action){
 		return Object.assign({}, state, {
-			right: state.right + 1
+			data: state.data.concat([{
+				key: action.key,
+				marked: action.marked
+			}])
 		})
 	},
-	[types.CONCEPT_WRONG_SUCCESS](state, action){
+	[types.SUBMIT_RESULT_REQUEST](state, action){
 		return Object.assign({}, state, {
-			wrong: state.wrong + 1
+			isFetching: true,
+			errorMessage: ''
+		})
+	},
+	[types.SUBMIT_RESULT_SUCCESS](state, action){
+		return Object.assign({}, state, {
+			isFetching: false,
+			points: action.data.new_points
+		})
+	},
+	[types.SUBMIT_RESULT_FAILURE](state, action){
+		return Object.assign({}, state, {
+			isFetching: false,
+			errorMessage: action.error
 		})
 	}
 });

@@ -32,7 +32,6 @@ class SubjectCard extends Component{
     }
 
     componentDidMount(){
- 
         this.setInterval(this.countdown, 1000)
     }
 
@@ -44,19 +43,23 @@ class SubjectCard extends Component{
 
     revisePressed(){
         this.props.fetchRevisionConcepts(this.props.subject.key)
-        this.props.setMode("study")
-        Actions.conceptReader()
+        Actions.conceptReader({
+            subject: this.props.subject,
+            mode: 'revise'
+        })
     }
 
     testPressed(){
         this.props.fetchTestConcepts(this.props.subject.key)
-        this.props.setMode("question")
-        Actions.conceptReader()
+        Actions.conceptReader({
+            subject: this.props.subject,
+            mode: 'test'
+        })
     }
 
     indexPressed(){
         this.props.fetchSubjectIndex(this.props.subject.key)
-        Actions.subjectIndex()
+        Actions.subjectIndex({subject: this.props.subject})
     }
 
     calcProgress(){
@@ -131,18 +134,18 @@ class SubjectCard extends Component{
 	                            </View>
 
 	                        </TouchableHighlight>
-	                        <TouchableHighlight style={styles.subjectActionContainer}
-	                            onPress={() => this.testPressed()}
-	                            underlayColor="#f3f3f3"
-	                        >
-	                            <View style={styles.subjectAction}>
-	                            	<View>
-	                                	<Text style={styles.subjectActionText}>Test</Text>
-	                                	<Text style={styles.viewsText}>Cost: 5 views</Text>
-	                                </View>
-	                                <Icon name="chevron-right" size={30} color="#333" />
-	                            </View>
-	                        </TouchableHighlight>
+                            <TouchableHighlight style={styles.subjectActionContainer}
+                                onPress={() => this.testPressed()}
+                                underlayColor="#f3f3f3"
+                            >
+                                <View style={styles.subjectAction}>
+                                    <View>
+                                        <Text style={styles.subjectActionText}>Test</Text>
+                                        <Text style={styles.viewsText}>Cost: 5 views</Text>
+                                    </View>
+                                    <Icon name="chevron-right" size={30} color="#333" />
+                                </View>
+                            </TouchableHighlight>
 	                        <TouchableHighlight style={styles.subjectActionContainer}
 	                            onPress={() => this.indexPressed()}
 	                            underlayColor="#f3f3f3"
@@ -224,7 +227,7 @@ const styles = StyleSheet.create({
     	backgroundColor: 'white',
     	elevation: 2,
     	margin: 10,
-    	borderRadius: 5
+    	borderRadius: 2
     },
     subjectDetails:{
     	padding: 5,
@@ -258,7 +261,6 @@ const styles = StyleSheet.create({
         fontSize: 23,
     },
     cooldownContainer: {
-        padding: 5,
         backgroundColor: 'white',
         borderRadius: 5
     },

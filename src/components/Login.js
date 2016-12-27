@@ -7,6 +7,7 @@ import {
 	Image,
 	ActivityIndicator
 } from 'react-native';
+import Navbar from './Navbar';
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 import Loading from './Loading';
 import {connect} from 'react-redux';
@@ -77,8 +78,6 @@ class Login extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-		marginTop: 60,
-		padding: 10,
 		flex: 1,
 		alignItems: 'center',
 	},

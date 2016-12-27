@@ -5,7 +5,8 @@ export const user = createReducer({
 	isFetching: false,
 	errorMessage: '',
 	isAuthenticated: false,
-	token: false
+	token: false,
+	data: {}
 }, {
 	[types.LOGIN_REQUEST](state, action){
 		return Object.assign({}, state, {
@@ -28,11 +29,11 @@ export const user = createReducer({
 			errorMessage: action.error
 		})
 	},
-	[types.CONCEPT_READ_SUCCESS](state, action){
+	[types.SUBMIT_RESULT_SUCCESS](state, action){
 		return Object.assign({}, state, {
-			data: Object.assign({}, state.data, {
-				points: state.data.points + 1
-			}) 
+			data: Object.assign({}, state, {
+				points: action.data.new_points + state.data.points
+			})
 		})
 	},
 	[types.SUBJECT_SKIP_SUCCESS](state, action){

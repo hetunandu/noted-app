@@ -2,135 +2,111 @@ import React, {Component} from 'react';
 import {
 	View,
 	Text,
-	StyleSheet
+	StyleSheet,
+	BackAndroid,
+	TouchableHighlight
 } from 'react-native';
-import ActionBtn from './ActionBtn';
 import {connect} from 'react-redux';
 import { fetchSubjectList } from '../actions/subjects';
-import {
-	fetchRevisionConcepts,
-	fetchTestConcepts,
-	setMode
-} from '../actions/concepts';
+import { submitResult } from '../actions/concepts';
 import Navbar from './Navbar';
+import Loading from './Loading';
 import { Actions } from 'react-native-router-flux';
 
 
 class Result extends Component {
 
-	handleTest(){
-		const {fetchTestConcepts, subject, setMode} = this.props
+	constructor(props){
+		super(props)
 
-		fetchTestConcepts(subject.key)
-		setMode("question")
+		this.handleBack = this.handleBack.bind(this)
 
+		BackAndroid.addEventListener('hardwareBackPress', this.handleBack)
 	}
 
-	handleRevision(){
-		const {fetchRevisionConcepts, subject, setMode} = this.props
-
-		fetchRevisionConcepts(subject.key)
-		setMode("study")
+	componentWillUnmount(){
+		BackAndroid.removeEventListener('hardwareBackPress', this.handleBack)
 	}
 
 	handleBack(){
 		this.props.fetchSubjectList()
-		Actions.pop()
 	}
 
-	_renderResult(){
-		switch (this.props.mode) {
-			case "question":
-				return (
-					<View style={styles.summaryContainer}>
-						<View style={styles.summaryRow}>
-							<Text style={styles.summaryInfo}>
-								Right
-							</Text>
-							<Text style={styles.summaryValue}>
-								{this.props.result.right}
-							</Text>
-						</View>
-						<View style={styles.summaryRow}>
-							<Text style={styles.summaryInfo}>
-								Wrong
-							</Text>
-							<Text style={styles.summaryValue}>
-								{this.props.result.wrong}
-							</Text>
-						</View>
-					</View>
-				)
-			case "study":
-				return (
-					<View style={styles.summaryContainer}>
-						<View style={styles.summaryRow}>
-							<Text style={styles.summaryInfo}>
-								Revised
-							</Text>
-							<Text style={styles.summaryValue}>
-								{this.props.result.read}
-							</Text>
-						</View>
-						<View style={styles.summaryRow}>
-							<Text style={styles.summaryInfo}>
-								Skipped
-							</Text>
-							<Text style={styles.summaryValue}>
-								{this.props.result.skip}
-							</Text>
-						</View>
-					</View>
-				)
-			default:
-				return (<View></View>)
-		}
-	}
+	getResultCount(marking){
+		counter = 0
+		this.props.result.data.map( (concept) => {
+			if (concept.marked == marking){
+				counter ++
+			}
+		})
 
+		return counter
+	}
 
 	render(){
 		return (
 			<View style={styles.resultContainer}>
 				<Navbar title="Result"/>
 				<View style={styles.resultInfoContainer}>
-					{this._renderResult()}
+					{
+						this.props.result.isFetching ? (
+							<Loading />
+						) : (
+							<View>
+							{
+								this.props.result.errorMessage.length > 1 && (
+									<Text style={{color: 'red'}}>
+										{this.props.result.errorMessage}
+									</Text>
+								)	
+							}
+								<Text style={styles.pageHeader}>Summary</Text>
+								<View style={styles.summaryContainer}>
+									<View style={styles.summaryRow}>
+										<Text style={styles.summaryInfo}>
+											Points Earned
+										</Text>
+										<Text style={styles.summaryValue}>
+											{this.props.result.points}
+										</Text>
+									</View>
+									<View style={styles.summaryRow}>
+										<Text style={styles.summaryInfo}>
+											Read
+										</Text>
+										<Text style={styles.summaryValue}>
+											{this.getResultCount('read')}
+										</Text>
+									</View>
+									<View style={styles.summaryRow}>
+										<Text style={styles.summaryInfo}>
+											Skipped
+										</Text>
+										<Text style={styles.summaryValue}>
+											{this.getResultCount('skip')}
+										</Text>
+									</View>
+								</View>
+								<TouchableHighlight 
+									style={styles.backButton}
+									onPress={ () => {
+										this.props.fetchSubjectList()
+										Actions.pop()
+									}}
+								>
+									<Text style={{
+										color: '#fff',
+										textAlign: 'center',
+										fontSize: 25
+										}}
+									>
+										Back to Home
+									</Text>
+								</TouchableHighlight>
+							</View>
+						)
+					}
 				</View>
-				{
-					this.props.mode == "study" && (
-						<View style={styles.resultActions}>
-							<ActionBtn 
-								backgroundColor="#333"
-								underlayColor="#444"
-								btnText="Test revised concepts"
-								btnPressed={() => this.handleTest()}
-							/>
-							<ActionBtn 
-								backgroundColor="#333"
-								underlayColor="#444"
-								btnText="Back to subjects"
-								btnPressed={() => this.handleBack()}
-							/>
-						</View>
-					)
-				}
-				{
-					this.props.mode == "question" && (
-						<View style={styles.resultActions}>
-							<ActionBtn 
-								backgroundColor="#333"
-								underlayColor="#444"
-								btnText="Test Again"
-								btnPressed={() => this.handleTest()}
-							/>
-							<ActionBtn 
-								backgroundColor="#333"
-								underlayColor="#444"
-								btnText="Back to subjects"
-								btnPressed={() => this.handleBack()}
-							/>
-						</View>
-					)
-				}
 			</View>
 		)
 	}
@@ -138,13 +114,15 @@ class Result extends Component {
 
 const styles = StyleSheet.create({
 	resultContainer:{
-		flexDirection: 'column',
 		flex: 1,
-		justifyContent: 'center'
 	},
 	resultInfoContainer:{
-		flex: 3,
-		justifyContent: 'center',
+		flex: 1,
+	},
+	backButton:{
+		alignSelf: 'stretch',
+		padding: 10,
+		backgroundColor: '#333'
 	},
 	summaryContainer: {
 		margin: 20,
@@ -170,23 +148,11 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		color: '#333'
 	},
-	promoText: {
+	pageHeader:{
 		textAlign: 'center',
-		color: 'white',
-		backgroundColor: 'red',
-		padding: 10,
-		fontSize: 20
-	},
-	resultText:{
-		textAlign: 'center',
-		fontSize: 25,
+		fontSize: 30,
 		fontWeight: '500',
 		color: '#000'
-	},
-	resultActions: {
-		flex: 2,
-		justifyContent: 'space-between',
-		flexDirection: 'column'
 	}
 })
 
@@ -196,15 +162,8 @@ const mapStateToProps = ({result}) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-	fetchRevisionConcepts: (subject_key) => {
-		dispatch(fetchRevisionConcepts(subject_key))
-	},
-	fetchTestConcepts: (subject_key) => {
-		dispatch(fetchTestConcepts(subject_key))
-	},
-	fetchSubjectList: () => {dispatch(fetchSubjectList())},
-	setMode: (mode) => {dispatch(setMode(mode))},
 
+	fetchSubjectList: () => {dispatch(fetchSubjectList())}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Result)

@@ -14,14 +14,17 @@ import {
     fetchSingleConcept,
     setMode
 } from '../actions/concepts';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
 class SubjectIndex extends React.Component {
 
     viewConcept(concept){
         this.props.fetchSingleConcept(concept.key)
-        this.props.setMode("study")
-        Actions.conceptReader()
+        Actions.conceptReader({
+            subject: this.props.subject,
+            mode: 'revise'
+        })
     }
 
     render() {
@@ -46,7 +49,26 @@ class SubjectIndex extends React.Component {
                                                         style={styles.conceptContainer}
                                                         onPress={this.viewConcept.bind(this, concept)}
                                                     >
-                                                        <View>
+                                                        <View style={{
+                                                            flexDirection: 'row',
+                                                            alignItems: 'center'
+                                                        }}>
+                                                            {
+                                                                concept.read ? (
+
+                                                                    <Icon 
+                                                                        name="done" 
+                                                                        size={25} 
+                                                                        color="green" />
+                                                                ) : (
+
+                                                                    <Icon
+                                                                        name="fiber-manual-record"
+                                                                        size={20}
+                                                                        color="gray" />
+
+                                                                )
+                                                            }
                                                             <Text style={styles.conceptName}>
                                                                 {concept.name}
                                                             </Text>
@@ -81,7 +103,7 @@ const styles = StyleSheet.create({
         borderRadius: 2
     },
     conceptContainer:{
-        padding: 10,
+        padding: 5,
         borderBottomWidth: 1,
         borderBottomColor: "#999"
     },

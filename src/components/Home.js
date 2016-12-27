@@ -23,7 +23,8 @@ class Home extends Component{
 		return (
 			<View style={styles.container}>
 				<Navbar title="Home"/>
-				{ this.props.subjects.isFetching ? <Loading /> : (
+				{
+					this.props.subjects.isFetching ? <Loading /> : (
 						<ScrollView >
 						{
 							this.props.subjects.list.map( subject => {
@@ -36,7 +37,6 @@ class Home extends Component{
 						</ScrollView>
 
 					)
-
 
 				}
 			</View>

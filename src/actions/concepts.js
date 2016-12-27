@@ -52,53 +52,75 @@ export function setMode(mode){
 	}
 }
 
+
+export function toggleReferences(){
+	return {
+		type: types.TOGGLE_REFERENCES
+	}
+}
+
+export function readingConcept(reading){
+	return {
+		type: types.READ_CONCEPT,
+		reading
+	}
+}
+
+export function showAnswer(showAns){
+	return {
+		type: types.SHOW_ANSWER,
+		showAns
+	}
+}
+
 // Skip the current concept
-export function conceptSkip(){
-	return{
-		type: types.CONCEPT_SKIP
+export function conceptSkip(key){
+
+	return {
+		type: types.MARK_CONCEPT,
+		key,
+		marked: 'skip'
 	}
 }
 
 // Mark the current concept as Done
-export function conceptRead(concept_key){
+export function conceptRead(key){
 	return{
-		[CALL_API]: {
-			endpoint: `concepts/${concept_key}/read`,
-			authenticated: true,
-			types: [
-				types.CONCEPT_READ_REQUEST,
-				types.CONCEPT_READ_SUCCESS,
-				types.CONCEPT_READ_FAILURE
-			]
-		}
+		type: types.MARK_CONCEPT,
+		key,
+		marked: 'read'
 	}
 }
 
 // Mark the current concept as Right
-export function conceptRight(concept_key){
+export function conceptRight(key){
 	return{
-		[CALL_API]: {
-			endpoint: `concepts/${concept_key}/right`,
-			authenticated: true,
-			types: [
-				types.CONCEPT_RIGHT_REQUEST,
-				types.CONCEPT_RIGHT_SUCCESS,
-				types.CONCEPT_RIGHT_FAILURE
-			]
-		}
+		type: types.MARK_CONCEPT,
+		key,
+		marked: 'right'
 	}
 }
 
 // Mark the current concept as Wrong
-export function conceptWrong(concept_key){
+export function conceptWrong(key){
 	return{
+		type: types.MARK_CONCEPT,
+		key,
+		marked: 'wrong'
+	}
+}
+
+export function submitResult(subject_key, mode, result){
+	return {
 		[CALL_API]: {
-			endpoint: `concepts/${concept_key}/wrong`,
+			endpoint: `subjects/${subject_key}/${mode}/result`,
+			method:"POST",
+			body: result,
 			authenticated: true,
 			types: [
-				types.CONCEPT_WRONG_REQUEST,
-				types.CONCEPT_WRONG_SUCCESS,
-				types.CONCEPT_WRONG_FAILURE
+				types.SUBMIT_RESULT_REQUEST,
+				types.SUBMIT_RESULT_SUCCESS,
+				types.SUBMIT_RESULT_FAILURE
 			]
 		}
 	}

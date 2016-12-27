@@ -18,7 +18,6 @@ export class TextNode extends React.Component{
 	render(){
 		return (
 			<Markdown 
-				whitelist={['strong']}
 				styles={markdownStyles}
 			>
 				{this.props.data}
