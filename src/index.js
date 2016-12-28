@@ -20,6 +20,8 @@ import SubjectIndex from './components/SubjectIndex';
 import Result from './components/Result';
 import Home from './components/Home';
 
+var RequiresConnection = require('react-native-offline-mode')
+
 // Make a logging middlware
 const loggerMiddleware = createLogger({predicate: (getState, action) => __DEV__});
 
@@ -129,4 +131,4 @@ class Noted extends Component{
 	}
 }
 
-export default Noted
+export default RequiresConnection(Noted)

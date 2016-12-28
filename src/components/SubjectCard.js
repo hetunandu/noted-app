@@ -19,6 +19,7 @@ import Loading from './Loading';
 import reactMixin from 'react-mixin';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import TimerMixin from 'react-timer-mixin';
+import PushNotification from 'react-native-push-notification';
 
 class SubjectCard extends Component{
 
@@ -33,6 +34,22 @@ class SubjectCard extends Component{
 
     componentDidMount(){
         this.setInterval(this.countdown, 1000)
+    }
+
+    componentDidUpdate(){
+
+        const {subject} = this.props
+        
+        if (subject.views_available === 0){
+            PushNotification.cancelAllLocalNotifications()
+            
+            PushNotification.localNotificationSchedule({
+              message: "Time to study!", // (required)
+              subText: `Cooldown of ${subject.name} is over`,
+              date:  new Date(subject.session_ends)
+            });
+
+        }
     }
 
     skipCooldown(){

@@ -15,9 +15,15 @@ import {
     setMode
 } from '../actions/concepts';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
+import {tracker} from '../lib/googleAnalytics';
+import PushNotification from 'react-native-push-notification';
 
 class SubjectIndex extends React.Component {
+
+
+    componentDidMount(){
+        tracker.trackScreenView('Index')
+    }
 
     viewConcept(concept){
         this.props.fetchSingleConcept(concept.key)

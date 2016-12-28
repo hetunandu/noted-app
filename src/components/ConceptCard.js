@@ -78,7 +78,6 @@ class ConceptCard extends Component {
 
 const styles = StyleSheet.create({
 	card: {
-		padding: 10,
 		backgroundColor: 'white',
 		borderRadius: 3,
 		elevation: 2

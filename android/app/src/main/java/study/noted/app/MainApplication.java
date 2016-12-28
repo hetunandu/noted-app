@@ -16,6 +16,7 @@ import java.util.List;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.mihir.react.tts.*;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -31,7 +32,8 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
           new RNGoogleSigninPackage(),
           new GoogleAnalyticsBridgePackage(),
-          new RCTTextToSpeechModule()
+          new RCTTextToSpeechModule(),
+          new ReactNativePushNotificationPackage()
       );
     }
   };

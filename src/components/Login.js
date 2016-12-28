@@ -13,10 +13,14 @@ import Loading from './Loading';
 import {connect} from 'react-redux';
 import {login, checkToken, googleAuthInit} from '../actions/auth';
 import { Actions } from 'react-native-router-flux';
+import {tracker} from '../lib/googleAnalytics';
 
 class Login extends Component {
 
 	componentDidMount(){
+
+		tracker.trackScreenView('Login')
+
 		this.props.googleAuthInit()
 		this.props.checkToken()
 	}

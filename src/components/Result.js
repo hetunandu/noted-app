@@ -12,6 +12,7 @@ import { submitResult } from '../actions/concepts';
 import Navbar from './Navbar';
 import Loading from './Loading';
 import { Actions } from 'react-native-router-flux';
+import {tracker} from '../lib/googleAnalytics';
 
 
 class Result extends Component {
@@ -22,6 +23,10 @@ class Result extends Component {
 		this.handleBack = this.handleBack.bind(this)
 
 		BackAndroid.addEventListener('hardwareBackPress', this.handleBack)
+	}
+
+	componentDidMount(){
+		tracker.trackScreenView('Result')
 	}
 
 	componentWillUnmount(){

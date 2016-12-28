@@ -26,6 +26,7 @@ class Question extends React.Component {
 
 const styles = StyleSheet.create({
 	question:{
+		padding: 10,
 		alignItems: 'center',
 	},
 	conceptName: {

@@ -10,12 +10,14 @@ import SubjectCard from './SubjectCard';
 import Loading from './Loading';
 import { Actions } from 'react-native-router-flux';
 import {connect} from 'react-redux';
-
+import {tracker} from '../lib/googleAnalytics';
 import { fetchSubjectList } from '../actions/subjects';
 
 class Home extends Component{
 
 	componentDidMount(){
+		tracker.trackScreenView('Home')
+
 		this.props.fetchSubjectList()
 	}
 

@@ -30,6 +30,7 @@ import {
 } from '../actions/concepts';
 import tts from 'react-native-android-speech';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {tracker} from '../lib/googleAnalytics';
 
 
 class ConceptReader extends React.Component {
@@ -45,6 +46,10 @@ class ConceptReader extends React.Component {
 		this.endSessionAlert = this.endSessionAlert.bind(this)
 
 		BackAndroid.addEventListener('hardwareBackPress', this.endSessionAlert)
+	}
+
+	componentDidMount(){
+		tracker.trackScreenView('Reader')
 	}
 
 	componentWillUnmount(){

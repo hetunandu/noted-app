@@ -90,8 +90,8 @@ android {
         applicationId "study.noted.app"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 17
-        versionName "0.8.3"
+        versionCode 18
+        versionName "0.9"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -147,6 +147,10 @@ dependencies {
         force = true
     }
     compile project(':react-native-android-speech')
+    compile project(':react-native-push-notification')
+    compile ('com.google.android.gms:play-services-gcm:9.2.1') {
+        force = true;
+    }
 }
 
 // Run this once to be able to run the application with BUCK

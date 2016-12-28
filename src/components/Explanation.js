@@ -103,9 +103,10 @@ const styles = StyleSheet.create({
 	explanation: {
 		flex: 1,
 		backgroundColor: 'white',
+		padding: 10
 	},
 	references: {
-		padding: 5,
+		padding: 10,
 		backgroundColor: '#333'
 	},
 	refText: {

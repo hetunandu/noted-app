@@ -3,6 +3,7 @@ import Api from '../lib/api';
 import {BASE_URL} from '../lib/api';
 import {AsyncStorage, ToastAndroid} from 'react-native';
 import {GoogleSignin} from 'react-native-google-signin';
+import {tracker} from '../lib/googleAnalytics';
 
 function loginRequest(){
 	return {
@@ -10,6 +11,7 @@ function loginRequest(){
 	}
 }
 function loginSuccess(user){
+	tracker.setUser(user.key);
 	return {
 		type: types.LOGIN_SUCCESS,
 		user
