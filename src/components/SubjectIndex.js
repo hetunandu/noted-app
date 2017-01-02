@@ -14,9 +14,10 @@ import {
     fetchSingleConcept,
     setMode
 } from '../actions/concepts';
+import {fetchOffline} from '../actions/offline';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {tracker} from '../lib/googleAnalytics';
-import PushNotification from 'react-native-push-notification';
+import UserPoints from './UserPoints';
 
 class SubjectIndex extends React.Component {
 
@@ -38,7 +39,20 @@ class SubjectIndex extends React.Component {
 
         return (
         	<View style={{flex: 1}}>
-                <Navbar title="Index"/>
+                <Navbar title={this.props.subject.name}/>
+                <TouchableHighlight
+                    onPress={() => this.handleDownload()}
+                >   
+                    <View style={styles.offlineBanner}>
+                        <Text style={{fontSize: 20, color: 'white'}}>
+                            Offline {this.props.subject.name}
+                        </Text>
+                        <UserPoints points={500} />
+                    </View>
+                </TouchableHighlight>
+                {
+                    this.props.offline.isFetching && <Loading />
+                }
                 {
                     index.isFetching ? <Loading /> : (
                         <ScrollView style={{flex: 1}}>
@@ -48,40 +62,40 @@ class SubjectIndex extends React.Component {
                                         <Text style={styles.chapterName}>{chapter.name}</Text>
                                         <View style={styles.conceptList}>
                                             {
-                                                chapter.concepts.map(concept => (
-                                                    <TouchableHighlight 
-                                                        key={concept.key}
-                                                        underlayColor="#f1f1f1"
-                                                        style={styles.conceptContainer}
-                                                        onPress={this.viewConcept.bind(this, concept)}
-                                                    >
-                                                        <View style={{
-                                                            flexDirection: 'row',
-                                                            alignItems: 'center'
-                                                        }}>
-                                                            {
-                                                                concept.read ? (
+                                            chapter.concepts.map(concept => (
+                                                <TouchableHighlight 
+                                                    key={concept.key}
+                                                    underlayColor="#f1f1f1"
+                                                    style={styles.conceptContainer}
+                                                    onPress={this.viewConcept.bind(this, concept)}
+                                                >
+                                                    <View style={{
+                                                        flexDirection: 'row',
+                                                        alignItems: 'center'
+                                                    }}>
+                                                        {
+                                                            concept.read ? (
 
-                                                                    <Icon 
-                                                                        name="done" 
-                                                                        size={25} 
-                                                                        color="green" />
-                                                                ) : (
+                                                                <Icon 
+                                                                    name="done" 
+                                                                    size={25} 
+                                                                    color="green" />
+                                                            ) : (
 
-                                                                    <Icon
-                                                                        name="fiber-manual-record"
-                                                                        size={20}
-                                                                        color="gray" />
+                                                                <Icon
+                                                                    name="fiber-manual-record"
+                                                                    size={20}
+                                                                    color="gray" />
 
-                                                                )
-                                                            }
-                                                            <Text style={styles.conceptName}>
-                                                                {concept.name}
-                                                            </Text>
-                                                        </View>
-                                                    </TouchableHighlight>
+                                                            )
+                                                        }
+                                                        <Text style={styles.conceptName}>
+                                                            {concept.name}
+                                                        </Text>
+                                                    </View>
+                                                </TouchableHighlight>
 
-                                                    ))
+                                                ))
                                             }
                                         </View>
                                     </View>
@@ -92,6 +106,10 @@ class SubjectIndex extends React.Component {
                 }
         	</View>
         );
+    }
+
+    handleDownload(){
+        fetchOffline(this.props.subject.key)
     }
 }
 
@@ -115,12 +133,19 @@ const styles = StyleSheet.create({
     },
     conceptName: {
         fontSize: 20
+    },
+    offlineBanner: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-around",
+        backgroundColor: '#50537f'
     }
 })
 
 
-const state = ({index}) => ({
-    index
+const state = ({index, offline}) => ({
+    index,
+    offline
 })
 
 const actions = dispatch => ({

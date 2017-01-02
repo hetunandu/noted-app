@@ -12,6 +12,7 @@ import {
 	ActionConst
 } from 'react-native-router-flux';
 import api from './lib/api';
+import RequiresConnection from 'react-native-offline-mode'
 import Login from './components/Login';
 import LoginDetails from './components/LoginDetails';
 import Subjects from './components/Subjects';
@@ -19,8 +20,7 @@ import ConceptReader from './components/ConceptReader';
 import SubjectIndex from './components/SubjectIndex';
 import Result from './components/Result';
 import Home from './components/Home';
-
-var RequiresConnection = require('react-native-offline-mode')
+import Points from './components/Points';
 
 // Make a logging middlware
 const loggerMiddleware = createLogger({predicate: (getState, action) => __DEV__});
@@ -65,44 +65,38 @@ const scenes = Actions.create(
 	>
 		<Scene
 			key="login"
-			title="Login"
 			component={Login}
 			initial={true}
 			type={ActionConst.REPLACE}
 		/>
 		<Scene
 			key="loginDetails"
-			title="Finish Login"
-			panHandlers={null}
 			component={LoginDetails}
 			type={ActionConst.REPLACE}
 		/>
 		<Scene
 			key="home"
-			hideNavBar
 			component={Home}
+		/>
+		<Scene
+			key="points"
+			component={Points}
 		/>
 		<Scene 
 			key="subjectIndex"
-			title="Index"
-			panHandlers={null}
 			component={SubjectIndex}
 		/>
 		<Scene
 			key="conceptReader"
-			panHandlers={null}
 			component={ConceptReader}
-			hideNavBar
 		/>
 		<Scene
 			key="resultPage"
-			panHandlers={null}
 			component={Result}
 			type={ActionConst.REPLACE}
-			hideNavBar
 		/>
 	</Scene>
-	);
+);
 
 const ReduxRouter = connect()(Router);
 
@@ -110,6 +104,7 @@ const containerStyles = {
 	flex: 1,
 	backgroundColor: '#DDD',
 }
+
 // Base App compoent with the provider
 
 class Noted extends Component{
@@ -127,7 +122,7 @@ class Noted extends Component{
 					sceneStyle={containerStyles}
 				/>
 			</Provider>
-			)
+		)
 	}
 }
 

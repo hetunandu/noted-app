@@ -26,7 +26,7 @@ class Login extends Component {
 	}
 
 	componentDidUpdate(){
-		if(this.props.user.isAuthenticated){
+		if(this.props.user.isAuthenticated && this.props.user.data){
 			if(this.props.user.data.course){
 				Actions.home({type: 'reset'});
 			}else{

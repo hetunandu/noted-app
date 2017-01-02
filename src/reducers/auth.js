@@ -36,10 +36,24 @@ export const user = createReducer({
 			})
 		})
 	},
+	[types.REDEEM_CODE_SUCCESS](state, action){
+		return Object.assign({}, state, {
+			data: Object.assign({}, state, {
+				points: action.data.new_points + state.data.points
+			})
+		})
+	},
 	[types.SUBJECT_SKIP_SUCCESS](state, action){
 		return Object.assign({}, state, {
 			data: Object.assign({}, state.data, {
 				points: state.data.points - 25
+			})
+		})
+	},
+	[types.OFFLINE_INDEX_SUCCESS](state, action){
+		return Object.assign({}, state, {
+			data: Object.assign({}, state.data, {
+				points: state.data.points - 500
 			})
 		})
 	},

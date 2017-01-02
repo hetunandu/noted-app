@@ -4,10 +4,10 @@ import {
 	Text,
 	StyleSheet,
 	TouchableHighlight,
-	Image
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import {connect} from 'react-redux';
+import UserPoints from './UserPoints';
 
 
 class Navbar extends Component{
@@ -15,13 +15,14 @@ class Navbar extends Component{
 		return(
 			<View style={styles.navBar}>
 				<Text style={styles.navbarTitle}>{this.props.title}</Text>
-				<View style={styles.pointsContainer}>
-					<Image 
-						source={require('../images/icon.png')}
-						style={{width: 20, height: 20, borderRadius: 50}} 
-					/>
-					<Text style={styles.points}>{this.props.user.data.points}</Text>
-				</View>
+				<TouchableHighlight
+					underlayColor="#50537f"
+					onPress={() => Actions.points()}
+				>	
+					<View>
+						<UserPoints points={this.props.user.data.points}/>
+					</View>
+				</TouchableHighlight>
 			</View>
 		)
 	}
@@ -43,16 +44,6 @@ const styles = StyleSheet.create({
 		fontSize: 23,
 		fontWeight: '600',
 		color: 'white'
-	},
-	pointsContainer: {
-		alignItems: 'center',
-		flexDirection: 'row'
-	},
-	points:{
-		fontSize: 30,
-		fontWeight: 'bold',
-		color: 'white',
-		marginLeft: 5
 	}
 })
 

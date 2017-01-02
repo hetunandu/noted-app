@@ -7,7 +7,11 @@ import {
     TouchableHighlight,
     Image
 } from 'react-native';
-import { fetchSubjectIndex, fetchSubjectList, skipSubjectCooldown } from '../actions/subjects';
+import { 
+    fetchSubjectIndex, 
+    fetchSubjectList, 
+    skipSubjectCooldown 
+} from '../actions/subjects';
 import {
     fetchRevisionConcepts,
     fetchTestConcepts,
@@ -20,6 +24,7 @@ import reactMixin from 'react-mixin';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import TimerMixin from 'react-timer-mixin';
 import PushNotification from 'react-native-push-notification';
+import UserPoints from './UserPoints';
 
 class SubjectCard extends Component{
 
@@ -138,31 +143,39 @@ class SubjectCard extends Component{
 	            {
 	                subject.views_available > 0 ? (
 	                    <View >
-	                        <TouchableHighlight style={styles.subjectActionContainer}
-	                            onPress={() => this.revisePressed()}
-	                            underlayColor="#f3f3f3"
-	                        >
-	                            <View style={styles.subjectAction}>                    
-	                            	<View>
-	                                	<Text style={styles.subjectActionText}>Revise</Text>
-	                                	<Text style={styles.viewsText}>Cost: 5 views</Text>
-	                                </View>
-	                                <Icon name="chevron-right" size={30} color="#333" />
-	                            </View>
+                            {
+                                subject.read_concepts < subject.total_concepts && (
+                                    <TouchableHighlight style={styles.subjectActionContainer}
+                                        onPress={() => this.revisePressed()}
+                                        underlayColor="#f3f3f3"
+                                    >
+                                        <View style={styles.subjectAction}>                    
+                                            <View>
+                                                <Text style={styles.subjectActionText}>Revise</Text>
+                                                <Text style={styles.viewsText}>Cost: 5 views</Text>
+                                            </View>
+                                            <Icon name="chevron-right" size={30} color="#333" />
+                                        </View>
 
-	                        </TouchableHighlight>
-                            <TouchableHighlight style={styles.subjectActionContainer}
-                                onPress={() => this.testPressed()}
-                                underlayColor="#f3f3f3"
-                            >
-                                <View style={styles.subjectAction}>
-                                    <View>
-                                        <Text style={styles.subjectActionText}>Test</Text>
-                                        <Text style={styles.viewsText}>Cost: 5 views</Text>
-                                    </View>
-                                    <Icon name="chevron-right" size={30} color="#333" />
-                                </View>
-                            </TouchableHighlight>
+                                    </TouchableHighlight>
+                                )
+                            }
+                            {
+                                subject.read_concepts > 5 && (
+                                    <TouchableHighlight style={styles.subjectActionContainer}
+                                        onPress={() => this.testPressed()}
+                                        underlayColor="#f3f3f3"
+                                    >
+                                        <View style={styles.subjectAction}>
+                                            <View>
+                                                <Text style={styles.subjectActionText}>Test</Text>
+                                                <Text style={styles.viewsText}>Cost: 5 views</Text>
+                                            </View>
+                                            <Icon name="chevron-right" size={30} color="#333" />
+                                        </View>
+                                    </TouchableHighlight>
+                                )
+                            }
 	                        <TouchableHighlight style={styles.subjectActionContainer}
 	                            onPress={() => this.indexPressed()}
 	                            underlayColor="#f3f3f3"
@@ -206,29 +219,10 @@ class SubjectCard extends Component{
 		                        			color: 'white',
 		                        			marginRight: 5
 		                        		}}
-		                        	>Skip for </Text>
-		                        		
-	                        		<View 
-	                        			style={{
-	                        				flexDirection: 'row',
-	                        				alignItems: 'center'
-	                        			}}
-	                        		>
-			                        	<Image 
-											source={require('../images/icon.png')}
-											style={{width: 20, height: 20, borderRadius: 50}} 
-										/>
-			                        	<Text 
-			                        		style={{
-			                        			fontSize: 30,
-			                        			marginLeft: 5,
-			                        			fontWeight: 'bold',
-			                        			color: 'white'
-			                        		}}
-			                        	>
-			                        		25
-			                        	</Text>
-		                        	</View>
+		                        	>
+                                        Skip for
+                                    </Text>
+                                    <UserPoints points={subject.reset_cost} />
 		                        </View>
 							</TouchableHighlight>
 	                    </View>
