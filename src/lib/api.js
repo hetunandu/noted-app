@@ -64,7 +64,7 @@ export default store => next => action => {
 		}
 
 		// Get details about the call
-		let { endpoint, types, authenticated, method, body } = callAPI
+		let { endpoint, types, authenticated, method, body, info } = callAPI
 
 		// Get the request actions
 		const [ requestType, successType, errorType ] = types
@@ -73,15 +73,17 @@ export default store => next => action => {
 		next({type: requestType})
 
 		// Calling the 'callApi' fn with request data
-		return callApi(endpoint, authenticated, method, body)
+		return callApi(endpoint, authenticated, method, body, info)
 		.then(
 			response => next({
 				data: response.message,
-				type: successType
+				type: successType,
+				info
 			}),
 			error => next({
-				error: error.message || 'There was an error.',
-				type: errorType
+				error: error || 'There was an error.',
+				type: errorType,
+				info
 			})
 		)
 	}

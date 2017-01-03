@@ -3,7 +3,7 @@ import {
 	LOGIN_REQUEST,
 	LOGIN_SUCCESS,
 	LOGIN_FAILURE
-} from './types';
+} from '../actionTypes';
 
 const initialState = {
 	isFetching: false,

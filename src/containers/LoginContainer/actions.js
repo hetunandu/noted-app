@@ -7,13 +7,13 @@ import {
 	LOGIN_REQUEST,
 	LOGIN_SUCCESS,
 	LOGIN_FAILURE
-} from './types';
+} from '../actionTypes';
 
 
 
 // Find a token and try to find the user from it
 export function loginInit(){
-	
+	googleAuthInit()
 	return dispatch => {
 		
 		dispatch(loginRequest())
@@ -44,7 +44,6 @@ export function loginInit(){
 				}else{
 					// Dispatch an action to signify no token is found
 					dispatch(loginFailed())
-					googleAuthInit()
 				}
 			})
 			.done()
@@ -94,10 +93,9 @@ function loginRequest(){
 function loginSuccess(user){
 	tracker.setUser(user.key);
 	if (!user.course || !user.college){
-		Actions.loginDetails()
-		// Not implemented yet
+		Actions.loginDetails() // Not implemented yet
 	}else{
-		Actions.home()
+		Actions.subjects()
 	}
 	return {
 		type: LOGIN_SUCCESS,

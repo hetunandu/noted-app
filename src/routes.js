@@ -1,5 +1,9 @@
 import React from 'react';
-import { LoginContainer, HomeContainer } from './containers';
+import { 
+	LoginContainer,
+	SubjectsContainer,
+	IndexContainer 
+} from './containers';
 // import LoginDetails from './components/LoginDetails';
 // import Subjects from './components/Subjects';
 // import ConceptReader from './components/ConceptReader';
@@ -25,9 +29,14 @@ export default scenes = Actions.create(
 			type={ActionConst.REPLACE}
 		/>
 		<Scene
-			key="home"
-			component={HomeContainer}
+			key="subjects"
+			component={SubjectsContainer}
 			type={ActionConst.REPLACE}
+		/>
+		<Scene
+			key="index"
+			component={IndexContainer}
+			direction="vertical"
 		/>
 	</Scene>
 );

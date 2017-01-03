@@ -3,7 +3,7 @@ import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { Provider, connect } from 'react-redux';
 import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import reducer from './reducers';
+import reducer from './containers/reducers';
 import { AppRegistry, StatusBar} from 'react-native';
 import { Router } from 'react-native-router-flux';
 import scenes from './routes';
