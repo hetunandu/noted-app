@@ -1,21 +1,17 @@
 import React from 'react';
-import { 
-	LoginContainer,
-	SubjectsContainer,
-	IndexContainer 
-} from './containers';
-// import LoginDetails from './components/LoginDetails';
-// import Subjects from './components/Subjects';
-// import ConceptReader from './components/ConceptReader';
-// import SubjectIndex from './components/SubjectIndex';
-// import Result from './components/Result';
-// import Home from './components/Home';
-// import Points from './components/Points';
 import {
 	Scene,
 	Actions,
 	ActionConst
 } from 'react-native-router-flux';
+import { 
+	LoginContainer,
+	SubjectsContainer,
+	IndexContainer,
+	ConceptsContainer,
+	ResultContainer,
+	PointsContainer
+} from './containers';
 
 export default scenes = Actions.create(
 	<Scene key="root"
@@ -36,6 +32,20 @@ export default scenes = Actions.create(
 		<Scene
 			key="index"
 			component={IndexContainer}
+			direction="vertical"
+		/>
+		<Scene
+			key="concepts"
+			component={ConceptsContainer}
+		/>
+		<Scene
+			key="results"
+			component={ResultContainer}
+			type={ActionConst.REPLACE}
+		/>
+		<Scene
+			key="points"
+			component={PointsContainer}
 			direction="vertical"
 		/>
 	</Scene>

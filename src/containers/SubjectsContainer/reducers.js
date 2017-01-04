@@ -36,11 +36,13 @@ export const subjects = createReducer(initialState, {
 	},
 	[COOLDOWN_SKIP_SUCCESS](state, action){
 		return Object.assign({}, state, {
-			list: state.map(subject => {
+			list: state.list.map(subject => {
 				if (subject.key == action.info.subject_key){
 					return Object.assign({}, subject, {
 						views_available: 10
 					})
+				}else{
+					return subject
 				}
 			})
 		})

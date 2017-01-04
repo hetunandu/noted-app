@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from './Navbar';
+import NavbarContainer from '../NavbarContainer';
 import {
 	View,
 	Text,
@@ -7,8 +7,8 @@ import {
 	TouchableHighlight,
 	StyleSheet
 } from 'react-native';
-import Loading from './Loading';
-import {redeemCode} from '../actions/codes';
+import {Loading} from '../../components';
+import {redeemCode} from './actions';
 import { connect } from 'react-redux';
 
 
@@ -30,7 +30,7 @@ class Points extends React.Component {
     render() {
     	return (
     		<View style={{flex: 1}}>
-    			<Navbar title="Points" />
+    			<NavbarContainer title="Points" />
     			<View style={styles.container}>
     				<View style={styles.section}>
 	    				<Text style={styles.formLabel}>Enter code:</Text>

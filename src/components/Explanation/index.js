@@ -12,7 +12,7 @@ import {
 	QuoteNode,
 	ImageNode,
 	PointerNode
-} from './ExplanationNodes';
+} from './nodes';
 
 
 class Explanation extends React.Component {

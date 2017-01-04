@@ -7,8 +7,6 @@ import {
 	TouchableHighlight,
 	Dimensions
 } from 'react-native';
-import Explanation from './Explanation';
-import Question from './Question';
 import tts from 'react-native-android-speech';
 
 

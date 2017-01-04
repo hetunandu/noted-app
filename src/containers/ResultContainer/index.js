@@ -4,16 +4,19 @@ import {
 	Text,
 	StyleSheet,
 	BackAndroid,
-	TouchableHighlight
+	TouchableHighlight,
+	StatusBar
 } from 'react-native';
 import {connect} from 'react-redux';
-import { fetchSubjectList } from '../actions/subjects';
-import { submitResult } from '../actions/concepts';
-import Navbar from './Navbar';
-import Loading from './Loading';
+import { Loading } from '../../components';
+import NavbarContainer from '../NavbarContainer'
 import { Actions } from 'react-native-router-flux';
-import {tracker} from '../lib/googleAnalytics';
+import {tracker} from '../../lib/googleAnalytics';
 
+
+const mapStateToProps = ({result}) => ({
+	result
+})
 
 class Result extends Component {
 
@@ -34,7 +37,7 @@ class Result extends Component {
 	}
 
 	handleBack(){
-		this.props.fetchSubjectList()
+		//this.props.fetchSubjectList()
 	}
 
 	getResultCount(marking){
@@ -51,7 +54,11 @@ class Result extends Component {
 	render(){
 		return (
 			<View style={styles.resultContainer}>
-				<Navbar title="Result"/>
+				<StatusBar
+					hidden={false}
+					animated={true}
+				/>
+				<NavbarContainer title="Result"/>
 				<View style={styles.resultInfoContainer}>
 					{
 						this.props.result.isFetching ? (
@@ -95,7 +102,7 @@ class Result extends Component {
 								<TouchableHighlight 
 									style={styles.backButton}
 									onPress={ () => {
-										this.props.fetchSubjectList()
+										//this.props.fetchSubjectList()
 										Actions.pop()
 									}}
 								>
@@ -162,13 +169,5 @@ const styles = StyleSheet.create({
 })
 
 
-const mapStateToProps = ({result}) => ({
-	result
-})
 
-const mapDispatchToProps = dispatch => ({
-
-	fetchSubjectList: () => {dispatch(fetchSubjectList())}
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Result)
+export default connect(mapStateToProps)(Result)

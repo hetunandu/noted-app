@@ -15,5 +15,12 @@ export default StyleSheet.create({
 		fontSize: 23,
 		fontWeight: '600',
 		color: 'white'
+	},
+	pointsContainer:{
+
+	},
+	points: {
+		fontSize: 25,
+		color: 'white'
 	}
 })

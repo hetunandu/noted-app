@@ -14,7 +14,7 @@ import {connect} from 'react-redux';
 import {submitCourse } from '../actions/courses';
 import { Actions } from 'react-native-router-flux';
 
-class LoginDetails extends React.Component {
+class LoginForm extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -32,12 +32,6 @@ class LoginDetails extends React.Component {
 			ToastAndroid.show('Please fill all details', ToastAndroid.LONG);
 		}else{
 			this.props.submitCourse(this.state.college)
-		}
-	}
-
-	componentDidUpdate(){
-		if(this.props.courses.subscribed){
-			Actions.subjects({type: 'reset'});
 		}
 	}
 
@@ -123,13 +117,6 @@ const styles = StyleSheet.create({
 	}
 })
 
-const mapStateToProps = ({user, courses}) => ({
-	user,
-	courses
-})
 
-const mapDispatchToProps = dispatch => ({
-	submitCourse: (college) => {dispatch(submitCourse(college))}
-})
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginDetails);
+export default LoginForm;

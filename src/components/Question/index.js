@@ -4,7 +4,7 @@ import {
 	Text,
 	StyleSheet
 } from 'react-native';
-import Explanation from './Explanation';
+import Explanation from '../Explanation';
 
 class Question extends React.Component {
 

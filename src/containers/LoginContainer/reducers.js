@@ -2,7 +2,10 @@ import createReducer from '../../lib/createReducer'
 import {
 	LOGIN_REQUEST,
 	LOGIN_SUCCESS,
-	LOGIN_FAILURE
+	LOGIN_FAILURE,
+	SUBMIT_RESULT_SUCCESS,
+	SUBJECT_SKIP_SUCCESS,
+	REDEEM_CODE_SUCCESS
 } from '../actionTypes';
 
 const initialState = {
@@ -32,38 +35,26 @@ export const user = createReducer(initialState, {
 			isAuthenticated: false,
 			errorMessage: action.error
 		})
-	}
-	// [types.SUBMIT_RESULT_SUCCESS](state, action){
-	// 	return Object.assign({}, state, {
-	// 		data: Object.assign({}, state, {
-	// 			points: action.data.new_points + state.data.points
-	// 		})
-	// 	})
-	// },
-	// [types.REDEEM_CODE_SUCCESS](state, action){
-	// 	return Object.assign({}, state, {
-	// 		data: Object.assign({}, state, {
-	// 			points: action.data.new_points + state.data.points
-	// 		})
-	// 	})
-	// },
-	// [types.SUBJECT_SKIP_SUCCESS](state, action){
-	// 	return Object.assign({}, state, {
-	// 		data: Object.assign({}, state.data, {
-	// 			points: state.data.points - 25
-	// 		})
-	// 	})
-	// },
-	// [types.OFFLINE_INDEX_SUCCESS](state, action){
-	// 	return Object.assign({}, state, {
-	// 		data: Object.assign({}, state.data, {
-	// 			points: state.data.points - 500
-	// 		})
-	// 	})
-	// },
-	// [types.TOKEN_FOUND](state, action){
-	// 	return Object.assign({}, state, {
-	// 		token: true
-	// 	})
-	// }
+	},
+	[SUBMIT_RESULT_SUCCESS](state, action){
+		return Object.assign({}, state, {
+			data: Object.assign({}, state, {
+				points: action.data.new_points + state.data.points
+			})
+		})
+	},
+	[REDEEM_CODE_SUCCESS](state, action){
+		return Object.assign({}, state, {
+			data: Object.assign({}, state, {
+				points: action.data.new_points + state.data.points
+			})
+		})
+	},
+	[SUBJECT_SKIP_SUCCESS](state, action){
+		return Object.assign({}, state, {
+			data: Object.assign({}, state.data, {
+				points: state.data.points - 25
+			})
+		})
+	},
 });

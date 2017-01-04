@@ -24,6 +24,7 @@ class SubjectIndex extends React.Component {
                                         chapter.concepts.map(concept => {
                                             return (
                                                 <TouchableHighlight
+                                                    key={concept.key}
                                                     onPress={() => this.handleConceptPressed(concept)}
                                                     underlayColor="#f1f1f1"
                                                     style={styles.conceptContainer}
@@ -65,6 +66,10 @@ class SubjectIndex extends React.Component {
                 }
             </ScrollView>
         );
+    }
+
+    handleConceptPressed(concept){
+      this.props.onConceptSelected(concept)
     }
 }
 

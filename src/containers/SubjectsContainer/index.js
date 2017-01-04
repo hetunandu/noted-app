@@ -11,9 +11,9 @@ import {
 } from './actions';
 import {
 	SubjectCard,
-	Loading,
-	Navbar
+	Loading
 } from '../../components';
+import NavbarContainer from '../NavbarContainer'
 
 
 const mapStateToProps = ({subjects}) => ({
@@ -29,7 +29,7 @@ class SubjectsContainer extends Component {
 	render(){
 		return (
 			<View style={{flex: 1}}>
-				<Navbar title="Subjects"/>
+				<NavbarContainer title="Subjects"/>
 				{
 					this.props.subjects.isFetching ? <Loading /> : (
 						<ScrollView >
@@ -64,10 +64,12 @@ class SubjectsContainer extends Component {
 	}
 
 	handleRevisionPressed(subject){
+		Actions.concepts({subject, mode: 'revise'})
 		this.props.dispatch(fetchRevisionConcepts(subject.key))
 	}
 
 	handleTestPressed(subject){
+		Actions.concepts({subject, mode: 'test'})
 		this.props.dispatch(fetchTestConcepts(subject.key))
 	}
 

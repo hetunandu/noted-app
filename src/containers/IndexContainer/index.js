@@ -2,12 +2,14 @@ import React, {Component} from 'react';
 import {tracker} from '../../lib/googleAnalytics';
 import {View, Text, ScrollView, TouchableHighlight} from 'react-native';
 import {connect} from 'react-redux';
+import {Actions} from 'react-native-router-flux';
 import { readSingleConcept } from './actions';
 import {
 	Loading,
-	Navbar,
 	SubjectIndex
 } from '../../components';
+import NavbarContainer from '../NavbarContainer'
+
 
 const mapStateToProps = ({index}) => ({
 	index
@@ -22,10 +24,11 @@ class IndexContainer extends Component {
 	render(){
 		return (
 			<View style={{flex: 1}}>
-				<Navbar title={this.props.subject.name}/>
+				<NavbarContainer title={this.props.subject.name}/>
 				{
 					this.props.index.isFetching ? <Loading /> : (
 						<SubjectIndex 
+
 							chapters={this.props.index.chapters} 
 							onConceptSelected={(concept) => this.handleConceptSelected(concept)}
 						/>
@@ -36,7 +39,8 @@ class IndexContainer extends Component {
 	}
 
 	handleConceptSelected(concept){
-
+		Actions.concepts({subject: this.props.subject, mode: 'revise'})
+		this.props.dispatch(readSingleConcept(concept.key))
 	}
 
 }
