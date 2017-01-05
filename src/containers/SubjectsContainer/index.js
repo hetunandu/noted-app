@@ -40,7 +40,7 @@ class SubjectsContainer extends Component {
 										key={subject.key} 
 										subject={subject}
 
-										onCooldownSkip={() => this.handleCooldownSkip(subject)}
+										onCooldownSkip={(cost) => this.handleCooldownSkip(subject, cost)}
 										onRevisionPressed={() => this.handleRevisionPressed(subject)}
 										onTestPressed={() => this.handleTestPressed(subject)}
 										onIndexPressed={() => this.handleIndexPressed(subject)}
@@ -59,8 +59,8 @@ class SubjectsContainer extends Component {
 	}
 
 
-	handleCooldownSkip(subject){
-		this.props.dispatch(subjectCooldownSkip(subject.key))
+	handleCooldownSkip(subject, cost){
+		this.props.dispatch(subjectCooldownSkip(subject.key, cost))
 	}
 
 	handleRevisionPressed(subject){

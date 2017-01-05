@@ -171,14 +171,6 @@ class ConceptsContainer extends React.Component {
 						):(<Icon name="info-outline" size={35} color="#fff" />)
 					}
 					</TouchableHighlight>
-					
-					<TouchableHighlight
-						style={styles.actionBtn}
-						underlayColor="#50537f"
-						onPress={() => {console.log('yo')}}
-					>	
-						<Icon name="star-border" size={35} color="#fff" />
-					</TouchableHighlight>
 					{
 						this.props.concepts.isReading ? (
 
@@ -417,7 +409,7 @@ class ConceptsContainer extends React.Component {
 	endSession(){
 		const {submitResult, subject, result, mode} = this.props
 		
-		Actions.results()
+		Actions.results({mode})
 		
 		submitResult(subject.key, mode, {result: result.data})
 	}
@@ -426,6 +418,7 @@ class ConceptsContainer extends React.Component {
 
 const styles = StyleSheet.create({
 	conceptCardContainer: {
+		padding: 5,
 		flex: 1,
 		position: 'relative',
 		backgroundColor: '#50537f',

@@ -5,3 +5,5 @@ export SubjectIndex from './SubjectIndex';
 export ConceptCard from './ConceptCard';
 export Explanation from './Explanation';
 export Question from './Question';
+export PointsDisplay from './PointsDisplay';
+export AppIntro from './AppIntro';

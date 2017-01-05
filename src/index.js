@@ -8,7 +8,8 @@ import { AppRegistry, StatusBar} from 'react-native';
 import { Router } from 'react-native-router-flux';
 import scenes from './routes';
 import api from './lib/api';
-import RequiresConnection from 'react-native-offline-mode'
+import RequiresConnection from 'react-native-offline-mode';
+import './lib/notifications';
 
 // Make a logging middlware
 const loggerMiddleware = createLogger({predicate: (getState, action) => __DEV__});

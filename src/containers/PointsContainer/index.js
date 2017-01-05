@@ -12,8 +12,8 @@ import {redeemCode} from './actions';
 import { connect } from 'react-redux';
 
 
-const mapStateToProps = ({codes}) => ({
-	codes
+const mapStateToProps = ({points}) => ({
+	points
 })
 
 
@@ -47,18 +47,8 @@ class Points extends React.Component {
 							<Text style={styles.btnText}>Redeem code</Text>
 						</TouchableHighlight>
 
-						{ this.props.codes.isFetching && <Loading />}
-
-						{
-							this.props.codes.points && (
-
-
-								<Text>You got ${this.props.codes.points} points</Text>
-
-							)
-						}
-
-
+						{ this.props.points.isFetching && <Loading />}
+						
 					</View>
     			</View>
     		</View>

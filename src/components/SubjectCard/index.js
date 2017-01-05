@@ -4,13 +4,17 @@ import {
 	Text,
 	ScrollView,
     TouchableHighlight,
-    Image
+    Image,
+    ToastAndroid
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import reactMixin from 'react-mixin';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import TimerMixin from 'react-timer-mixin';
 import styles from './styles';
+import { PointsDisplay } from '../../components';
+import PushNotification from 'react-native-push-notification';
+
 
 class SubjectCard extends Component{
 
@@ -24,6 +28,9 @@ class SubjectCard extends Component{
 
     componentDidMount(){
         this.setInterval(this.countdown, 1000)
+
+        this.scheduleNotifications()
+
     }
 
 
@@ -125,8 +132,9 @@ class SubjectCard extends Component{
 		                        			marginRight: 5
 		                        		}}
 		                        	>
-                                        Skip for {subject.reset_cost} points
+                                        Skip for
                                     </Text>
+                                    <PointsDisplay points={subject.reset_cost}/>
 		                        </View>
 							</TouchableHighlight>
 	                    </View>
@@ -138,15 +146,24 @@ class SubjectCard extends Component{
 
 
     skipCooldown(){
-        this.props.onCooldownSkip()
+        PushNotification.cancelLocalNotifications({tag: this.props.subject.name});
+        this.props.onCooldownSkip(this.props.subject.reset_cost)
     }
 
     revisePressed(){
-        this.props.onRevisionPressed()
+        if (this.props.subject.views_available < 5){
+            ToastAndroid.show('Not enough views available', ToastAndroid.SHORT)
+        }else{
+            this.props.onRevisionPressed()
+        }
     }
 
     testPressed(){
-        this.props.onTestPressed()
+        if (this.props.subject.views_available < 5){
+            ToastAndroid.show('Not enough views available', ToastAndroid.SHORT)
+        }else{
+            this.props.onTestPressed()
+        }
     }
 
     indexPressed(){
@@ -168,24 +185,40 @@ class SubjectCard extends Component{
         var ist_date = new Date(date.valueOf() + date.getTimezoneOffset());
         var time_left = ist_date - new Date()
 
-            if (time_left < 0){
-                this.clearInterval()
-               
-            }else{
-                var _second = 1000;
-                var _minute = _second * 60;
-                var _hour = _minute * 60;
-                var _day = _hour * 24;
+        if (time_left < 0){
+            this.clearInterval()
+           
+        }else{
+            var _second = 1000;
+            var _minute = _second * 60;
+            var _hour = _minute * 60;
+            var _day = _hour * 24;
 
-                var hours = Math.floor((time_left % _day) / _hour);
-                var minutes = Math.floor((time_left % _hour) / _minute);
-                var seconds = Math.floor((time_left % _minute) / _second);
+            var hours = Math.floor((time_left % _day) / _hour);
+            var minutes = Math.floor((time_left % _hour) / _minute);
+            var seconds = Math.floor((time_left % _minute) / _second);
 
+            this.setState({
+                time_left: `${hours}h ${minutes}m ${seconds}s`
+            })
+        }
+    }
 
-                this.setState({
-                    time_left: `${hours}h ${minutes}m ${seconds}s`
-                })
-            }
+    scheduleNotifications(){
+        const {subject} = this.props
+
+        PushNotification.cancelLocalNotifications({tag: subject.name});
+        
+        PushNotification.localNotificationSchedule({
+          message: `More views available in ${subject.name}`, // (required)
+          largeIcon: "ic_launcher", // (optional) default: "ic_launcher"
+          smallIcon: "ic_launcher", // (optional) default: "ic_notification" with fallback for "ic_launcher"
+          color: "red", // (optional) default: system default
+          vibrate: true, // (optional) default: true
+          vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000,
+          tag: subject.name,
+          date: new Date(subject.session_ends) // in 60 secs
+        });
     }
 }
 

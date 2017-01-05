@@ -8,7 +8,7 @@ import {
 	StatusBar
 } from 'react-native';
 import {connect} from 'react-redux';
-import { Loading } from '../../components';
+import { Loading, PointsDisplay } from '../../components';
 import NavbarContainer from '../NavbarContainer'
 import { Actions } from 'react-native-router-flux';
 import {tracker} from '../../lib/googleAnalytics';
@@ -37,7 +37,7 @@ class Result extends Component {
 	}
 
 	handleBack(){
-		//this.props.fetchSubjectList()
+		Actions.subjects()
 	}
 
 	getResultCount(marking){
@@ -54,56 +54,27 @@ class Result extends Component {
 	render(){
 		return (
 			<View style={styles.resultContainer}>
-				<StatusBar
-					hidden={false}
-					animated={true}
-				/>
 				<NavbarContainer title="Result"/>
 				<View style={styles.resultInfoContainer}>
 					{
 						this.props.result.isFetching ? (
 							<Loading />
 						) : (
-							<View>
-							{
-								this.props.result.errorMessage.length > 1 && (
-									<Text style={{color: 'red'}}>
-										{this.props.result.errorMessage}
-									</Text>
-								)	
-							}
-								<Text style={styles.pageHeader}>Summary</Text>
-								<View style={styles.summaryContainer}>
-									<View style={styles.summaryRow}>
-										<Text style={styles.summaryInfo}>
-											Points Earned
+							<View style={{flex: 1}}>
+								{
+									this.props.result.errorMessage.length > 1 && (
+										<Text style={{color: 'red'}}>
+											{this.props.result.errorMessage}
 										</Text>
-										<Text style={styles.summaryValue}>
-											{this.props.result.points}
-										</Text>
-									</View>
-									<View style={styles.summaryRow}>
-										<Text style={styles.summaryInfo}>
-											Read
-										</Text>
-										<Text style={styles.summaryValue}>
-											{this.getResultCount('read')}
-										</Text>
-									</View>
-									<View style={styles.summaryRow}>
-										<Text style={styles.summaryInfo}>
-											Skipped
-										</Text>
-										<Text style={styles.summaryValue}>
-											{this.getResultCount('skip')}
-										</Text>
-									</View>
-								</View>
+									)	
+								}
+								{ this.renderSummary() }
+
+								{ this.renderPoints() }
 								<TouchableHighlight 
 									style={styles.backButton}
 									onPress={ () => {
-										//this.props.fetchSubjectList()
-										Actions.pop()
+										Actions.subjects()
 									}}
 								>
 									<Text style={{
@@ -112,13 +83,73 @@ class Result extends Component {
 										fontSize: 25
 										}}
 									>
-										Back to Home
+										Back to Subjects
 									</Text>
 								</TouchableHighlight>
 							</View>
 						)
 					}
 				</View>
+			</View>
+		)
+	}
+
+
+	renderSummary(){
+		if(this.props.mode == "revise"){
+			return (
+				<View style={styles.summaryContainer}>
+					<View style={styles.summaryRow}>
+						<Text style={styles.summaryInfo}>
+							Read
+						</Text>
+						<Text style={styles.summaryValue}>
+							{this.getResultCount('read')}
+						</Text>
+					</View>
+					<View style={styles.summaryRow}>
+						<Text style={styles.summaryInfo}>
+							Skipped
+						</Text>
+						<Text style={styles.summaryValue}>
+							{this.getResultCount('skip')}
+						</Text>
+					</View>
+				</View>
+
+			)
+		}else if( this.props.mode == "test"){
+			return (
+				<View style={styles.summaryContainer}>
+					<View style={styles.summaryRow}>
+						<Text style={styles.summaryInfo}>
+							Correct
+						</Text>
+						<Text style={styles.summaryValue}>
+							{this.getResultCount('right')}
+						</Text>
+					</View>
+					<View style={styles.summaryRow}>
+						<Text style={styles.summaryInfo}>
+							Wrong
+						</Text>
+						<Text style={styles.summaryValue}>
+							{this.getResultCount('wrong')}
+						</Text>
+					</View>
+				</View>
+			)
+		}
+	}
+
+
+	renderPoints(){
+		return (
+			<View style={styles.pointsContainer}>
+				<Text style={styles.pointsText}>
+					You Earned
+				</Text>
+				<PointsDisplay points={this.props.result.points} />
 			</View>
 		)
 	}
@@ -133,23 +164,23 @@ const styles = StyleSheet.create({
 	},
 	backButton:{
 		alignSelf: 'stretch',
-		padding: 10,
+		padding: 20,
 		backgroundColor: '#333'
 	},
 	summaryContainer: {
+		flex: 1,
 		margin: 20,
 		alignSelf: 'stretch',
-		borderWidth: 1,
-		borderColor: '#333',
-		borderRadius: 2
+		borderRadius: 2,
+		justifyContent: 'center'
 	},
 	summaryRow: {
 		padding: 10,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		borderBottomWidth: 1,
-		borderBottomColor: '#444'
+		borderWidth: 1,
+		borderColor: '#444'
 	},
 	summaryInfo: {
 		fontSize: 20,
@@ -165,6 +196,16 @@ const styles = StyleSheet.create({
 		fontSize: 30,
 		fontWeight: '500',
 		color: '#000'
+	},
+	pointsContainer: {
+		flex: 1,
+		backgroundColor: '#50537f',
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	pointsText: {
+		color: 'white',
+		fontSize: 25
 	}
 })
 

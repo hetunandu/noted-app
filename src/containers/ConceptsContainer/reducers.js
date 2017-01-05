@@ -15,7 +15,8 @@ import {
 const initialState = {
 	isFetching: false,
 	errorMessage: '',
-	mode: null,
+	reference: false,
+	isReading: false,
 	list: []
 }
 
@@ -29,8 +30,7 @@ export const concepts = createReducer(initialState, {
 	[CONCEPT_LIST_SUCCESS](state, action){
 		return Object.assign({}, state, {
 			isFetching: false,
-			list: action.data.concepts,
-			mode: action.info.mode
+			list: action.data.concepts
 		})
 	},
 	[CONCEPT_LIST_FAILURE](state, action){

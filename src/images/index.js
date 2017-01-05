@@ -1,3 +1,8 @@
 export const logo = require('./logo.png')
 export const icon = require('./icon.png')
 export const backIcon = require('./backIcon.png')
+export const coin = require('./coin.png')
+export const intro1 = require('./intro-revise.png')
+export const intro2 = require('./intro-test.png')
+export const intro3 = require('./intro-earn.png')
+export const intro4 = require('./intro-usepoints.png')

@@ -6,6 +6,7 @@ import {
 } from 'react-native-router-flux';
 import { 
 	LoginContainer,
+	CourseContainer,
 	SubjectsContainer,
 	IndexContainer,
 	ConceptsContainer,
@@ -25,18 +26,25 @@ export default scenes = Actions.create(
 			type={ActionConst.REPLACE}
 		/>
 		<Scene
+			key="course"
+			component={CourseContainer}
+			panHandlers={null}
+		/>
+		<Scene
 			key="subjects"
 			component={SubjectsContainer}
-			type={ActionConst.REPLACE}
+			type={ActionConst.RESET}
 		/>
 		<Scene
 			key="index"
 			component={IndexContainer}
 			direction="vertical"
+			panHandlers={null}
 		/>
 		<Scene
 			key="concepts"
 			component={ConceptsContainer}
+			panHandlers={null}
 		/>
 		<Scene
 			key="results"
@@ -47,6 +55,8 @@ export default scenes = Actions.create(
 			key="points"
 			component={PointsContainer}
 			direction="vertical"
+			panHandlers={null}
+
 		/>
 	</Scene>
 );

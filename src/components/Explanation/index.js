@@ -70,7 +70,7 @@ class Explanation extends React.Component {
 	_renderExplanation(){
 		return (
 			<ScrollView style={{flex: 1}}>
-				<View style={{flex: 1}}>
+				<View style={{flex: 1, padding: 10}}>
 					{this.props.explanation.map((node, i) => this._renderNodes(node, i))}
 				</View>
 			</ScrollView>
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
 	explanation: {
 		flex: 1,
 		backgroundColor: 'white',
-		padding: 10
+		borderRadius: 5,
 	},
 	references: {
 		padding: 10,

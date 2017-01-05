@@ -48,10 +48,10 @@ export function fetchSubjectIndex(subject_key){
 	}
 }
 
-export function subjectCooldownSkip(subject_key){
+export function subjectCooldownSkip(subject_key, cost){
 	return {
 		[CALL_API]: {
-			info: {subject_key},
+			info: {subject_key, cost},
 			endpoint: `subjects/${subject_key}/reset`,
 			authenticated: true,
 			types: [
@@ -72,8 +72,7 @@ export function fetchRevisionConcepts(subject_key) {
 				CONCEPT_LIST_REQUEST,
 				CONCEPT_LIST_SUCCESS,
 				CONCEPT_LIST_FAILURE
-			],
-			info: {mode: 'revise'}
+			]
 		}
 	}
 }
@@ -87,8 +86,7 @@ export function fetchTestConcepts(subject_key) {
 				CONCEPT_LIST_REQUEST,
 				CONCEPT_LIST_SUCCESS,
 				CONCEPT_LIST_FAILURE
-			],
-			info: {mode: 'test'}
+			]
 		}
 	}
 }
@@ -102,8 +100,7 @@ export function fetchSingleConcept(concept_key){
 				CONCEPT_VIEW_REQUEST,
 				CONCEPT_VIEW_SUCCESS,
 				CONCEPT_VIEW_FAILURE
-			],
-			info: {mode: 'revise'}
+			]
 		}
 	}
 }

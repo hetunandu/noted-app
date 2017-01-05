@@ -35,26 +35,5 @@ export const user = createReducer(initialState, {
 			isAuthenticated: false,
 			errorMessage: action.error
 		})
-	},
-	[SUBMIT_RESULT_SUCCESS](state, action){
-		return Object.assign({}, state, {
-			data: Object.assign({}, state, {
-				points: action.data.new_points + state.data.points
-			})
-		})
-	},
-	[REDEEM_CODE_SUCCESS](state, action){
-		return Object.assign({}, state, {
-			data: Object.assign({}, state, {
-				points: action.data.new_points + state.data.points
-			})
-		})
-	},
-	[SUBJECT_SKIP_SUCCESS](state, action){
-		return Object.assign({}, state, {
-			data: Object.assign({}, state.data, {
-				points: state.data.points - 25
-			})
-		})
-	},
+	}
 });

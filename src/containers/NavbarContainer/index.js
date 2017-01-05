@@ -2,17 +2,17 @@ import React, {Component} from 'react';
 import {
 	View, 
 	Text,
-	TouchableHighlight
+	TouchableHighlight,
+	Image
 } from 'react-native';
 import styles from './styles';
 import {connect} from 'react-redux';
-import {Actions} from 'react-native-router-flux'
+import {Actions} from 'react-native-router-flux';
+import {PointsDisplay} from '../../components';
 
-
-const mapStateToProps = ({user}) => ({
-	user
+const mapStateToProps = ({points}) => ({
+	points
 })
-
 
 class Navbar extends Component{
 	render(){
@@ -22,8 +22,8 @@ class Navbar extends Component{
 				<TouchableHighlight 
 					onPress={() => Actions.points()}
 				>
-					<View style={styles.pointsContainer}>
-						<Text style={styles.points}>{this.props.user.data.points} kp</Text>
+					<View>
+						<PointsDisplay points={this.props.points.balance} />
 					</View>
 				</TouchableHighlight>
 			</View>

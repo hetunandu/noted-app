@@ -12,7 +12,6 @@ import { Actions } from 'react-native-router-flux';
 import { logo } from '../../images';
 
 class Login extends Component {
-
 	render() {
 		return (
 			<View style={styles.container}>

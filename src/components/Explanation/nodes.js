@@ -5,7 +5,8 @@ import {
 	Image,
 	StyleSheet
 } from 'react-native';
-import Markdown from 'react-native-simple-markdown'
+import Markdown from 'react-native-simple-markdown';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
 export class TitleNode extends React.Component{
@@ -32,7 +33,8 @@ const markdownStyles = {
 	},
 	paragraph: {
 		marginBottom: 10,
-		marginTop: 0
+		marginTop: 0,
+		flexWrap: 'wrap'
 	},
 	strong: {
 		fontWeight: 'bold',
@@ -78,6 +80,8 @@ export class PointerNode extends React.Component{
 												return <TextNode key={k} data={node.data} />
 											case 'image':
 												return <ImageNode key={k} data={node.data} />
+											case 'subPoint':
+												return <SubPointNode key={k} data={node.data} />
 											default: 
 												return <TextNode key={k} data={node.type} />
 										}
@@ -93,12 +97,37 @@ export class PointerNode extends React.Component{
 	}
 }
 
+export class SubPointNode extends React.Component{
+	render(){
+		console.log(this.props.data)
+
+		return (
+			<View>
+				{
+					this.props.data.map((subPoint, i) => {
+						return(
+							<View key={`${i}-subpoint-${subPoint}`} style={styles.subPoint}>
+								<Icon 
+									name="label" 
+									size={15} 
+									color="#333" 
+									style={{marginRight: 3, marginTop: 5}}/>
+								<TextNode data={subPoint}/>
+							</View>
+						)
+					})
+				}
+			</View>
+		)
+	}
+}
+
 
 const styles = StyleSheet.create({
 	title: {
 		marginTop: 5,
 		marginBottom: 10,
-		fontSize: 30,
+		fontSize: 25,
 		color: '#000',
 		fontWeight: "100"
 	},
@@ -120,12 +149,12 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	pointerIndex: {
-		fontSize: 30,
+		fontSize: 25,
 		color: '#000',
 		fontWeight: "900"
 	},
 	pointerTitle: {
-		paddingLeft: 10,
+		paddingLeft: 5,
 		fontSize: 20,
 		fontWeight: "500",
 		flexWrap: 'wrap'
@@ -133,4 +162,9 @@ const styles = StyleSheet.create({
 	pointNodes: {
 		paddingLeft: 25
 	},
+	subPoint: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'flex-start'
+	}
 })

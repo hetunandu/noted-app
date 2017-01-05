@@ -9,8 +9,6 @@ import {
 	LOGIN_FAILURE
 } from '../actionTypes';
 
-
-
 // Find a token and try to find the user from it
 export function loginInit(){
 	googleAuthInit()
@@ -93,7 +91,7 @@ function loginRequest(){
 function loginSuccess(user){
 	tracker.setUser(user.key);
 	if (!user.course || !user.college){
-		Actions.loginDetails() // Not implemented yet
+		Actions.course()
 	}else{
 		Actions.subjects()
 	}

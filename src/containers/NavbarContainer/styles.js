@@ -17,10 +17,14 @@ export default StyleSheet.create({
 		color: 'white'
 	},
 	pointsContainer:{
-
+		padding: 5,
+		alignItems: 'center',
+		flexDirection: 'row'
 	},
 	points: {
 		fontSize: 25,
-		color: 'white'
+		fontWeight: 'bold',
+		color: 'white',
+		marginRight: 5
 	}
 })

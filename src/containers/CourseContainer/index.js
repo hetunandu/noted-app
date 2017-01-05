@@ -9,12 +9,19 @@ import{
 	TouchableHighlight,
 	ToastAndroid
 } from 'react-native';
-import Loading from './Loading';
+import {Loading} from '../../components';
 import {connect} from 'react-redux';
-import {submitCourse } from '../actions/courses';
+import { submitCourse } from './actions';
 import { Actions } from 'react-native-router-flux';
 
-class LoginForm extends React.Component {
+
+const mapStateToProps = ({user, course}) => ({
+	user,
+	course
+})
+
+
+class CourseContainer extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -24,14 +31,17 @@ class LoginForm extends React.Component {
 		};
 	}
 
-	componentDidMount(){
+	componentDidUpdate(){
+		if(this.props.course.subscribed){
+			Actions.subjects();
+		}
 	}
 
 	submitDetails(){
 		if(this.state.college.length < 2){
 			ToastAndroid.show('Please fill all details', ToastAndroid.LONG);
 		}else{
-			this.props.submitCourse(this.state.college)
+			this.props.dispatch(submitCourse({college: this.state.college}))
 		}
 	}
 
@@ -119,4 +129,4 @@ const styles = StyleSheet.create({
 
 
 
-export default LoginForm;
+export default connect(mapStateToProps)(CourseContainer);
