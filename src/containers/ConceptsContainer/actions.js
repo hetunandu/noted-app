@@ -12,7 +12,10 @@ import {
 	MARK_CONCEPT,
 	SUBMIT_RESULT_REQUEST,
 	SUBMIT_RESULT_SUCCESS,
-	SUBMIT_RESULT_FAILURE
+	SUBMIT_RESULT_FAILURE,
+	CONCEPT_IMP_REQUEST,
+	CONCEPT_IMP_SUCCESS,
+	CONCEPT_IMP_FAILURE
 } from '../actionTypes';
 import {CALL_API} from '../../lib/api';
 
@@ -108,6 +111,21 @@ export function conceptWrong(key){
 		type: MARK_CONCEPT,
 		key,
 		marked: 'wrong'
+	}
+}
+
+export function markConceptImportant(concept_key){
+	return {
+		[CALL_API]: {
+			info: {concept_key},
+			endpoint: `concepts/${concept_key}/important`,
+			authenticated: true,
+			types: [
+				CONCEPT_IMP_REQUEST,
+				CONCEPT_IMP_SUCCESS,
+				CONCEPT_IMP_FAILURE
+			]
+		}
 	}
 }
 

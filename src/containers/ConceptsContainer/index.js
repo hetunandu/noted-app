@@ -30,7 +30,8 @@ import {
 	submitResult,
 	toggleReferences,
 	readingConcept,
-	showAnswer
+	showAnswer,
+	markConceptImportant
 } from './actions';
 import {tracker} from '../../lib/googleAnalytics';
 
@@ -171,6 +172,22 @@ class ConceptsContainer extends React.Component {
 						):(<Icon name="info-outline" size={35} color="#fff" />)
 					}
 					</TouchableHighlight>
+					{
+						this.props.concepts.list[0] && this.props.concepts.list[0].important ? (
+							<View style={styles.actionBtn}>
+								<Icon name="star" size={35} color="gold" />
+							</View>
+						) : (
+
+							<TouchableHighlight
+								style={styles.actionBtn}
+								underlayColor="#50537f"
+								onPress={() => this.markImportant()}
+							>	
+								<Icon name="star-border" size={35} color="#fff" />
+							</TouchableHighlight>
+						)
+					}
 					{
 						this.props.concepts.isReading ? (
 
@@ -372,6 +389,12 @@ class ConceptsContainer extends React.Component {
 		.catch(error=>{
 		    console.warn(error);
 		});
+	}
+
+	markImportant(){
+		const concept = this.props.concepts.list[0]
+
+		this.props.dispatch(markConceptImportant(concept.key))
 	}
 
 

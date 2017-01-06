@@ -9,7 +9,10 @@ import {
 	TOGGLE_REFERENCES,
 	READ_CONCEPT,
 	MARK_CONCEPT,
-	SHOW_ANSWER
+	SHOW_ANSWER,
+	CONCEPT_IMP_REQUEST,
+	CONCEPT_IMP_SUCCESS,
+	CONCEPT_IMP_FAILURE
 } from '../actionTypes';
 
 const initialState = {
@@ -17,6 +20,7 @@ const initialState = {
 	errorMessage: '',
 	reference: false,
 	isReading: false,
+	isStarring: false,
 	list: []
 }
 
@@ -83,6 +87,31 @@ export const concepts = createReducer(initialState, {
 	[SHOW_ANSWER](state, action){
 		return Object.assign({}, state, {
 			showAns: action.showAns
+		})
+	},
+	[CONCEPT_IMP_REQUEST](state, action){
+		return Object.assign({}, state, {
+			isStarring: true
+		})
+	},
+	[CONCEPT_IMP_SUCCESS](state, action){
+		return Object.assign({}, state, {
+			isStarring: false,
+			list: state.list.map((concept) => {
+				if(concept.key == action.info.concept_key){
+					return Object.assign({}, concept, {
+						important: true
+					})
+				}else{
+					return concept
+				}
+			})
+		})
+	},
+	[CONCEPT_IMP_FAILURE](state, action){
+		return Object.assign({}, state, {
+			isStarring: false,
+			errorMessage: action.error
 		})
 	}
 });
