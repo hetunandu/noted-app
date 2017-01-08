@@ -13,18 +13,11 @@ export default StyleSheet.create({
 	},
 	navbarTitle:{
 		fontSize: 23,
-		fontWeight: '600',
+		fontWeight: 'bold',
 		color: 'white'
 	},
-	pointsContainer:{
-		padding: 5,
-		alignItems: 'center',
-		flexDirection: 'row'
-	},
-	points: {
-		fontSize: 25,
-		fontWeight: 'bold',
-		color: 'white',
-		marginRight: 5
+	actions:{
+		flexDirection: "row",
+		alignItems: 'center'
 	}
 })

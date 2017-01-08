@@ -10,6 +10,7 @@ import scenes from './routes';
 import api from './lib/api';
 import RequiresConnection from 'react-native-offline-mode';
 import './lib/notifications';
+import './lib/storage';
 
 // Make a logging middlware
 const loggerMiddleware = createLogger({predicate: (getState, action) => __DEV__});

@@ -1,14 +1,18 @@
 import React, {Component} from 'react';
 import {tracker} from '../../lib/googleAnalytics';
-import {View, Text, ScrollView, TouchableHighlight} from 'react-native';
+import {View, Text, TouchableHighlight, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
-import { readSingleConcept } from './actions';
+import {
+	readSingleConcept,
+	downloadIndexOffline
+} from './actions';
 import {
 	Loading,
 	SubjectIndex
 } from '../../components';
-import NavbarContainer from '../NavbarContainer'
+import NavbarContainer from '../NavbarContainer';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
 const mapStateToProps = ({index}) => ({
@@ -19,17 +23,19 @@ class IndexContainer extends Component {
 
 	componentDidMount(){
 		tracker.trackScreenView('Index')
+
 	}
-	
+
 	render(){
 		return (
 			<View style={{flex: 1}}>
-				<NavbarContainer title={this.props.subject.name}/>
+				<NavbarContainer
+					title={this.props.subject.name}
+				/>
 				{
 					this.props.index.isFetching ? <Loading /> : (
-						<SubjectIndex 
-
-							chapters={this.props.index.chapters} 
+						<SubjectIndex
+							chapters={this.props.index.chapters}
 							onConceptSelected={(concept) => this.handleConceptSelected(concept)}
 						/>
 					)

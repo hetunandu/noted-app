@@ -4,14 +4,15 @@ import {
 	Actions,
 	ActionConst
 } from 'react-native-router-flux';
-import { 
+import {
 	LoginContainer,
 	CourseContainer,
 	SubjectsContainer,
 	IndexContainer,
 	ConceptsContainer,
 	ResultContainer,
-	PointsContainer
+	PointsContainer,
+	OfflineContainer
 } from './containers';
 
 export default scenes = Actions.create(
@@ -56,7 +57,11 @@ export default scenes = Actions.create(
 			component={PointsContainer}
 			direction="vertical"
 			panHandlers={null}
-
+		/>
+		<Scene
+			key="offlineReader"
+			component={OfflineContainer}
+			panHandlers={null}
 		/>
 	</Scene>
 );

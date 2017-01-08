@@ -12,7 +12,8 @@ import {
 	SHOW_ANSWER,
 	CONCEPT_IMP_REQUEST,
 	CONCEPT_IMP_SUCCESS,
-	CONCEPT_IMP_FAILURE
+	CONCEPT_IMP_FAILURE,
+	READ_OFFLINE_CONCEPT
 } from '../actionTypes';
 
 const initialState = {
@@ -61,6 +62,11 @@ export const concepts = createReducer(initialState, {
 		return Object.assign({}, state, {
 			isFetching: false,
 			errorMessage: action.error
+		})
+	},
+	[READ_OFFLINE_CONCEPT](state, action){
+		return Object.assign({}, state, {
+			list: [action.concept]
 		})
 	},
 	[TOGGLE_REFERENCES](state, action){

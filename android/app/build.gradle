@@ -90,8 +90,8 @@ android {
         applicationId "study.noted.app"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 22
-        versionName "1.0.2"
+        versionCode 23
+        versionName "1.0.3"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -139,7 +139,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile project(':react-native-google-analytics-bridge')
-    compile(project(":react-native-google-signin")){         
+    compile(project(":react-native-google-signin")){
         exclude group: "com.google.android.gms" // very important
     }
     compile 'com.google.android.gms:play-services-auth:9.2.1'

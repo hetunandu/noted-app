@@ -21,11 +21,11 @@ export default styles = StyleSheet.create({
     subjectName:{
     	fontSize: 25,
     	fontWeight: 'bold'
-    },	
+    },
     viewsText: {
         fontSize: 15,
         color: '#999'
-    }, 
+    },
     subjectAction: {
         padding: 10,
         backgroundColor: 'white',
@@ -41,6 +41,22 @@ export default styles = StyleSheet.create({
     cooldownContainer: {
         backgroundColor: 'white',
         borderRadius: 5
+    },
+    cooldownText: {
+      fontSize: 25,
+      textAlign:'center',
+      fontWeight: 'bold',
+      color: 'red',
+    },
+    cooldownCountdown:{
+      fontSize: 20,
+      textAlign:'center',
+      marginBottom: 10
+    },
+    skipText: {
+      fontSize: 25,
+      color: 'white',
+      marginRight: 5
     },
     skipAction:{
     	backgroundColor: '#50537f',

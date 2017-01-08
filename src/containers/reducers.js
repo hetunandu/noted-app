@@ -6,6 +6,7 @@ import * as concepts from './ConceptsContainer/reducers';
 import * as index from './IndexContainer/reducers';
 import * as result from './ResultContainer/reducers';
 import * as points from './PointsContainer/reducers';
+import * as offline from './OfflineContainer/reducers';
 
 export default combineReducers(Object.assign(
 	user,
@@ -14,5 +15,6 @@ export default combineReducers(Object.assign(
 	concepts,
 	index,
 	result,
-	points
+	points,
+	offline
 ));

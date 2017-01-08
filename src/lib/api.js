@@ -1,11 +1,10 @@
-//export const BASE_URL = 'http://127.0.0.1:8080/study';
-export const BASE_URL = 'https://3-dot-noted-api.appspot.com/study/';
-//export const BASE_URL = 'https://noted-api.appspot.com/';
 import Symbol from 'es6-symbol';
 import {AsyncStorage} from 'react-native'
 
+export const BASE_URL = 'https://noted-api.appspot.com/study/';
+
 // The function that will set the appropriate config and call the API
-async function callApi(endpoint, authenticated, method, body) {
+export async function callApi(endpoint, authenticated, method, body) {
 
 	var token = await AsyncStorage.getItem("login_token")
 
@@ -58,22 +57,22 @@ export default store => next => action => {
 
 	const callAPI = action[CALL_API]
 
-		// So the middleware doesn't get applied to every single action
-		if (typeof callAPI === 'undefined') {
-			return next(action)
-		}
+	// So the middleware doesn't get applied to every single action
+	if (typeof callAPI === 'undefined') {
+		return next(action)
+	}
 
-		// Get details about the call
-		let { endpoint, types, authenticated, method, body, info } = callAPI
+	// Get details about the call
+	let { endpoint, types, authenticated, method, body, info } = callAPI
 
-		// Get the request actions
-		const [ requestType, successType, errorType ] = types
+	// Get the request actions
+	const [ requestType, successType, errorType ] = types
 
-		// Calling the request started action
-		next({type: requestType})
+	// Calling the request started action
+	next({type: requestType})
 
-		// Calling the 'callApi' fn with request data
-		return callApi(endpoint, authenticated, method, body, info)
+	// Calling the 'callApi' fn with request data
+	return callApi(endpoint, authenticated, method, body, info)
 		.then(
 			response => next({
 				data: response.message,

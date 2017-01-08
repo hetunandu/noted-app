@@ -19,13 +19,20 @@ class Navbar extends Component{
 		return(
 			<View style={styles.navBar}>
 				<Text style={styles.navbarTitle}>{this.props.title}</Text>
-				<TouchableHighlight 
-					onPress={() => Actions.points()}
-				>
-					<View>
-						<PointsDisplay points={this.props.points.balance} />
-					</View>
-				</TouchableHighlight>
+
+
+				<View style={styles.actions}>
+					{ this.props.children }
+
+					<TouchableHighlight
+						underlayColor="#50537f"
+						onPress={() => Actions.points()}
+					>
+						<View>
+							<PointsDisplay points={this.props.points.balance} />
+						</View>
+					</TouchableHighlight>
+				</View>
 			</View>
 		)
 	}

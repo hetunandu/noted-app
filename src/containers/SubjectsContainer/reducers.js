@@ -6,7 +6,11 @@ import {
 
 	COOLDOWN_SKIP_REQUEST,
 	COOLDOWN_SKIP_SUCCESS,
-	COOLDOWN_SKIP_FAILURE
+	COOLDOWN_SKIP_FAILURE,
+
+	SUBJECT_OFFLINE_REQUEST,
+	SUBJECT_OFFLINE_SUCCESS,
+	SUBJECT_OFFLINE_FAILURE
 } from '../actionTypes';
 
 const initialState = {
@@ -45,6 +49,31 @@ export const subjects = createReducer(initialState, {
 					return subject
 				}
 			})
+		})
+	},
+	[SUBJECT_OFFLINE_REQUEST](state, action){
+		return Object.assign({}, state, {
+			isFetching: true
+		})
+	},
+	[SUBJECT_OFFLINE_SUCCESS](state, action){
+		return Object.assign({}, state, {
+			isFetching: false,
+			list: state.list.map(subject => {
+				if(subject.key == action.subject_key){
+					return Object.assign({}, subject, {
+						offline: true
+					})
+				}else{
+					return subject
+				}
+			})
+		})
+	},
+	[SUBJECT_OFFLINE_FAILURE](state, action){
+		return Object.assign({}, state, {
+			isFetching: false,
+			errorMessage: action.error
 		})
 	}
 });

@@ -7,3 +7,4 @@ export Explanation from './Explanation';
 export Question from './Question';
 export PointsDisplay from './PointsDisplay';
 export AppIntro from './AppIntro';
+export OfflineReader from './OfflineReader';

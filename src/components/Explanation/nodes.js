@@ -18,7 +18,7 @@ export class TitleNode extends React.Component{
 export class TextNode extends React.Component{
 	render(){
 		return (
-			<Markdown 
+			<Markdown
 				styles={markdownStyles}
 			>
 				{this.props.data}
@@ -82,7 +82,7 @@ export class PointerNode extends React.Component{
 												return <ImageNode key={k} data={node.data} />
 											case 'subPoint':
 												return <SubPointNode key={k} data={node.data} />
-											default: 
+											default:
 												return <TextNode key={k} data={node.type} />
 										}
 									})
@@ -99,18 +99,16 @@ export class PointerNode extends React.Component{
 
 export class SubPointNode extends React.Component{
 	render(){
-		console.log(this.props.data)
-
 		return (
 			<View>
 				{
 					this.props.data.map((subPoint, i) => {
 						return(
 							<View key={`${i}-subpoint-${subPoint}`} style={styles.subPoint}>
-								<Icon 
-									name="label" 
-									size={15} 
-									color="#333" 
+								<Icon
+									name="label"
+									size={15}
+									color="#333"
 									style={{marginRight: 3, marginTop: 5}}/>
 								<TextNode data={subPoint}/>
 							</View>

@@ -16,10 +16,7 @@ class Login extends Component {
 		return (
 			<View style={styles.container}>
 				<View style={styles.welcome}>
-					<Text style={styles.welcomeText}>
-						Welcome to
-					</Text>
-					<Image 
+					<Image
 						source={logo}
 						style={{width: 300, height: 100}}
 						resizeMode="contain"
@@ -28,7 +25,7 @@ class Login extends Component {
 
 				<View style={styles.login}>
 					{ this.props.user.isFectching && <Loading /> }
-							
+
 					{this.renderGoogleAuthBtn()}
 
 					<Text>{this.props.user.errorMessage}</Text>
