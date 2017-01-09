@@ -27,7 +27,9 @@ const mapStateToProps = ({subjects, points}) => ({
 class SubjectsContainer extends Component {
 
 	componentDidMount(){
-		this.props.dispatch(fetchSubjectList())
+		if(this.props.subjects.list.length == 0){
+			this.props.dispatch(fetchSubjectList())			
+		}
 	}
 
 	render(){

@@ -52,7 +52,7 @@ export function fetchTestConcepts(subject_key) {
 export function setMode(mode){
 	return {
 		type: SET_MODE,
-		mode     
+		mode
 	}
 }
 
