@@ -29,13 +29,10 @@ class SubjectCard extends Component{
 
     componentDidMount(){
         this.setInterval(this.countdown, 1000)
-
         this.scheduleNotifications()
-
 				this.checkOfflineVersion()
+
     }
-
-
     render(){
         const {subject} = this.props
 
@@ -57,7 +54,11 @@ class SubjectCard extends Component{
 		                </Text>
 	                </View>
 	                <View>
-	                	<Text style={styles.progress}>{this.progressInPercent()}%</Text>
+										{
+                        subject.offline ? (null) : (
+													<Text style={styles.progress}>{this.progressInPercent()}%</Text>
+												)
+                    }
 	                </View>
             	</View>
 							{

@@ -10,7 +10,13 @@ import {
 
 	SUBJECT_OFFLINE_REQUEST,
 	SUBJECT_OFFLINE_SUCCESS,
-	SUBJECT_OFFLINE_FAILURE
+	SUBJECT_OFFLINE_FAILURE,
+
+	FOUND_OFFLINE_SUBJECT,
+
+	CONCEPT_LIST_SUCCESS,
+	CONCEPT_VIEW_SUCCESS,
+
 } from '../actionTypes';
 
 const initialState = {
@@ -38,6 +44,32 @@ export const subjects = createReducer(initialState, {
 			errorMessage: action.error
 		})
 	},
+	[CONCEPT_LIST_SUCCESS](state, action){
+		return Object.assign({}, state, {
+			list: state.list.map(subject => {
+				if(subject.key == action.info.subject_key){
+					return Object.assign({}, subject, {
+						views_available: action.data.views_available
+					})
+				}else{
+					return subject
+				}
+			})
+		})
+	},
+	[CONCEPT_VIEW_SUCCESS](state, action){
+		return Object.assign({}, state, {
+			list: state.list.map(subject => {
+				if(subject.key == action.info.subject_key){
+					return Object.assign({}, subject, {
+						views_available: action.data.views_available
+					})
+				}else{
+					return subject
+				}
+			})
+		})
+	},
 	[COOLDOWN_SKIP_SUCCESS](state, action){
 		return Object.assign({}, state, {
 			list: state.list.map(subject => {
@@ -57,6 +89,20 @@ export const subjects = createReducer(initialState, {
 		})
 	},
 	[SUBJECT_OFFLINE_SUCCESS](state, action){
+		return Object.assign({}, state, {
+			isFetching: false,
+			list: state.list.map(subject => {
+				if(subject.key == action.subject_key){
+					return Object.assign({}, subject, {
+						offline: true
+					})
+				}else{
+					return subject
+				}
+			})
+		})
+	},
+	[FOUND_OFFLINE_SUBJECT](state, action){
 		return Object.assign({}, state, {
 			isFetching: false,
 			list: state.list.map(subject => {

@@ -37,7 +37,7 @@ class Result extends Component {
 	}
 
 	handleBack(){
-		Actions.subjects()
+		Actions.pop()
 	}
 
 	getResultCount(marking){
@@ -66,15 +66,15 @@ class Result extends Component {
 										<Text style={{color: 'red'}}>
 											{this.props.result.errorMessage}
 										</Text>
-									)	
+									)
 								}
 								{ this.renderSummary() }
 
 								{ this.renderPoints() }
-								<TouchableHighlight 
+								<TouchableHighlight
 									style={styles.backButton}
 									onPress={ () => {
-										Actions.subjects()
+										Actions.pop()
 									}}
 								>
 									<Text style={{
@@ -83,7 +83,7 @@ class Result extends Component {
 										fontSize: 25
 										}}
 									>
-										Back to Subjects
+										Study more!
 									</Text>
 								</TouchableHighlight>
 							</View>

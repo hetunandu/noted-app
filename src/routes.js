@@ -12,6 +12,7 @@ import {
 	ConceptsContainer,
 	ResultContainer,
 	PointsContainer,
+	OfflineBuyContainer,
 	OfflineContainer
 } from './containers';
 
@@ -39,12 +40,12 @@ export default scenes = Actions.create(
 		<Scene
 			key="index"
 			component={IndexContainer}
-			direction="vertical"
 			panHandlers={null}
 		/>
 		<Scene
 			key="concepts"
 			component={ConceptsContainer}
+			direction="vertical"
 			panHandlers={null}
 		/>
 		<Scene
@@ -55,12 +56,17 @@ export default scenes = Actions.create(
 		<Scene
 			key="points"
 			component={PointsContainer}
-			direction="vertical"
+			panHandlers={null}
+		/>
+		<Scene
+			key="offlineBuy"
+			component={OfflineBuyContainer}
 			panHandlers={null}
 		/>
 		<Scene
 			key="offlineReader"
 			component={OfflineContainer}
+			direction="vertical"
 			panHandlers={null}
 		/>
 	</Scene>

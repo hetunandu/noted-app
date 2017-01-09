@@ -5,12 +5,13 @@ import {
 	REDEEM_CODE_FAILURE,
 	LOGIN_SUCCESS,
 	COOLDOWN_SKIP_SUCCESS,
-	SUBMIT_RESULT_SUCCESS
+	SUBMIT_RESULT_SUCCESS,
+	SUBJECT_OFFLINE_SUCCESS
 } from '../actionTypes'
 
 const initialState = {
 	isFetching: false,
-	errorMessage: '', 
+	errorMessage: '',
 	balance: 0
 }
 
@@ -46,6 +47,11 @@ export const points = createReducer(initialState, {
 	[COOLDOWN_SKIP_SUCCESS](state, action){
 		return Object.assign({}, state, {
 			balance: state.balance - action.info.cost
+		})
+	},
+	[SUBJECT_OFFLINE_SUCCESS](state, action){
+		return Object.assign({}, state, {
+			balance: state.balance - 500
 		})
 	}
 });

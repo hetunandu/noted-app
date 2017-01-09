@@ -7,4 +7,5 @@ export ConceptsContainer from './ConceptsContainer';
 export ResultContainer from './ResultContainer';
 export NavbarContainer from './NavbarContainer';
 export PointsContainer from './PointsContainer';
+export OfflineBuyContainer from './OfflineBuyContainer';
 export OfflineContainer from './OfflineContainer';

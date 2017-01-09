@@ -20,6 +20,8 @@ import {
 	SUBJECT_OFFLINE_SUCCESS,
 	SUBJECT_OFFLINE_FAILURE,
 
+	FOUND_OFFLINE_SUBJECT,
+
 	READ_OFFLINE_SUBJECT
 
 } from '../actionTypes';
@@ -74,6 +76,7 @@ export function fetchRevisionConcepts(subject_key) {
 		[CALL_API]: {
 			endpoint: `subjects/${subject_key}/revise`,
 			authenticated: true,
+			info: {subject_key},
 			types: [
 				CONCEPT_LIST_REQUEST,
 				CONCEPT_LIST_SUCCESS,
@@ -88,24 +91,11 @@ export function fetchTestConcepts(subject_key) {
 		[CALL_API]: {
 			endpoint: `subjects/${subject_key}/test`,
 			authenticated: true,
+			info: {subject_key},
 			types: [
 				CONCEPT_LIST_REQUEST,
 				CONCEPT_LIST_SUCCESS,
 				CONCEPT_LIST_FAILURE
-			]
-		}
-	}
-}
-
-export function fetchSingleConcept(concept_key){
-	return {
-		[CALL_API]: {
-			endpoint: `concepts/${concept_key}`,
-			authenticated: true,
-			types: [
-				CONCEPT_VIEW_REQUEST,
-				CONCEPT_VIEW_SUCCESS,
-				CONCEPT_VIEW_FAILURE
 			]
 		}
 	}
@@ -160,7 +150,10 @@ function offlineFailure(error){
 
 
 export function foundOfflineSubject(subject_key){
-	return offlineSuccess(subject_key)
+	return {
+		type: FOUND_OFFLINE_SUBJECT,
+		subject_key
+	}
 }
 
 export function loadOfflineSubject(subject){

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView, ToastAndroid} from 'react-native';
+import {View, Text, ScrollView, ToastAndroid, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 import {
@@ -19,8 +19,9 @@ import {
 import NavbarContainer from '../NavbarContainer'
 
 
-const mapStateToProps = ({subjects}) => ({
-	subjects
+const mapStateToProps = ({subjects, points}) => ({
+	subjects,
+	points
 })
 
 class SubjectsContainer extends Component {
@@ -66,7 +67,19 @@ class SubjectsContainer extends Component {
 
 
 	handleCooldownSkip(subject, cost){
-		this.props.dispatch(subjectCooldownSkip(subject.key, cost))
+		if (this.props.points.balance > cost) {
+			this.props.dispatch(subjectCooldownSkip(subject.key, cost))
+		}else{
+			Alert.alert(
+				'You dont have enought coins',
+				`You can buy 500 coins for Rs.50`,
+				[
+					{text: 'Cancel', onPress: () => {return false}},
+					{text: 'Buy offline', onPress: () => { this.buyCoinsOffline() }},
+					{text: 'Buy online', onPress: () => { this.buyCoinsOnline() }}
+				]
+			)
+		}
 	}
 
 	handleRevisionPressed(subject){
@@ -85,7 +98,19 @@ class SubjectsContainer extends Component {
 	}
 
 	handleDownloadPressed(subject){
-		this.props.dispatch(downloadSubjectOffline(subject.key))
+		if (this.props.points.balance > 500) {
+			this.props.dispatch(downloadSubjectOffline(subject.key))
+		}else{
+			Alert.alert(
+				'You dont have enought coins',
+				`You can buy 500 coins for Rs.50`,
+				[
+					{text: 'Cancel', onPress: () => {return false}},
+					{text: 'Buy offline', onPress: () => { this.buyCoinsOffline() }},
+					{text: 'Buy online', onPress: () => { this.buyCoinsOnline() }}
+				]
+			)
+		}
 	}
 
 	handleOfflineSubject(subject){
@@ -104,6 +129,14 @@ class SubjectsContainer extends Component {
 			ToastAndroid.show('Error loading subject', ToastAndroid.SHORT)
 		})
 
+	}
+
+	buyCoinsOnline(){
+		ToastAndroid.show('Coming soon! Try buying offline', ToastAndroid.LONG)
+	}
+
+	buyCoinsOffline(){
+		Actions.offlineBuy()
 	}
 
 }

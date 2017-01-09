@@ -59,6 +59,7 @@ export default styles = StyleSheet.create({
       marginRight: 5
     },
     skipAction:{
+      minHeight: 50,
     	backgroundColor: '#50537f',
     	flex: 1,
     	padding: 5,

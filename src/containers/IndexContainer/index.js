@@ -23,7 +23,6 @@ class IndexContainer extends Component {
 
 	componentDidMount(){
 		tracker.trackScreenView('Index')
-
 	}
 
 	render(){
@@ -46,7 +45,7 @@ class IndexContainer extends Component {
 
 	handleConceptSelected(concept){
 		Actions.concepts({subject: this.props.subject, mode: 'revise'})
-		this.props.dispatch(readSingleConcept(concept.key))
+		this.props.dispatch(readSingleConcept(this.props.subject.key, concept.key))
 	}
 
 }

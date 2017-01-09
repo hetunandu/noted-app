@@ -26,29 +26,34 @@ class Points extends React.Component {
 			code: ""
 		};
 	}
-    
+
     render() {
     	return (
     		<View style={{flex: 1}}>
     			<NavbarContainer title="Points" />
     			<View style={styles.container}>
     				<View style={styles.section}>
-	    				<Text style={styles.formLabel}>Enter code:</Text>
+	    				<Text style={styles.formLabel}>Enter cheat code:</Text>
 	    				<TextInput
-							autoFocus={true}
-							style={{height: 40, width: 300}}
-							onChangeText={(text) => this.setState({code: text})}
-							value={this.state.code}
-						/>
-						<TouchableHighlight 
-							style={[styles.btn, {backgroundColor: 'green'}]}
-							onPress={() => this.submitCode()}
-						>
-							<Text style={styles.btnText}>Redeem code</Text>
-						</TouchableHighlight>
+								autoFocus={true}
+								style={{height: 40, width: 300}}
+								onChangeText={(text) => this.setState({code: text})}
+								value={this.state.code}
+							/>
+							<TouchableHighlight
+								style={[styles.btn, {backgroundColor: 'green'}]}
+								onPress={() => this.submitCode()}
+							>
+								<Text style={styles.btnText}>Submit</Text>
+							</TouchableHighlight>
 
 						{ this.props.points.isFetching && <Loading />}
-						
+
+						{this.props.points.errorMesssage && (
+								<Text>Error: {this.props.points.errorMesssage}</Text>
+							)
+						}
+
 					</View>
     			</View>
     		</View>
