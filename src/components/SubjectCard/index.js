@@ -44,128 +44,121 @@ class SubjectCard extends Component{
 		                	{subject.name}
 		                </Text>
 		                <Text style={styles.viewsText}>
-                    {
-                        subject.offline ? (
-													'Offline'
-												) : (
+                    {subject.offline ? 'Offline' : (
 													`${subject.views_available} views available`
-												)
-                    }
+										)}
 		                </Text>
 	                </View>
 	                <View>
-										{
-                        subject.offline ? (null) : (
-													<Text style={styles.progress}>{this.progressInPercent()}%</Text>
-												)
-                    }
+										{subject.offline ? (null) : (
+											<Text style={styles.progress}>{this.progressInPercent()}%</Text>
+										)}
 	                </View>
             	</View>
-							{
-								subject.offline ? (
-									<View>
-										<TouchableHighlight style={styles.subjectActionContainer}
-												onPress={() => this.offlineStudyPressed()}
-												underlayColor="#f3f3f3"
-										>
-												<View style={styles.subjectAction}>
-														<View>
-															<Text style={styles.subjectActionText}>Study</Text>
-														</View>
-														<Icon name="chevron-right" size={30} color="#333" />
-												</View>
-
-										</TouchableHighlight>
-									</View>
-								):(
-									subject.views_available > 0 ? (
+				{subject.offline ? (
+						<View>
+							<TouchableHighlight style={styles.subjectActionContainer}
+									onPress={() => this.offlineStudyPressed()}
+									underlayColor="#f3f3f3"
+							>
+									<View style={styles.subjectAction}>
 											<View>
-											{ // Revise Action
-												subject.read_concepts < subject.total_concepts && (
-													<TouchableHighlight
-														style={styles.subjectActionContainer}
-														onPress={() => this.revisePressed()}
-														underlayColor="#f3f3f3"
-													>
-														<View style={styles.subjectAction}>
-															<View>
-																<Text style={styles.subjectActionText}>Revise</Text>
-																<Text style={styles.viewsText}>Cost: 5 views</Text>
-															</View>
-															<Icon name="chevron-right" size={30} color="#333" />
-														</View>
-													</TouchableHighlight>
-												)
-											}
-											{ // Test Action
-												subject.read_concepts > 5 && (
-														<TouchableHighlight
-															style={styles.subjectActionContainer}
-															onPress={() => this.testPressed()}
-															underlayColor="#f3f3f3"
-														>
-															<View style={styles.subjectAction}>
-																<View>
-																	<Text style={styles.subjectActionText}>Test</Text>
-																	<Text style={styles.viewsText}>Cost: 5 views</Text>
-																</View>
-																<Icon name="chevron-right" size={30} color="#333" />
-															</View>
-														</TouchableHighlight>
-													)
-												}
-												<TouchableHighlight
-													style={styles.subjectActionContainer}
-													onPress={() => this.indexPressed()}
-													underlayColor="#f3f3f3"
-												>
-													<View style={styles.subjectAction}>
-														<View>
-															<Text style={styles.subjectActionText}>Index</Text>
-															<Text style={styles.viewsText}>Cost: 1 view per concept</Text>
-														</View>
-														<Icon name="chevron-right" size={30} color="#333" />
-													</View>
-												</TouchableHighlight>
-												<TouchableHighlight
-													style={styles.subjectActionContainer}
-													onPress={() => this.downloadPressed()}
-													underlayColor="#f3f3f3"
-												>
-													<View style={styles.subjectAction}>
-														<View flexDirection="row">
-															<Text style={styles.subjectActionText}>
-																Download for
-															</Text>
-															<PointsDisplay points={500} dark={true}/>
-														</View>
-														<Icon name="chevron-right" size={30} color="#333" />
-													</View>
-												</TouchableHighlight>
+												<Text style={styles.subjectActionText}>Study</Text>
 											</View>
+											<Icon name="chevron-right" size={30} color="#333" />
+									</View>
 
-											) : (
-												<View style={styles.cooldownContainer}>
-													<Text style={styles.cooldownText}>
-														Cooldown
-													</Text>
-													<Text style={styles.cooldownCountdown}>
-														More views in : {this.state.time_left}
-													</Text>
-													<TouchableHighlight
-														onPress={() => this.skipCooldown()}
-													>
-														<View style={styles.skipAction}>
-															<Text style={styles.skipText}>
-																Skip for
-															</Text>
-															<PointsDisplay points={subject.reset_cost}/>
-														</View>
-													</TouchableHighlight>
+							</TouchableHighlight>
+						</View>
+					):(
+						subject.views_available > 0 ? (
+								<View>
+								{ // Revise Action
+									subject.read_concepts < subject.total_concepts && (
+										<TouchableHighlight
+											style={styles.subjectActionContainer}
+											onPress={() => this.revisePressed()}
+											underlayColor="#f3f3f3"
+										>
+											<View style={styles.subjectAction}>
+												<View>
+													<Text style={styles.subjectActionText}>Revise</Text>
+													<Text style={styles.viewsText}>Cost: 5 views</Text>
 												</View>
-											)
+												<Icon name="chevron-right" size={30} color="#333" />
+											</View>
+										</TouchableHighlight>
+									)
+								}
+								{ // Test Action
+									subject.read_concepts > 5 && (
+											<TouchableHighlight
+												style={styles.subjectActionContainer}
+												onPress={() => this.testPressed()}
+												underlayColor="#f3f3f3"
+											>
+												<View style={styles.subjectAction}>
+													<View>
+														<Text style={styles.subjectActionText}>Test</Text>
+														<Text style={styles.viewsText}>Cost: 5 views</Text>
+													</View>
+													<Icon name="chevron-right" size={30} color="#333" />
+												</View>
+											</TouchableHighlight>
 										)
 									}
+									<TouchableHighlight
+										style={styles.subjectActionContainer}
+										onPress={() => this.indexPressed()}
+										underlayColor="#f3f3f3"
+									>
+										<View style={styles.subjectAction}>
+											<View>
+												<Text style={styles.subjectActionText}>Index</Text>
+												<Text style={styles.viewsText}>Cost: 1 view per concept</Text>
+											</View>
+											<Icon name="chevron-right" size={30} color="#333" />
+										</View>
+									</TouchableHighlight>
+									<TouchableHighlight
+										style={styles.subjectActionContainer}
+										onPress={() => this.downloadPressed()}
+										underlayColor="#f3f3f3"
+									>
+										<View style={styles.subjectAction}>
+											<View flexDirection="row">
+												<Text style={styles.subjectActionText}>
+													Download for
+												</Text>
+												<PointsDisplay points={500} dark={true}/>
+											</View>
+											<Icon name="chevron-right" size={30} color="#333" />
+										</View>
+									</TouchableHighlight>
+								</View>
+
+								) : (
+									<View style={styles.cooldownContainer}>
+										<Text style={styles.cooldownText}>
+											Cooldown
+										</Text>
+										<Text style={styles.cooldownCountdown}>
+											More views in : {this.state.time_left}
+										</Text>
+										<TouchableHighlight
+											onPress={() => this.skipCooldown()}
+										>
+											<View style={styles.skipAction}>
+												<Text style={styles.skipText}>
+													Skip for
+												</Text>
+												<PointsDisplay points={subject.reset_cost}/>
+											</View>
+										</TouchableHighlight>
+									</View>
+								)
+							)
+						}
 	        </View>
         )
     }
@@ -201,72 +194,71 @@ class SubjectCard extends Component{
 		}
 
     progressInPercent(){
-        total = this.props.subject.total_concepts
-        read = this.props.subject.read_concepts
+			total = this.props.subject.total_concepts
+			read = this.props.subject.read_concepts
 
-        return Math.round(read / total * 100)
+			return Math.round(read / total * 100)
     }
 
     countdown(){
-        const {subject} = this.props
+			const {subject} = this.props
 
 
-        var date = new Date(subject.session_ends)
-        var ist_date = new Date(date.valueOf() + date.getTimezoneOffset());
-        var time_left = ist_date - new Date()
+			var date = new Date(subject.session_ends)
+			var ist_date = new Date(date.valueOf() + date.getTimezoneOffset());
+			var time_left = ist_date - new Date()
 
-        if (time_left < 0){
-            this.clearInterval()
+			if (time_left < 0){
+					this.clearInterval()
+			}else{
+					var _second = 1000;
+					var _minute = _second * 60;
+					var _hour = _minute * 60;
+					var _day = _hour * 24;
 
-        }else{
-            var _second = 1000;
-            var _minute = _second * 60;
-            var _hour = _minute * 60;
-            var _day = _hour * 24;
+					var hours = Math.floor((time_left % _day) / _hour);
+					var minutes = Math.floor((time_left % _hour) / _minute);
+					var seconds = Math.floor((time_left % _minute) / _second);
 
-            var hours = Math.floor((time_left % _day) / _hour);
-            var minutes = Math.floor((time_left % _hour) / _minute);
-            var seconds = Math.floor((time_left % _minute) / _second);
-
-            this.setState({
-                time_left: `${hours}h ${minutes}m ${seconds}s`
-            })
-        }
+					this.setState({
+							time_left: `${hours}h ${minutes}m ${seconds}s`
+					})
+			}
     }
 
     scheduleNotifications(){
-        const {subject} = this.props
+      const {subject} = this.props
 
-        PushNotification.cancelLocalNotifications({tag: subject.name});
+      PushNotification.cancelLocalNotifications({tag: subject.name});
 
-				if(!subject.offline){
-					PushNotification.localNotificationSchedule({
-							message: `More views available in ${subject.name}`, // (required)
-							largeIcon: "ic_launcher", // (optional) default: "ic_launcher"
-							smallIcon: "ic_launcher", // (optional) default: "ic_notification" with fallback for "ic_launcher"
-							color: "red", // (optional) default: system default
-							vibrate: true, // (optional) default: true
-							vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000,
-							tag: subject.name,
-							date: new Date(subject.session_ends) // in 60 secs
-					});
-				}
+			if(!subject.offline){
+				PushNotification.localNotificationSchedule({
+					message: `More views available in ${subject.name}`, // (required)
+					largeIcon: "ic_launcher", // (optional) default: "ic_launcher"
+					smallIcon: "ic_launcher", // (optional) default: "ic_notification" with fallback for "ic_launcher"
+					color: "red", // (optional) default: system default
+					vibrate: true, // (optional) default: true
+					vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000,
+					tag: subject.name,
+					date: new Date(subject.session_ends) // in 60 secs
+				});
+			}
     }
 
-		checkOfflineVersion(){
-			storage.load({
-				key: 'subject',
-				id: this.props.subject.key
-			}).then(subject => {
-				this.props.isOffline()
-			}).catch(err => {
-				console.log(err)
-			})
-		}
+	checkOfflineVersion(){
+		storage.load({
+			key: 'subject',
+			id: this.props.subject.key
+		}).then(subject => {
+			this.props.isOffline()
+		}).catch(err => {
+			console.log(err)
+		})
+	}
 
-		offlineStudyPressed(){
-			this.props.onOfflineStudyPressed()
-		}
+	offlineStudyPressed(){
+		this.props.onOfflineStudyPressed()
+	}
 }
 
 

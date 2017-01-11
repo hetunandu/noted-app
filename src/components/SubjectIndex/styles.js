@@ -1,30 +1,42 @@
 import {StyleSheet} from 'react-native';
 
 export default styles = StyleSheet.create({
+    container:{
+        flex: 1
+    },
     chapterContainer: {
         padding: 5,
     },
     chapterName: {
+        textAlign: 'center',
         fontSize: 23,
-        marginBottom: 5
-    },
-    conceptList: {
-        backgroundColor: 'white',
-        elevation: 2,
-        borderRadius: 2
+        marginBottom: 5,
+        fontWeight: 'bold'
     },
     conceptContainer:{
-        padding: 5,
-        borderBottomWidth: 1,
-        borderBottomColor: "#999"
+        backgroundColor: 'white',
+        padding: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    conceptDataContainer:{
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        flex: 1
+    },
+    readCount:{
+        alignItems:'center'
     },
     conceptName: {
+        flex:6,
         fontSize: 20
     },
-    offlineBanner: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-around",
-        backgroundColor: '#50537f'
-    }
+    separator: {
+        flex: 1,
+        height: StyleSheet.hairlineWidth,
+        backgroundColor: '#8E8E8E',
+    },
+   
+    
 })

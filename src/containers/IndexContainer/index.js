@@ -31,14 +31,12 @@ class IndexContainer extends Component {
 				<NavbarContainer
 					title={this.props.subject.name}
 				/>
-				{
-					this.props.index.isFetching ? <Loading /> : (
+				{this.props.index.isFetching ? <Loading /> : (
 						<SubjectIndex
 							chapters={this.props.index.chapters}
 							onConceptSelected={(concept) => this.handleConceptSelected(concept)}
 						/>
-					)
-				}
+				)}
 			</View>
 		)
 	}
