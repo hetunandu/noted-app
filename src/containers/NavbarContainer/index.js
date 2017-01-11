@@ -25,7 +25,8 @@ class Navbar extends Component{
 					{ this.props.children }
 
 					<TouchableHighlight
-						underlayColor="#50537f"
+						style={styles.pointsBtn}
+						underlayColor="#404265"
 						onPress={() => Actions.points()}
 					>
 						<View>
