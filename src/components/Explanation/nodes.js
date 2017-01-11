@@ -52,7 +52,7 @@ export class ImageNode extends React.Component{
 	render(){
 		return (
 			<Image
-				style={{minHeight: 200, backgroundColor: "#f2f2f2", marginBottom: 10}}
+				style={{minHeight: 200, marginBottom: 10}}
 				resizeMode="contain"
 				source={{uri: `${this.props.data}`}}
 			/>
