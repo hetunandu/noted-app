@@ -30,7 +30,7 @@ class Points extends React.Component {
     render() {
     	return (
     		<View style={{flex: 1}}>
-    			<NavbarContainer title="Points" />
+    			<NavbarContainer title="Coins" />
     			<View style={styles.container}>
     				<View style={styles.section}>
 	    				<Text style={styles.formLabel}>Enter cheat code:</Text>
@@ -50,9 +50,8 @@ class Points extends React.Component {
 						{ this.props.points.isFetching && <Loading />}
 
 						{this.props.points.errorMesssage && (
-								<Text>Error: {this.props.points.errorMesssage}</Text>
-							)
-						}
+							<Text>Error: {this.props.points.errorMesssage}</Text>
+						)}
 
 					</View>
     			</View>

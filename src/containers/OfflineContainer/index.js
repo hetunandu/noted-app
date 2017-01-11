@@ -22,9 +22,9 @@ class OfflineContainer extends React.Component {
 
   render() {
   	return (
-			<View style={styles.container}>
-				<OfflineReader index={this.props.offline.index} />
-			</View>
+		<View style={styles.container}>
+			<OfflineReader index={this.props.offline.index} />
+		</View>
   	)
   }
 
