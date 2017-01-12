@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
+import { createStore, applyMiddleware,  compose } from 'redux';
 import { Provider, connect } from 'react-redux';
 import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
@@ -12,10 +12,10 @@ import RequiresConnection from 'react-native-offline-mode';
 import './lib/notifications';
 import './lib/storage';
 
-// Make a logging middlware
+// Make a logging middleware
 const loggerMiddleware = createLogger({predicate: (getState, action) => __DEV__});
 
-// Cofigure the store and apply the middlwares
+// Configure the store and apply the middlewares
 function configureStore(initialState){
 	const enhancer = compose(
 		applyMiddleware(
@@ -36,17 +36,17 @@ const ReduxRouter = connect()(Router);
 const sceneStyles = {
 	flex: 1,
 	backgroundColor: '#DDD',
-}
+};
 
-// Base App compoent with the provider
+// Base App component with the provider
 
 class Noted extends Component{
 
-	componentDidMount(){
+	static componentDidMount(){
 		StatusBar.setBackgroundColor("#404265", true)
 	}
 
-	render(){
+	static render(){
 		return (
 			<Provider store={store}>
 				<ReduxRouter

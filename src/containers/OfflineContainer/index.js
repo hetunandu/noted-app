@@ -6,16 +6,13 @@ import {
 	TouchableHighlight,
 	StyleSheet
 } from 'react-native';
-import {
-	Loading,
-	OfflineReader
-} from '../../components';
+import { OfflineReader } from '../../components';
 import { connect } from 'react-redux';
-
+import styles from './styles.js';
 
 const mapStateToProps = ({offline}) => ({
 	offline
-})
+});
 
 
 class OfflineContainer extends React.Component {
@@ -29,8 +26,6 @@ class OfflineContainer extends React.Component {
   }
 
 
-
 }
-
 
 export default connect(mapStateToProps)(OfflineContainer);

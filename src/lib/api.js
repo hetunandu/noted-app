@@ -1,14 +1,14 @@
 import Symbol from 'es6-symbol';
-import {AsyncStorage} from 'react-native'
+import {AsyncStorage, Alert} from 'react-native'
 
 export const BASE_URL = 'https://noted-api.appspot.com/study/';
 
 // The function that will set the appropriate config and call the API
 export async function callApi(endpoint, authenticated, method, body) {
 
-	var token = await AsyncStorage.getItem("login_token")
+	const token = await AsyncStorage.getItem("login_token");
 
-	let config = {}
+	let config = {};
 
 	// If call needs to be authenticated, attach token to the headers
 	if(authenticated) {
@@ -25,11 +25,11 @@ export async function callApi(endpoint, authenticated, method, body) {
 	}
 
 	if(body){
-		config.body = JSON.stringify(body)
+		config.body = JSON.stringify(body);
 		config.headers['Content-type'] = 'application/json'
 	}
 
-	config.headers['User-Agent'] = "AndroidApp"
+	config.headers['User-Agent'] = "AndroidApp";
 
 	// Fetch the api
 	return fetch(BASE_URL + endpoint, config)
@@ -43,19 +43,24 @@ export async function callApi(endpoint, authenticated, method, body) {
 			}
 
 			// Return the json either ways
-			return json
+			return json;
 
 			//Catch any other errors
-		}).catch(err => Promise.reject(err))
+		}).catch(err => {
+			Promise.reject(err);
+            Alert.alert('There was an error contacting the server', JSON.stringify(err), [
+                {text: 'Okay', onPress: () => {return false}},
+            ])
+        })
 }
 
 // No idea what this is
-export const CALL_API = Symbol('Call API')
+export const CALL_API = Symbol('Call API');
 
 // Making it into a middleware i guess
 export default store => next => action => {
 
-	const callAPI = action[CALL_API]
+	const callAPI = action[CALL_API];
 
 	// So the middleware doesn't get applied to every single action
 	if (typeof callAPI === 'undefined') {
@@ -63,13 +68,13 @@ export default store => next => action => {
 	}
 
 	// Get details about the call
-	let { endpoint, types, authenticated, method, body, info } = callAPI
+	let { endpoint, types, authenticated, method, body, info } = callAPI;
 
 	// Get the request actions
-	const [ requestType, successType, errorType ] = types
+	const [ requestType, successType, errorType ] = types;
 
 	// Calling the request started action
-	next({type: requestType})
+	next({type: requestType});
 
 	// Calling the 'callApi' fn with request data
 	return callApi(endpoint, authenticated, method, body, info)
