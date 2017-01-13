@@ -8,11 +8,11 @@ import {
 import styles from './styles';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
-import {PointsDisplay} from '../../components';
+import {PointsDisplay, Loading} from '../../components';
 
 const mapStateToProps = ({points}) => ({
 	points
-})
+});
 
 class Navbar extends Component{
 	render(){
@@ -30,7 +30,11 @@ class Navbar extends Component{
 						onPress={() => Actions.points()}
 					>
 						<View>
-							<PointsDisplay points={this.props.points.balance} />
+							{
+								this.props.points.isFetching ? (<Loading />):(
+										<PointsDisplay points={this.props.points.balance} />
+									)
+							}
 						</View>
 					</TouchableHighlight>
 				</View>

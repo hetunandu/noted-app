@@ -42,11 +42,11 @@ const sceneStyles = {
 
 class Noted extends Component{
 
-	static componentDidMount(){
+	componentDidMount(){
 		StatusBar.setBackgroundColor("#404265", true)
 	}
 
-	static render(){
+	render(){
 		return (
 			<Provider store={store}>
 				<ReduxRouter

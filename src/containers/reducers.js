@@ -7,6 +7,7 @@ import * as index from './IndexContainer/reducers';
 import * as result from './ResultContainer/reducers';
 import * as points from './PointsContainer/reducers';
 import * as offline from './OfflineContainer/reducers';
+import * as payment from './PaymentContainer/reducers';
 
 export default combineReducers(Object.assign(
 	user,
@@ -16,5 +17,6 @@ export default combineReducers(Object.assign(
 	index,
 	result,
 	points,
-	offline
+	offline,
+	payment
 ));

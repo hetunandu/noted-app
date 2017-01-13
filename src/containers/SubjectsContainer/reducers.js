@@ -4,9 +4,7 @@ import {
 	SUBJECT_LIST_SUCCESS,
 	SUBJECT_LIST_FAILURE,
 
-	COOLDOWN_SKIP_REQUEST,
 	COOLDOWN_SKIP_SUCCESS,
-	COOLDOWN_SKIP_FAILURE,
 
 	SUBJECT_OFFLINE_REQUEST,
 	SUBJECT_OFFLINE_SUCCESS,
@@ -23,7 +21,7 @@ const initialState = {
 	isFetching: false,
 	errorMessage: '',
 	list: []
-}
+};
 
 export const subjects = createReducer(initialState, {
 	[SUBJECT_LIST_REQUEST](state, action){

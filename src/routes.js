@@ -13,7 +13,8 @@ import {
 	ResultContainer,
 	PointsContainer,
 	OfflineBuyContainer,
-	OfflineContainer
+	OfflineContainer,
+    PaymentContainer
 } from './containers';
 
 export default scenes = Actions.create(
@@ -61,6 +62,11 @@ export default scenes = Actions.create(
 		<Scene
 			key="offlineBuy"
 			component={OfflineBuyContainer}
+			panHandlers={null}
+		/>
+		<Scene
+			key="payOnline"
+			component={PaymentContainer}
 			panHandlers={null}
 		/>
 		<Scene

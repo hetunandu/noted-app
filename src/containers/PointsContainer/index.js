@@ -10,6 +10,7 @@ import {
 import {Loading} from '../../components';
 import {redeemCode} from './actions';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux'
 
 
 const mapStateToProps = ({points}) => ({
@@ -54,6 +55,16 @@ class Points extends React.Component {
 						)}
 
 					</View>
+					<View style={styles.section}>
+                        <TouchableHighlight
+                            underlayColor="#f1f1f1"
+                            onPress={() => Actions.payOnline()}
+                        >
+                            <Text>
+                                Pay online
+                            </Text>
+                        </TouchableHighlight>
+                    </View>
     			</View>
     		</View>
     	)

@@ -48,7 +48,7 @@ export async function callApi(endpoint, authenticated, method, body) {
 			//Catch any other errors
 		}).catch(err => {
 			Promise.reject(err);
-            Alert.alert('There was an error contacting the server', JSON.stringify(err), [
+            Alert.alert('There was an error contacting the server', JSON.stringify(err.error), [
                 {text: 'Okay', onPress: () => {return false}},
             ])
         })

@@ -6,7 +6,12 @@ import {
 	LOGIN_SUCCESS,
 	COOLDOWN_SKIP_SUCCESS,
 	SUBMIT_RESULT_SUCCESS,
-	SUBJECT_OFFLINE_SUCCESS
+	SUBJECT_OFFLINE_SUCCESS,
+
+	USER_POINTS_REQUEST,
+	USER_POINTS_SUCCESS,
+	USER_POINTS_FAILURE
+
 } from '../actionTypes'
 
 const initialState = {
@@ -53,5 +58,22 @@ export const points = createReducer(initialState, {
 		return Object.assign({}, state, {
 			balance: state.balance - 500
 		})
-	}
+	},
+    [USER_POINTS_REQUEST](state, action){
+	    return Object.assign({}, state, {
+	        isFetching: true
+        })
+    },
+    [USER_POINTS_SUCCESS](state, action){
+        return Object.assign({}, state, {
+            isFetching: false,
+            balance: action.data.points
+        })
+    },
+    [USER_POINTS_FAILURE](state, action){
+        return Object.assign({}, state, {
+            isFetching: false,
+            errorMessage: action.error
+        })
+    }
 });

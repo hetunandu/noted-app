@@ -9,3 +9,4 @@ export NavbarContainer from './NavbarContainer';
 export PointsContainer from './PointsContainer';
 export OfflineBuyContainer from './OfflineBuyContainer';
 export OfflineContainer from './OfflineContainer';
+export PaymentContainer from './PaymentContainer';
