@@ -24,19 +24,28 @@ class Navbar extends Component{
 				<View style={styles.actions}>
 					{ this.props.children }
 
-					<TouchableHighlight
-						style={styles.pointsBtn}
-						underlayColor="#404265"
-						onPress={() => Actions.points()}
-					>
-						<View>
-							{
-								this.props.points.isFetching ? (<Loading />):(
-										<PointsDisplay points={this.props.points.balance} />
-									)
-							}
-						</View>
-					</TouchableHighlight>
+
+					{
+                        this.props.points.isFetching ? (<Loading />):(
+								<TouchableHighlight
+									style={styles.pointsBtn}
+									underlayColor="#404265"
+									onPress={() => Actions.points()}
+								>
+
+									<View>
+                                        {
+                                            this.props.points.isFetching ? (<Loading />):(
+													<PointsDisplay points={this.props.points.balance} />
+                                                )
+                                        }
+									</View>
+								</TouchableHighlight>
+
+							)
+
+                    }
+
 				</View>
 			</View>
 		)

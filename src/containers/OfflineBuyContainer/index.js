@@ -6,7 +6,6 @@ import {
 	TouchableHighlight,
   ScrollView
 } from 'react-native';
-import {Loading} from '../../components';
 import {reps} from './repsInfo';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -14,14 +13,13 @@ import Communications from 'react-native-communications';
 
 class OfflineBuyContainer extends React.Component {
     render() {
-      console.log(reps)
     	return (
     		<View style={{flex: 1}}>
-    			<NavbarContainer title="Buy Offline" />
+    			<NavbarContainer title="Buy offline code" />
           <View style={styles.container}>
             <Text style={styles.headerText}>
-              You can buy points from one of your representatives
-              by paying with cash
+              You can buy coins from one of your representatives
+              by paying in cash
             </Text>
             <ScrollView style={{backgroundColor: '#fff', flex: 1}}>
               {
@@ -68,7 +66,7 @@ class OfflineBuyContainer extends React.Component {
     }
 
     textRep(rep){
-      Communications.text(rep.number, `Hey ${rep.name}! I want to buy points for Noted!`)
+      Communications.text(rep.number, `Hey ${rep.name}! I want to buy Noted coins.`)
     }
 
 }

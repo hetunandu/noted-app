@@ -8,7 +8,6 @@ import {
   ToastAndroid,
   AsyncStorage
 } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import reactMixin from 'react-mixin';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import TimerMixin from 'react-timer-mixin';
@@ -28,13 +27,13 @@ class SubjectCard extends Component{
     }
 
     componentDidMount(){
-        this.setInterval(this.countdown, 1000)
-        this.scheduleNotifications()
+        this.setInterval(this.countdown, 1000);
+        this.scheduleNotifications();
 				this.checkOfflineVersion()
 
     }
     render(){
-        const {subject} = this.props
+        const {subject} = this.props;
 
         return(
             <View style={styles.subjectCard}>
@@ -59,7 +58,7 @@ class SubjectCard extends Component{
 						<View>
 							<TouchableHighlight style={styles.subjectActionContainer}
 									onPress={() => this.offlineStudyPressed()}
-									underlayColor="#f3f3f3"
+									underlayColor="gray"
 							>
 									<View style={styles.subjectAction}>
 											<View>
@@ -78,7 +77,7 @@ class SubjectCard extends Component{
 										<TouchableHighlight
 											style={styles.subjectActionContainer}
 											onPress={() => this.revisePressed()}
-											underlayColor="#f3f3f3"
+											underlayColor="gray"
 										>
 											<View style={styles.subjectAction}>
 												<View>
@@ -95,7 +94,7 @@ class SubjectCard extends Component{
 											<TouchableHighlight
 												style={styles.subjectActionContainer}
 												onPress={() => this.testPressed()}
-												underlayColor="#f3f3f3"
+												underlayColor="gray"
 											>
 												<View style={styles.subjectAction}>
 													<View>
@@ -110,7 +109,7 @@ class SubjectCard extends Component{
 									<TouchableHighlight
 										style={styles.subjectActionContainer}
 										onPress={() => this.indexPressed()}
-										underlayColor="#f3f3f3"
+										underlayColor="gray"
 									>
 										<View style={styles.subjectAction}>
 											<View>
@@ -123,14 +122,16 @@ class SubjectCard extends Component{
 									<TouchableHighlight
 										style={styles.subjectActionContainer}
 										onPress={() => this.downloadPressed()}
-										underlayColor="#f3f3f3"
+										underlayColor="#gray"
 									>
 										<View style={styles.subjectAction}>
-											<View flexDirection="row">
+											<View>
 												<Text style={styles.subjectActionText}>
-													Download for
+													Download subject
 												</Text>
-												<PointsDisplay points={500} dark={true}/>
+                                                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                                    <Text>Cost:</Text><PointsDisplay points={500} dark={true}/>
+                                                </View>
 											</View>
 											<Icon name="chevron-right" size={30} color="#333" />
 										</View>
@@ -209,20 +210,20 @@ class SubjectCard extends Component{
 			var time_left = ist_date - new Date()
 
 			if (time_left < 0){
-					this.clearInterval()
+				this.clearInterval()
 			}else{
-					var _second = 1000;
-					var _minute = _second * 60;
-					var _hour = _minute * 60;
-					var _day = _hour * 24;
+				var _second = 1000;
+				var _minute = _second * 60;
+				var _hour = _minute * 60;
+				var _day = _hour * 24;
 
-					var hours = Math.floor((time_left % _day) / _hour);
-					var minutes = Math.floor((time_left % _hour) / _minute);
-					var seconds = Math.floor((time_left % _minute) / _second);
+				var hours = Math.floor((time_left % _day) / _hour);
+				var minutes = Math.floor((time_left % _hour) / _minute);
+				var seconds = Math.floor((time_left % _minute) / _second);
 
-					this.setState({
-							time_left: `${hours}h ${minutes}m ${seconds}s`
-					})
+				this.setState({
+						time_left: `${hours}h ${minutes}m ${seconds}s`
+				})
 			}
     }
 

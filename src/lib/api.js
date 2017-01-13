@@ -1,5 +1,5 @@
 import Symbol from 'es6-symbol';
-import {AsyncStorage, Alert} from 'react-native'
+import {AsyncStorage, ToastAndroid} from 'react-native'
 
 export const BASE_URL = 'https://noted-api.appspot.com/study/';
 
@@ -46,12 +46,7 @@ export async function callApi(endpoint, authenticated, method, body) {
 			return json;
 
 			//Catch any other errors
-		}).catch(err => {
-			Promise.reject(err);
-            Alert.alert('There was an error contacting the server', JSON.stringify(err.error), [
-                {text: 'Okay', onPress: () => {return false}},
-            ])
-        })
+		}).catch(err => Promise.reject(err))
 }
 
 // No idea what this is

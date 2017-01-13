@@ -134,7 +134,7 @@ class SubjectsContainer extends Component {
 	}
 
 	buyCoinsOnline(){
-		ToastAndroid.show('Coming soon! Try buying offline', ToastAndroid.LONG)
+		Actions.payOnline()
 	}
 
 	buyCoinsOffline(){

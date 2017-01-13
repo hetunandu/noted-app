@@ -5,17 +5,18 @@ import {
 	Text,
 	TextInput,
 	TouchableHighlight,
-	StyleSheet
+	StyleSheet,
+    ToastAndroid
 } from 'react-native';
-import {Loading} from '../../components';
+import {Loading, PointsDisplay} from '../../components';
 import {redeemCode} from './actions';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux'
-
+import styles from './styles';
 
 const mapStateToProps = ({points}) => ({
 	points
-})
+});
 
 
 class Points extends React.Component {
@@ -34,19 +35,27 @@ class Points extends React.Component {
     			<NavbarContainer title="Coins" />
     			<View style={styles.container}>
     				<View style={styles.section}>
-	    				<Text style={styles.formLabel}>Enter cheat code:</Text>
-	    				<TextInput
-								autoFocus={true}
-								style={{height: 40, width: 300}}
-								onChangeText={(text) => this.setState({code: text})}
-								value={this.state.code}
-							/>
-							<TouchableHighlight
-								style={[styles.btn, {backgroundColor: 'green'}]}
-								onPress={() => this.submitCode()}
-							>
-								<Text style={styles.btnText}>Submit</Text>
-							</TouchableHighlight>
+						<Text style={styles.sectionHeader}>Have a code? Enter below</Text>
+
+                        <View>
+                            <Text style={styles.formLabel}>Code:</Text>
+                            <TextInput
+                                style={{height: 50}}
+                                onChangeText={(text) => this.setState({code: text})}
+                                value={this.state.code}
+                                borderBottomColor="#50537f"
+                                autoCapitalize="characters"
+                                maxLength={5}
+                            />
+                        </View>
+
+                        <TouchableHighlight
+                            style={[styles.btn, {backgroundColor: 'green'}]}
+                            onPress={() => this.submitCode()}
+                        >
+                            <Text style={styles.btnText}>Submit</Text>
+                        </TouchableHighlight>
+
 
 						{ this.props.points.isFetching && <Loading />}
 
@@ -56,13 +65,25 @@ class Points extends React.Component {
 
 					</View>
 					<View style={styles.section}>
+                        <Text style={styles.sectionHeader}>Buy coins</Text>
+                        <View style={styles.cost}>
+                            <PointsDisplay points={500} dark />
+                            <Text style={{fontSize: 25}}> for Rs.50/-</Text>
+                        </View>
+
+
                         <TouchableHighlight
-                            underlayColor="#f1f1f1"
+                            style={[styles.btn, {backgroundColor: 'steelblue'}]}
                             onPress={() => Actions.payOnline()}
                         >
-                            <Text>
-                                Pay online
-                            </Text>
+                            <Text style={styles.btnText}>Pay Online</Text>
+                        </TouchableHighlight>
+
+                        <TouchableHighlight
+                            style={[styles.btn, {backgroundColor: '#50537f'}]}
+                            onPress={() => Actions.offlineBuy()}
+                        >
+                            <Text style={styles.btnText}>Pay Offline</Text>
                         </TouchableHighlight>
                     </View>
     			</View>
@@ -71,41 +92,23 @@ class Points extends React.Component {
     }
 
     submitCode(){
-    	this.props.dispatch(redeemCode({
-    		code: this.state.code
-    	}))
 
-    	this.setState({
-    		code: ""
-    	})
+	    if(this.state.code.length < 4){
+	        ToastAndroid.show('Error: Check code', ToastAndroid.BOTTOM)
+        }else{
+            this.props.dispatch(redeemCode({
+                code: this.state.code
+            }));
+
+            this.setState({
+                code: ""
+            })
+        }
+
     }
 
 }
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'space-between',
-	},
-	section: {
-		flex: 1,
-		padding: 10,
-		alignItems: 'stretch',
-		justifyContent: 'center'
 
-	},
-	formLabel: {
-		fontSize: 20,
-	},
-	btn: {
-		padding: 10,
-		alignItems: 'center',
-		justifyContent: 'center'
-	},
-	btnText: {
-		color: 'white',
-		fontSize: 23
-	}
-})
 
 export default connect(mapStateToProps)(Points);
